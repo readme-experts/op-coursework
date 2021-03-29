@@ -31,7 +31,7 @@ async function currToCrypto(currency) {
 
 async function start() {
   const currency = await question('Type currency you want to convert\n');
-  const isValid = /[a-z]/.test(currency);
+  const isValid = /[a-z]/ig.test(currency);
   if (!isValid) {
     console.log('Currency must be specified in Latin');
   } else {
