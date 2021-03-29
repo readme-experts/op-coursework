@@ -10,4 +10,4 @@ Andrii Vostrikov — https://github.com/NeptunePurpleHeart
 Vladyslav Yaroshchuk — https://github.com/thank1ess
 
 ## License
-This program is free software and is distributed under an MIT License.
+This program is free software and is distributed under an [MIT License](https://github.com/MrPaschenko/op-course-work/blob/master/LICENSE).
