@@ -3,6 +3,7 @@
 const readline = require('readline');
 const https = require('https');
 
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -22,23 +23,32 @@ const request = async url => new Promise((resolve, reject) => {
 });
 
 
-async function currToCrypto(currency) {
+async function currToCrypto() {
+  const currency = await question('Type currency you want to convert\n');
   const requestQuery = `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${currency}`;
   const result = await request(requestQuery);
+  if (result) {
+    const keys = Object.keys(result);
+    for (const key of keys) {
+      console.log(`${key}: ${result[key]}`);
+    }
+  }
   return result;
 }
 
 
+
 async function start() {
-  const currency = await question('Type currency you want to convert\n');
-  const query = await currToCrypto(currency.toUpperCase());
-  if (query) {
-    const keys = Object.keys(query);
-    for (const key of keys) {
-      console.log(`${key}: ${query[key]}`);
-    }
+  console.log('Menu:\n1 - Currency to BTC exchange rate\nType anything to exit');
+  const selection = parseInt(await question('Select action\n'));
+  switch (selection) {
+  case 1: {
+    await currToCrypto();
+    rl.close();
+    break;
   }
-  rl.close();
+  default: rl.close();
+  }
 }
 
 
