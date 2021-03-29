@@ -1,0 +1,11 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es6",
+        "removeComments": true,
+        "outDir": "js",
+        "sourceMap": true,
+        "outFile": "main.js",
+    }, 
+}
+    
