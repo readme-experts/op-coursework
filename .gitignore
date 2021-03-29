@@ -1,5 +1,4 @@
 # Project exclude paths
 /.idea/
 /node_modules/
-*.ts
 tsconfig.json
