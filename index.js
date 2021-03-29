@@ -31,11 +31,16 @@ async function currToCrypto(currency) {
 
 async function start() {
   const currency = await question('Type currency you want to convert\n');
-  const query = await currToCrypto(currency.toUpperCase());
-  if (query) {
-    const keys = Object.keys(query);
-    for (const key of keys) {
-      console.log(`${key}: ${query[key]}`);
+  const isValid = /[a-z]/.test(currency);
+  if (!isValid) {
+    console.log('Currency must be specified in Latin');
+  } else {
+    const query = await currToCrypto(currency);
+    if (query) {
+      const keys = Object.keys(query);
+      for (const key of keys) {
+        console.log(`${key}: ${query[key]}`);
+      }
     }
   }
   rl.close();
