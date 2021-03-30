@@ -2,7 +2,7 @@
 
 ## Get BTC to your currency exchange rate 
 ```bash 
-{Currency list separated by ",", without spaces(USD, EUR)}
+{Currency list separated by ",", without spaces(USD,EUR)}
 ```
 
 ## License
