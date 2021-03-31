@@ -53,6 +53,9 @@ class Crypto {
     return result;
   }
 
+  static from(key) {
+    return new Crypto(key);
+  }
 
 }
 
