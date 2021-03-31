@@ -53,6 +53,7 @@ class Crypto {
     return result;
   }
 
+
   async currencyPriceVolume() {
     const currencyText = 'Type currency you want to get 24h volume of\n';
     const volCurrText = 'Type currency you want to get 24h volume result in\n';
