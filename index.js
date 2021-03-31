@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 'use strict';
 
 const readline = require('readline');
