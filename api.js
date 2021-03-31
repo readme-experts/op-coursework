@@ -56,4 +56,4 @@ class Crypto {
 
 }
 
-module.exports = { question, Crypto };
+module.exports = { question, Crypto, request };
