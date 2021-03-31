@@ -53,6 +53,34 @@ class Crypto {
     return result;
   }
 
+  async currencyPriceVolume() {
+    const currencyText = 'Type currency you want to get 24h volume of\n';
+    const volCurrText = 'Type currency you want to get 24h volume result in\n';
+
+    const currency = await question(currencyText);
+    const volumeCurrency = await question(volCurrText);
+    const query = this.defaultUrl + `/v2/histoday?fsym=${currency}&tsym=${volumeCurrency}&limit=1`;
+    const result = await request(query);
+    const data = result.Data;
+    let priceDiff = data.Data[1].close - data.Data[0].close;
+    priceDiff = priceDiff.toFixed(2);
+    const lowest = `${data.Data[1].low} ${volumeCurrency}`;
+    const highest = `${data.Data[1].high} ${volumeCurrency} `;
+    const diff = `${priceDiff} ${volumeCurrency}`;
+    if (result) {
+      console.log(`The lowest price  for 24 hours is: ${lowest}`);
+      console.log(`The highest price for 24 hours is: ${highest}`);
+      if (priceDiff > 0) {
+        console.log(`24 hour price differance: +${diff}`);
+      } else {
+        console.log(`24 hour price differance: ${diff}`);
+      }
+
+    }
+    rl.close();
+    return result.Data;
+  }
+
   static from(key) {
     return new Crypto(key);
   }
