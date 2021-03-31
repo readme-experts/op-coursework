@@ -1,4 +1,5 @@
-# op-course-work
+# Курсовая работа по основам программирования
+https://github.com/HowProgrammingWorks/Index/blob/master/Practice/SEF2.ru.md
 
 ## Get BTC to your currency exchange rate 
 ```bash 
