@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 'use strict';
 const https = require('https');
 const readline = require('readline');
@@ -31,7 +30,7 @@ const writeFile = async resultTxt => {
         const fileName = ('Write the name of txt file to save your results\n');
         const txtName = await question(fileName);
         fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
-        return;
+        return txtName;
 
     } else {
         process.exit();
