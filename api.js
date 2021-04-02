@@ -9,7 +9,7 @@ const rl = readline.createInterface({
 });
 
 
-
+//Промисификация функций
 const question = str => new Promise(resolve => rl.question(str, resolve));
 const request = async url => new Promise((resolve, reject) => {
   const req = https.get(url, res => {
@@ -17,13 +17,17 @@ const request = async url => new Promise((resolve, reject) => {
     res.on('data', chunk => {
       data.push(chunk);
     });
-    res.on('end', () => resolve(JSON.parse(data)));
+    res.on('end', () => {
+      const json = JSON.parse(data);
+      if (json.Response === 'Error') reject(json.Message);
+      resolve(json);
+    });
   });
   req.on('error', reject);
   req.end();
 });
 
-
+//Запись ответа в файл
 const writeFile = async resultTxt => {
   const selection = parseInt(await question('Print 1 to save results\n'));
   if (selection === 1) {
@@ -38,6 +42,21 @@ const writeFile = async resultTxt => {
 
 };
 
+//Враппер для обработки ошибок
+const errorWrapper = handleError => func => (...args) =>
+  func(...args).catch(handleError);
+
+
+const handleError = e => {
+  console.log(`Something gone wrong, error:\n${e}`);
+  process.exit();
+};
+
+const errorHandlerWrapped = errorWrapper(handleError);
+
+//Обернутая функция request
+const safeRequest = errorHandlerWrapped(request);
+
 class Crypto {
   constructor(key) {
     this.defaultUrl = 'https://min-api.cryptocompare.com/data';
@@ -47,7 +66,7 @@ class Crypto {
   async currencyToCrypto() {
     const currency = await question('Type currency you want to convert\n');
     const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
-    const result = await request(query);
+    const result = await safeRequest(query);
     const resultText = [];
     if (result) {
       const keys = Object.keys(result);
@@ -63,7 +82,7 @@ class Crypto {
 
   async topFiveCurrencies() {
     const query = this.defaultUrl + '/top/totalvolfull?limit=10&tsym=USD';
-    const currencies = (await request(query)).Data;
+    const currencies = (await safeRequest(query)).Data;
     currencies.splice(4, 5);
     const resultText = [];
     const result = currencies.map(item => item.CoinInfo.FullName);
@@ -82,7 +101,7 @@ class Crypto {
     const [curr, volumeCurr] = (await question(currText)).split(',');
     const url = `/v2/histoday?fsym=${curr}&tsym=${volumeCurr}&limit=1`;
     const query = this.defaultUrl + url;
-    const result = await request(query);
+    const result = await safeRequest(query);
     const data = result.Data;
     const resultText = [];
     let priceDiff = data.Data[1].close - data.Data[0].close;
@@ -111,4 +130,4 @@ class Crypto {
 
 }
 
-module.exports = { question, Crypto, request };
+module.exports = { question, Crypto, request, writeFile, errorWrapper };
