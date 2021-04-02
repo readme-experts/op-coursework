@@ -112,4 +112,3 @@ class Crypto {
 }
 
 module.exports = { question, Crypto, request };
-module.exports = { question, Crypto, request };
