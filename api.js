@@ -8,6 +8,8 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+const green = '\x1b[32m';
+const red = '\x1b[31m';
 
 //Промисификация функций
 const question = str => new Promise(resolve => rl.question(str, resolve));
@@ -110,7 +112,8 @@ class Crypto {
     const highest = `${data.Data[1].high} ${volumeCurr} `;
     let diff = `${priceDiff} ${volumeCurr}`;
     if (result) {
-      const lowestText = `The lowest price  for 24 hours is: ${lowest}`;
+      const lowText = `The lowest price  for 24 hours is: ${lowest}`;
+      const lowestText = red + lowText + green;
       const highestText = `The highest price for 24 hours is: ${highest}`;
       diff = (priceDiff > 0) ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
