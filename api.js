@@ -9,22 +9,19 @@ const rl = readline.createInterface({
 });
 
 
+
 //Промисификация функций
 const question = str => new Promise(resolve => rl.question(str, resolve));
 const request = async url => new Promise((resolve, reject) => {
-  const req = https.get(url, res => {
-    const data = [];
-    res.on('data', chunk => {
-      data.push(chunk);
-    });
-    res.on('end', () => {
-      const json = JSON.parse(data);
-      if (json.Response === 'Error') reject(json.Message);
-      resolve(json);
-    });
-  });
-  req.on('error', reject);
-  req.end();
+  https.get(url, async res => {
+    const buffers = [];
+    for await (const chunk of res) buffers.push(chunk);
+    const data = JSON.parse(Buffer.concat(buffers).toString());
+    if (data.Response === 'Error') reject(data.Message);
+    resolve(data);
+  })
+  //Чтобы отловить событие ошибки, потом нужно починить
+    .on('error', reject);
 });
 
 //Запись ответа в файл
@@ -45,7 +42,6 @@ const writeFile = async resultTxt => {
 //Враппер для обработки ошибок
 const errorWrapper = handleError => func => (...args) =>
   func(...args).catch(handleError);
-
 
 const handleError = e => {
   console.log(`Something gone wrong, error:\n${e}`);
