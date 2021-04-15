@@ -6,7 +6,7 @@ import sys
 
 class CurrencyParser(HTMLParser): 
     is_tr = False 
-    ParseData = list()
+    parsed_data = list()
     temp_list = list()
 
     def __init__(self, site_name, *args, **kwargs):
@@ -33,7 +33,7 @@ class CurrencyParser(HTMLParser):
             curr_amount = re.findall(r'1[0]{0,3}', find_list)
             curr_amount = max(map(int, curr_amount))
             if currencies and rate and curr_amount: 
-                self.ParseData.append([currencies[0], curr_amount, rate[0] + ' UAH'])
+                self.parsed_data.append([currencies[0], curr_amount, rate[0] + ' UAH'])
                 self.temp_list.clear()
 
 
@@ -44,7 +44,7 @@ class CurrencyParser(HTMLParser):
 
     def data_to_json(self): 
         data = list()
-        for item in self.ParseData: 
+        for item in self.parsed_data: 
             data.append(
                 {
                     'currency': item[0],
