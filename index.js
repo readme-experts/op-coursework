@@ -1,6 +1,6 @@
 'use strict';
 
-const { question, Crypto } = require('./api.js');
+const { question, Crypto } = require('./src/api.js');
 
 const api = new Crypto();
 

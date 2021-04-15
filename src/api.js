@@ -61,6 +61,7 @@ const errorHandlerWrapped = errorWrapper(handleError);
 
 //Обернутая функция request
 const safeRequest = errorHandlerWrapped(request);
+const safeSpawn = errorHandlerWrapped(promiseSpawn)
 
 class Crypto {
   constructor(key) {
@@ -130,7 +131,7 @@ class Crypto {
   }
 
   async nbuExchange() {
-    const data = await promiseSpawn('python', 'parser.py');
+    const data = await safeSpawn('python', './src/parser.py');
     console.table(data);
   }
 
