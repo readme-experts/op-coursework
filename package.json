@@ -1,0 +1,19 @@
+{
+  "name": "op-coursework",
+  "version": "1.0.0",
+  "description": "Simple console application for getting data about currencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrPaschenko/op-coursework.git"
+  },
+  "author": "MrPaschenko, NekoSuimin, ILabiak, thank1ess",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrPaschenko/op-coursework/issues"
+  },
+  "homepage": "https://github.com/MrPaschenko/op-coursework#readme"
+}
