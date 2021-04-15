@@ -2,6 +2,7 @@ from html.parser import HTMLParser
 from urllib.request import urlopen
 import re
 import json
+import sys
 
 class CurrencyParser(HTMLParser): 
     is_tr = False 
@@ -56,3 +57,4 @@ class CurrencyParser(HTMLParser):
 
 parser = CurrencyParser('https://bank.gov.ua/ua/markets/exchangerates')
 print(parser.data_to_json())
+sys.stdout.flush()
