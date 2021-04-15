@@ -2,6 +2,7 @@
 const https = require('https');
 const readline = require('readline');
 const fs = require('fs');
+const { spawn } = require('child_process');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -24,6 +25,12 @@ const request = async url => new Promise((resolve, reject) => {
   })
   //Чтобы отловить событие ошибки, потом нужно починить
     .on('error', reject);
+});
+
+const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
+  const pyProcess = spawn(lang, [path]);
+  pyProcess.stdout.on('data', data => resolve(JSON.parse(data)));
+  pyProcess.stderr.on('data', err => reject(err));
 });
 
 //Запись ответа в файл
@@ -122,6 +129,10 @@ class Crypto {
     return result.Data;
   }
 
+  async nbuExchange() {
+    const data = await promiseSpawn('python', 'parser.py');
+    console.table(data);
+  }
 
   static from(key) {
     return new Crypto(key);
