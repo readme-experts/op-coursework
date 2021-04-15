@@ -33,7 +33,7 @@ class CurrencyParser(HTMLParser):
             curr_amount = re.findall(r'1[0]{0,3}', find_list)
             curr_amount = max(map(int, curr_amount))
             if currencies and rate and curr_amount: 
-                self.ParseData.append([currencies[0], curr_amount, rate[0]])
+                self.ParseData.append([currencies[0], curr_amount, rate[0] + ' UAH'])
                 self.temp_list.clear()
 
 
