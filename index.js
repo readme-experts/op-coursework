@@ -1,9 +1,11 @@
 'use strict';
 
-const { question, Crypto } = require('./src/api.js');
+const { Crypto } = require('./src/crypto.js');
+const { Wallet } = require('./src/wallet');
+const { question } = require('./src/promised.js');
 
-const api = new Crypto();
-
+const crypto = new Crypto();
+const wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
 
 async function start() {
   console.log('\x1b[32m', `Menu:
@@ -11,20 +13,26 @@ async function start() {
   2 - top five crypto by volume;
   3 - Currency 24 h volume;
   4 - Exchange rates of UAH from bank.gov.ua
+  5 - Create wallet on BlockCypher
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n'));
   switch (selection) {
   case 1:
-    await api.currencyToCrypto();
+    await crypto.currencyToCrypto();
     break;
   case 2:
-    await api.topFiveCurrencies();
+    await crypto.topFiveCurrencies();
     break;
   case 3:
-    await api.currencyPriceVolume();
+    await crypto.currencyPriceVolume();
     break;
   case 4:
-    await api.nbuExchange();
+    await crypto.nbuExchange();
+    break;
+  case 5:
+    await wallet.createWallet();
+    console.log(`Wallet was successfully created! Your public key:
+    ${wallet.key}`);
     break;
   default:
     process.exit();
