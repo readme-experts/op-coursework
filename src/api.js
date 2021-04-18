@@ -15,7 +15,7 @@ const red = '\x1b[31m';
 
 //Промисификация функций
 const question = str => new Promise(resolve => rl.question(str, resolve));
-const request = async url => new Promise((resolve, reject) => {
+const getRequest = async url => new Promise((resolve, reject) => {
   https.get(url, async res => {
     const buffers = [];
     for await (const chunk of res) buffers.push(chunk);
@@ -25,6 +25,18 @@ const request = async url => new Promise((resolve, reject) => {
   })
   //Чтобы отловить событие ошибки, потом нужно починить
     .on('error', reject);
+});
+
+const postRequest = (options, data) => new Promise((resolve, reject) => {
+  const req = https.request(options, async res => {
+    const buffers = [];
+    for await (const chunk of res) buffers.push(chunk);
+    const reqData = JSON.parse(Buffer.concat(buffers).toString());
+    resolve(reqData);
+  });
+  req.write(data);
+  req.on('error', reject);
+  req.end();
 });
 
 const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
@@ -60,8 +72,9 @@ const handleError = e => {
 const errorHandlerWrapped = errorWrapper(handleError);
 
 //Обернутая функция request
-const safeRequest = errorHandlerWrapped(request);
-const safeSpawn = errorHandlerWrapped(promiseSpawn)
+const safeGet = errorHandlerWrapped(getRequest);
+const safeSpawn = errorHandlerWrapped(promiseSpawn);
+const safePost = errorHandlerWrapped(postRequest);
 
 class Crypto {
   constructor(key) {
@@ -72,7 +85,7 @@ class Crypto {
   async currencyToCrypto() {
     const currency = await question('Type currency you want to convert\n');
     const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
-    const result = await safeRequest(query);
+    const result = await safeGet(query);
     const resultText = [];
     if (result) {
       const keys = Object.keys(result);
@@ -88,7 +101,7 @@ class Crypto {
 
   async topFiveCurrencies() {
     const query = this.defaultUrl + '/top/totalvolfull?limit=10&tsym=USD';
-    const currencies = (await safeRequest(query)).Data;
+    const currencies = (await safeGet(query)).Data;
     currencies.splice(4, 5);
     const resultText = [];
     const result = currencies.map(item => item.CoinInfo.FullName);
@@ -107,7 +120,7 @@ class Crypto {
     const [curr, volumeCurr] = (await question(currText)).split(',');
     const url = `/v2/histoday?fsym=${curr}&tsym=${volumeCurr}&limit=1`;
     const query = this.defaultUrl + url;
-    const result = await safeRequest(query);
+    const result = await safeGet(query);
     const data = result.Data;
     const resultText = [];
     let priceDiff = data.Data[1].close - data.Data[0].close;
@@ -141,4 +154,38 @@ class Crypto {
 
 }
 
-module.exports = { question, Crypto, request, writeFile, errorWrapper };
+class Wallet {
+  constructor(currency, token) {
+    this.defaultUrl = 'api.blockcypher.com';
+    this.defaultPath = `/v1/${currency}/main/`;
+    this._token = token;
+  }
+
+  async createWallet() {
+    const path = this.defaultPath + `addrs?token=`;
+    const data = JSON.stringify({
+      token: this._token,
+    });
+    const options = {
+      method: 'POST',
+      hostname: this.defaultUrl,
+      path,
+      headers: {},
+    };
+    const result = await safePost(options, data);
+    this._keys = result;
+    return result;
+  }
+  get key() {
+    return this._keys.public;
+  }
+}
+
+module.exports = {
+  question,
+  Crypto,
+  Wallet,
+  getRequest,
+  writeFile,
+  errorWrapper,
+};
