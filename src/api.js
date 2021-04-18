@@ -29,7 +29,6 @@ const errorHandlerWrapped = promised.errorWrapper(handleError);
 //Обернутая функция request
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
-const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Crypto {
   constructor(key) {
@@ -106,35 +105,7 @@ class Crypto {
 
 }
 
-class Wallet {
-  constructor(currency, token) {
-    this.defaultUrl = 'api.blockcypher.com';
-    this.defaultPath = `/v1/${currency}/main/`;
-    this._token = token;
-  }
-
-  async createWallet() {
-    const path = this.defaultPath + `addrs?token=`;
-    const data = JSON.stringify({
-      token: this._token,
-    });
-    const options = {
-      method: 'POST',
-      hostname: this.defaultUrl,
-      path,
-      headers: {},
-    };
-    const result = await safePost(options, data);
-    this._keys = result;
-    return result;
-  }
-  get key() {
-    return this._keys.public;
-  }
-}
-
 module.exports = {
   Crypto,
-  Wallet,
   writeFile,
 };
