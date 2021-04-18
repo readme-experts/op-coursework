@@ -1,6 +1,6 @@
 'use strict';
 const fs = require('fs');
-const promised = require('./promisificated.js');
+const promised = require('./promised.js');
 
 const green = '\x1b[32m';
 const red = '\x1b[31m';
