@@ -1,6 +1,7 @@
 'use strict';
 
-const { question, Crypto, Wallet } = require('./src/api.js');
+const { Crypto, Wallet } = require('./src/api.js');
+const { question } = require('./src/promised.js');
 
 const crypto = new Crypto();
 const wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
