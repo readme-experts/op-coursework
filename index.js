@@ -7,7 +7,7 @@ const { question } = require('./src/promised.js');
 const crypto = new Crypto();
 const wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
 
-async function start() {
+async function menu() {
   console.log('\x1b[32m', `Menu:
   1 - Currency to BTC exchange rate;
   2 - top five crypto by volume;
@@ -38,6 +38,11 @@ async function start() {
     process.exit();
   }
 }
+(async () => {
+  while (true) {
+    await menu();
+    const answ = await question('Clear menu(y/n)?');
+    if (answ === 'y') console.clear();
+  }
+})();
 
-
-start();
