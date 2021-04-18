@@ -1,5 +1,5 @@
 'use strict';
-const promised = require('./promisificated.js');
+const promised = require('./promised.js');
 
 const handleError = e => {
   console.log(`Something gone wrong, error:\n${e}`);
