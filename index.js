@@ -1,6 +1,7 @@
 'use strict';
 
-const { Crypto, Wallet } = require('./src/crypto.js');
+const { Crypto } = require('./src/crypto.js');
+const { Wallet } = require('./src/wallet');
 const { question } = require('./src/promised.js');
 
 const crypto = new Crypto();
