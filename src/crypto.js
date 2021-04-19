@@ -13,9 +13,7 @@ const writeFile = async resultTxt => {
     fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
     return txtName;
 
-  } else {
-    process.exit();
-  }
+  } else return;
 
 };
 
