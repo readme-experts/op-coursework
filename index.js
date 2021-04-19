@@ -31,8 +31,13 @@ async function menu() {
     break;
   case 5:
     await wallet.createWallet();
-    console.log(`Wallet was successfully created! Your public key:
-    ${wallet.key}`);
+    console.log(`Wallet was successfully created! Your wallet data:
+${wallet.keys}
+Please don't send anyone your private key or wif
+or you'll loose your money.
+We don't save any information about created wallets
+Make sure you saved all the information.
+`);
     break;
   default:
     process.exit();
@@ -45,4 +50,3 @@ async function menu() {
     if (answ === 'y') console.clear();
   }
 })();
-

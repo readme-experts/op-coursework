@@ -33,8 +33,13 @@ class Wallet {
     this._keys = result;
     return result;
   }
-  get key() {
-    return this._keys.public;
+  get keys() {
+    const walletInfo = [];
+    const keys = Object.keys(this._keys);
+    for (const key of keys) {
+      walletInfo.push(`${key}:${this._keys[key]}\n`);
+    }
+    return walletInfo;
   }
 }
 module.exports = {
