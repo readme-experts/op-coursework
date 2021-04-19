@@ -5,7 +5,7 @@ const { Wallet } = require('./src/wallet');
 const { question } = require('./src/promised.js');
 
 const crypto = new Crypto();
-const wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
+let wallet;
 
 async function menu() {
   console.log('\x1b[32m', `Menu:
@@ -30,14 +30,7 @@ async function menu() {
     await crypto.nbuExchange();
     break;
   case 5:
-    await wallet.createWallet();
-    console.log(`Wallet was successfully created! Your wallet data:
-${wallet.keys}
-Please don't send anyone your private key or wif
-or you'll loose your money.
-We don't save any information about created wallets
-Make sure you saved all the information.
-`);
+    await genWalletFeature();
     break;
   default:
     process.exit();
@@ -46,7 +39,46 @@ Make sure you saved all the information.
 (async () => {
   while (true) {
     await menu();
-    const answ = await question('Clear menu(y/n)?');
+    const answ = await question('Clear menu(y/n)?\n');
     if (answ === 'y') console.clear();
   }
 })();
+
+function walletOutput() {
+  console.log(`Wallet was successfully created! Your wallet data:
+ ${wallet.keys}
+  Please don't send anyone your private key or wif
+  or you'll loose your money.
+  We don't save any information about created wallets
+  Make sure you saved all the information.
+  `);
+}
+
+
+async function genWalletFeature() {
+  console.log('\x1b[32m', `Choose which wallet do you want to make:
+  1 - Bitcoin;
+  2 - Ethereum;
+  3 - Dogecoin;
+  Type anything to exit.`);
+  const selection = parseInt(await question('Select action\n'));
+  switch (selection) {
+  case 1:
+    wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
+    await wallet.createWallet();
+    walletOutput();
+    break;
+  case 2:
+    wallet = new Wallet('eth', 'd190d4bbbc9e47a1962739eeb93f1819');
+    await wallet.createWallet();
+    walletOutput();
+    break;
+  case 3:
+    wallet = new Wallet('doge', 'd190d4bbbc9e47a1962739eeb93f1819');
+    await wallet.createWallet();
+    walletOutput();
+    break;
+  default:
+    process.exit();
+  }
+}
