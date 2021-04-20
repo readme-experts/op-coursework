@@ -9,9 +9,9 @@ const wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
 
 async function menu() {
   console.log('\x1b[32m', `Menu:
-  1 - Currency to BTC exchange rate;
-  2 - top five crypto by volume;
-  3 - Currency 24 h volume;
+  1 - Currency to BTC exchange rate
+  2 - Top five crypto by volume
+  3 - Currency 24 h volume
   4 - Exchange rates of UAH from bank.gov.ua
   5 - Create wallet on BlockCypher
   Type anything to exit.`);
