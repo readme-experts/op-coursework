@@ -38,6 +38,7 @@ async function menu() {
     process.exit();
   }
 }
+
 (async () => {
   while (true) {
     await menu();
@@ -45,4 +46,3 @@ async function menu() {
     if (answ === 'y') console.clear();
   }
 })();
-

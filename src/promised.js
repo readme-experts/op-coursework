@@ -1,4 +1,5 @@
 'use strict';
+
 const https = require('https');
 const readline = require('readline');
 const { spawn } = require('child_process');

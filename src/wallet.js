@@ -1,4 +1,5 @@
 'use strict';
+
 const promised = require('./promised.js');
 
 const handleError = e => {
