@@ -13,16 +13,19 @@ const errorHandlerWrapped = promised.errorWrapper(handleError);
 const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Wallet {
+  #token;
+  #keys;
+
   constructor(currency, token) {
     this.defaultUrl = 'api.blockcypher.com';
     this.defaultPath = `/v1/${currency}/main/`;
-    this._token = token;
+    this.#token = token;
   }
 
   async createWallet() {
     const path = this.defaultPath + `addrs?token=`;
     const data = JSON.stringify({
-      token: this._token,
+      token: this.#token,
     });
     const options = {
       method: 'POST',
@@ -31,14 +34,14 @@ class Wallet {
       headers: {},
     };
     const result = await safePost(options, data);
-    this._keys = result;
+    this.#keys = result;
     return result;
   }
   get keys() {
     const walletInfo = [];
-    const keys = Object.keys(this._keys);
+    const keys = Object.keys(this.#keys);
     for (const key of keys) {
-      walletInfo.push(`${key}:${this._keys[key]}\n`);
+      walletInfo.push(`${key}:${this.#keys[key]}`);
     }
     return walletInfo;
   }
