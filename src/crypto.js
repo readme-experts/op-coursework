@@ -1,4 +1,5 @@
 'use strict';
+
 const fs = require('fs');
 const promised = require('./promised.js');
 
@@ -64,7 +65,6 @@ class Crypto {
     return result;
   }
 
-
   async currencyPriceVolume() {
     const currText = 'Type curr you want to get 24h volume of/res curr\n';
     const [curr, volumeCurr] = (await promised.question(currText)).split(',');
@@ -87,7 +87,6 @@ class Crypto {
       resultText.push(lowestText, highestText, diffText);
       console.log(`${resultText.join('\n')}\n`);
       await writeFile(resultText);
-
     }
     return result.Data;
   }
