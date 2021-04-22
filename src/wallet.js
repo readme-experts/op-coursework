@@ -41,7 +41,7 @@ class Wallet {
     const walletInfo = [];
     const keys = Object.keys(this.#keys);
     for (const key of keys) {
-      walletInfo.push(`${key}:${this.#keys[key]}`);
+      walletInfo.push(`${key}:${this.#keys[key]}\n`);
     }
     return walletInfo;
   }
