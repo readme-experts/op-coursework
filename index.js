@@ -5,7 +5,39 @@ const { Wallet } = require('./src/wallet');
 const { question } = require('./src/promised.js');
 
 const crypto = new Crypto();
-const wallet = new Wallet('btc', 'd190d4bbbc9e47a1962739eeb93f1819');
+
+async function genWalletFeature() {
+  console.log('\x1b[32m', `Choose which wallet do you want to make:
+  1 - Bitcoin;
+  2 - Ethereum;
+  3 - Dogecoin;
+  Type anything to exit.`);
+  const selection = parseInt(await question('Select action\n'));
+  let currency;
+  switch (selection) {
+  case 1:
+    currency = 'btc';
+    break;
+  case 2:
+    currency = 'eth';
+    break;
+  case 3:
+    currency = 'doge';
+    break;
+  default:
+    return;
+  }
+  const wallet = new Wallet(currency, 'd190d4bbbc9e47a1962739eeb93f1819');
+  await wallet.createWallet();
+  console.log(`Wallet was successfully created! Your wallet data:
+  ${wallet.keys}
+   Please don't send anyone your private key or wif
+   or you'll loose your money.
+   We don't save any information about created wallets
+   Make sure you saved all the information.
+   `);
+  return 201;
+}
 
 async function menu() {
   console.log('\x1b[32m', `Menu:
@@ -30,9 +62,7 @@ async function menu() {
     await crypto.nbuExchange();
     break;
   case 5:
-    await wallet.createWallet();
-    console.log(`Wallet was successfully created! Your public key:
-    ${wallet.key}`);
+    await genWalletFeature();
     break;
   default:
     process.exit();
@@ -42,7 +72,7 @@ async function menu() {
 (async () => {
   while (true) {
     await menu();
-    const answ = await question('Clear menu(y/n)?');
+    const answ = await question('Clear menu(y/n)?\n');
     if (answ === 'y') console.clear();
   }
 })();
