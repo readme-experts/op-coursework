@@ -1,4 +1,4 @@
-# op-course-work
+# op coursework
 
 ## Get BTC to your currency exchange rate 
 ```bash 
