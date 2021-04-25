@@ -4,7 +4,8 @@
   "description": "Simple console application for getting data about currencies",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "start": "node index.js",
+    "test": "node ./src/tests.js"
   },
   "repository": {
     "type": "git",
