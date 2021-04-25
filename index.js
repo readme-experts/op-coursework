@@ -1,8 +1,8 @@
 'use strict';
 
+const { Wallet } = require('./src/wallet.js');
 const { Crypto } = require('./src/crypto.js');
-const { Wallet } = require('./src/wallet');
-const { question } = require('./src/promised.js');
+const { question, writeFile } = require('./src/promised.js');
 
 const crypto = new Crypto();
 
@@ -49,17 +49,29 @@ async function menu() {
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n'));
   switch (selection) {
-  case 1:
-    await crypto.currencyToCrypto();
+  case 1: {
+    const curr = await question('Type currency you want to convert\n');
+    const result = await crypto.currencyToCrypto(curr);
+    console.log(result);
+    await writeFile(result);
     break;
-  case 2:
-    await crypto.topFiveCurrencies();
+  }
+  case 2: {
+    const result = await crypto.topFiveCurrencies();
+    console.log(result);
+    await writeFile(result);
     break;
-  case 3:
-    await crypto.currencyPriceVolume();
+  }
+  case 3: {
+    const query = 'Type curr you want to get 24h volume of/res curr\n';
+    const input = await question(query);
+    const result = await crypto.getCurrencyPriceVolume(input);
+    console.log(result);
+    await writeFile(result);
     break;
+  }
   case 4:
-    await crypto.nbuExchange();
+    console.table(await crypto.nbuExchange());
     break;
   case 5:
     await genWalletFeature();
