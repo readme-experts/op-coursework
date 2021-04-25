@@ -1,6 +1,7 @@
 'use strict';
 
 const https = require('https');
+const fs = require('fs');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
@@ -43,8 +44,20 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handleError => func => (...args) =>
   func(...args).catch(handleError);
 
+const writeFile = async resultTxt => {
+  const select = parseInt(await question('Print 1 to save results\n'));
+  if (select === 1) {
+    const fileName = ('Write the name of txt file to save your results\n');
+    const txtName = await question(fileName);
+    fs.writeFileSync(`${txtName}.txt`, resultTxt, 'utf8');
+    return txtName;
+  } else return;
+
+};
+
 module.exports = {
   question,
+  writeFile,
   getRequest,
   postRequest,
   promiseSpawn,

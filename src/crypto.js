@@ -1,22 +1,9 @@
 'use strict';
 
-const fs = require('fs');
 const promised = require('./promised.js');
 
 const green = '\x1b[32m';
 const red = '\x1b[31m';
-
-const writeFile = async resultTxt => {
-  const select = parseInt(await promised.question('Print 1 to save results\n'));
-  if (select === 1) {
-    const fileName = ('Write the name of txt file to save your results\n');
-    const txtName = await promised.question(fileName);
-    fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
-    return txtName;
-
-  } else return;
-
-};
 
 const handleError = e => {
   console.log(`Something gone wrong, error:\n${e}`);
@@ -30,14 +17,16 @@ const safeGet = errorHandlerWrapped(promised.getRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
 
 class Crypto {
-  constructor(key) {
+
+  //#apiKey;
+
+  constructor(/*key*/) {
     this.defaultUrl = 'https://min-api.cryptocompare.com/data';
-    this._apiKey = (key) ? key : null;
+    //this.#apiKey = (key) ? key : null;
   }
 
-  async currencyToCrypto() {
-    const curr = await promised.question('Type currency you want to convert\n');
-    const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${curr}`;
+  async currencyToCrypto(currency) {
+    const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
     const result = await safeGet(query);
     const resultText = [];
     if (result) {
@@ -45,10 +34,8 @@ class Crypto {
       for (const key of keys) {
         resultText.push(`${key}: ${result[key]}`);
       }
-      console.log(`${resultText.join('\n')}\n`);
-      await writeFile(resultText);
     }
-    return result;
+    return resultText.join('\n');
   }
 
   async topFiveCurrencies() {
@@ -60,28 +47,21 @@ class Crypto {
     result.forEach((el, index) => {
       resultText.push(`${index + 1}. ${el}`);
     });
-    console.log(`${resultText.join('\n')}\n`);
-    await writeFile(resultText);
-    return result;
+    return resultText.join('\n');
   }
 
-  async currencyPriceVolume() {
-    const currText = 'Type curr you want to get 24h volume of/res curr\n';
-    const [curr, volumeCurr] = (await promised.question(currText)).split(',');
+  async getCurrencyPriceVolume(input) {
+    const [curr, volumeCurr] = input.split(', ');
     const url = `/v2/histoday?fsym=${curr}&tsym=${volumeCurr}&limit=1`;
     const query = this.defaultUrl + url;
-    await this.getCurrencyPriceVolume(query, volumeCurr);
-  }
-
-  async getCurrencyPriceVolume(queryLink, volumeCurrency) {
-    const result = await safeGet(queryLink);
+    const result = await safeGet(query);
     const data = result.Data;
     const resultText = [];
     let priceDiff = data.Data[1].close - data.Data[0].close;
     priceDiff = priceDiff.toFixed(2);
-    const lowest = `${data.Data[1].low} ${volumeCurrency}`;
-    const highest = `${data.Data[1].high} ${volumeCurrency} `;
-    let diff = `${priceDiff} ${volumeCurrency}`;
+    const lowest = `${data.Data[1].low} ${volumeCurr}`;
+    const highest = `${data.Data[1].high} ${volumeCurr} `;
+    let diff = `${priceDiff} ${volumeCurr}`;
     if (result) {
       const lowText = `The lowest price for 24 hours is: ${lowest}`;
       const lowestText = red + lowText + green;
@@ -89,16 +69,14 @@ class Crypto {
       diff = (priceDiff > 0) ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
-      console.log(`${resultText.join('\n')}\n`);
-      // await writeFile(resultText);
     }
-    return resultText;
+    return resultText.join('\n');
   }
 
 
   async nbuExchange() {
     const data = await safeSpawn('python', './src/parser.py');
-    console.table(data);
+    return data;
   }
 
   static from(key) {
@@ -109,5 +87,4 @@ class Crypto {
 
 module.exports = {
   Crypto,
-  writeFile,
 };

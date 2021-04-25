@@ -13,6 +13,7 @@ const errorHandlerWrapped = promised.errorWrapper(handleError);
 const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Wallet {
+
   #token;
   #keys;
 
