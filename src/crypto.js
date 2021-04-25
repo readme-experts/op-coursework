@@ -70,26 +70,31 @@ class Crypto {
     const [curr, volumeCurr] = (await promised.question(currText)).split(',');
     const url = `/v2/histoday?fsym=${curr}&tsym=${volumeCurr}&limit=1`;
     const query = this.defaultUrl + url;
-    const result = await safeGet(query);
+    await this.getCurrencyPriceVolume(query, volumeCurr);
+  }
+
+  async getCurrencyPriceVolume(queryLink, volumeCurrency) {
+    const result = await safeGet(queryLink);
     const data = result.Data;
     const resultText = [];
     let priceDiff = data.Data[1].close - data.Data[0].close;
     priceDiff = priceDiff.toFixed(2);
-    const lowest = `${data.Data[1].low} ${volumeCurr}`;
-    const highest = `${data.Data[1].high} ${volumeCurr} `;
-    let diff = `${priceDiff} ${volumeCurr}`;
+    const lowest = `${data.Data[1].low} ${volumeCurrency}`;
+    const highest = `${data.Data[1].high} ${volumeCurrency} `;
+    let diff = `${priceDiff} ${volumeCurrency}`;
     if (result) {
-      const lowText = `The lowest price  for 24 hours is: ${lowest}`;
+      const lowText = `The lowest price for 24 hours is: ${lowest}`;
       const lowestText = red + lowText + green;
       const highestText = `The highest price for 24 hours is: ${highest}`;
       diff = (priceDiff > 0) ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
       console.log(`${resultText.join('\n')}\n`);
-      await writeFile(resultText);
+      // await writeFile(resultText);
     }
-    return result.Data;
+    return resultText;
   }
+
 
   async nbuExchange() {
     const data = await safeSpawn('python', './src/parser.py');
