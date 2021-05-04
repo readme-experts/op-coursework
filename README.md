@@ -17,7 +17,7 @@ $ node index.js
 This app has no dependencies so you don't have to install them via npm.
 
 ## 1. Currency to BTC exchange rate
-Get BTC exchange rate to any currency you want from [CryptoCompare](https://www.cryptocompare.com/) just by entering its [code](https://www.iban.com/currency-codes).
+Get BTC exchange rate to any currency you want just by entering its [code](https://www.iban.com/currency-codes).
 ```
 Select action
 >1
@@ -32,9 +32,10 @@ Type currency you want to convert
 >eur
 EUR: 45036.28
 ```
+_Credits to [CryptoCompare](https://www.cryptocompare.com/)_
 
 ## 2. Top five crypto by volume
-Get top 5 cryptocurrencies by its volume from [CryptoCompare](https://www.cryptocompare.com/).
+Get top 5 cryptocurrencies by its volume.
 ```
 Select action
 >2
@@ -44,9 +45,10 @@ Select action
 4. XRP
 5. Bitcoin Cash
 ```
+_Credits to [CryptoCompare](https://www.cryptocompare.com/)_
 
 ## 3. Currency 24 h volume
-Get pair exchange rate for past 24 hours from [CryptoCompare](https://www.cryptocompare.com/) by entering two currency codes splitting them by coma, but not using space (like `usd,btc`).
+Get pair exchange rate for past 24 hours by entering two currency codes splitting them by coma, but not using space (like `usd,btc`).
 ```
 Select action
 >3
@@ -56,9 +58,10 @@ The lowest price  for 24 hours is: 0.00001747 btc
 The highest price for 24 hours is: 0.00001877 btc
 24 hour price differance: 0.00 btc
 ```
+_Credits to [CryptoCompare](https://www.cryptocompare.com/)_
 
 ## 4. Exchange rates of UAH from bank.gov.ua
-Get official exchange rates from [National Bank of Ukraine](https://bank.gov.ua/en/).
+Get official exchange rates.
 ```
 Select action
 >4
@@ -101,6 +104,7 @@ Select action
 │   33    │  'CNY'   │       1        │ '4,2887 UAH'  │
 └─────────┴──────────┴────────────────┴───────────────┘
 ```
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
 
 ## 5. Create wallet on BlockCypher
 #### WARNING! Experimental feature.
@@ -118,6 +122,7 @@ Select action
 Wallet was successfully created! Your wallet data:
 $$$$
 ```
+_Credits to [BlockCypher](https://www.blockcypher.com/)_
 
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
