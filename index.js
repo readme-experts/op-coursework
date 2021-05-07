@@ -1,6 +1,7 @@
 'use strict';
 
 const { Crypto } = require('./src/crypto.js');
+const { writeFile } = require('./src/crypto.js');
 const { Wallet } = require('./src/wallet');
 const { question } = require('./src/promised.js');
 
@@ -44,7 +45,8 @@ async function btcAdrBalance() {
   console.log('Write the address you want to get balance of\n');
   const adrs = await question('');
 
-  await wallet.getAdrsBalance(adrs);
+  const res = await wallet.getAdrsBalance(adrs);
+  await writeFile(res);
   return;
 }
 
