@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const https = require('https');
 const promised = require('./promised.js');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
@@ -93,6 +94,25 @@ class Crypto {
   async nbuExchange() {
     const data = await safeSpawn('python', './src/parser.py');
     console.table(data);
+  }
+
+  monoExchange() {
+    https.get('https://api.monobank.ua/bank/currency', res => {
+      if (res.statusCode !== 200) {
+        const { statusCode, statusMessage } = res;
+        console.log(`Status Code: ${statusCode} ${statusMessage}`);
+        return;
+      }
+
+      let body = '';
+      res.on('data', chunk => {
+        body += chunk.toString();
+      });
+
+      res.on('end', () => {
+        console.table(JSON.parse(body));
+      });
+    });
   }
 
   static from(key) {
