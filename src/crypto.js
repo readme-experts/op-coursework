@@ -121,7 +121,7 @@ class Crypto {
           }
           const rawDate = new Date(curr.date * 1000);
           const date = `${rawDate.getDate()}.` +
-            `${rawDate.getMonth()}.` +
+            `${rawDate.getMonth() + 1}.` +
             `${rawDate.getFullYear()}`;
           curr.date = date;
         }
