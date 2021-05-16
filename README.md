@@ -134,7 +134,6 @@ Write the address you want to get balance of
 Total received: $ satoshis
 Total send: $ satoshis
 Balance: $ satoshis
-
 ```
 _Credits to [BlockCypher](https://www.blockcypher.com/)_
 
