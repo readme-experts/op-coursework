@@ -124,6 +124,19 @@ $$$$
 ```
 _Credits to [BlockCypher](https://www.blockcypher.com/)_
 
+## 7. Exchange rates of UAH from monobank.ua
+Get exchange rates from one of the most popular banks of Ukraine.
+```
+Select action
+>7
+┌─────────┬───────────────┬───────────────┬────────────┬─────────┬──────────┬───────────┐
+│ (index) │ currencyCodeA │ currencyCodeB │    date    │ rateBuy │ rateSell │ rateCross │
+├─────────┼───────────────┼───────────────┼────────────┼─────────┼──────────┼───────────┤
+│    0    │      840      │      980      │ 1621026606 │  27.5   │ 27.7001  │           │
+...
+```
+_Credits to [monobank](https://www.monobank.ua/)_
+
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
 ```
