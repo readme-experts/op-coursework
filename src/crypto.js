@@ -104,9 +104,20 @@ class Crypto {
     for (let i = 0; i < 5; i++) {
       proposedTitles += `${i + 1}. ${data[i].title}\n`;
     }
-    console.log(proposedTitles);
-    let writtenTitleNumber = await promised.question('Enter number of title you\'d like to read:\n');
-    console.log(data[writtenTitleNumber - 1].body);
+    let option = true;
+    while(option) {
+      console.log(proposedTitles);
+      let writtenTitleNumber = await promised.question('Enter number of title you\'d like to read:\n');
+      console.log(data[writtenTitleNumber - 1].body);
+      let optionTemp = await promised.question('\nWould you like to read any other article from previous list?\ny/n?\n');
+      switch(optionTemp) {
+      case 'y':
+        break;
+      default:
+        option = false;
+        break;
+      }
+    }
   }
 
   static from(key) {
