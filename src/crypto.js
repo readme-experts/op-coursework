@@ -119,6 +119,11 @@ class Crypto {
           if (codesList[curr.currencyCodeB]) {
             curr.currencyCodeB = codesList[curr.currencyCodeB];
           }
+          const rawDate = new Date(curr.date * 1000);
+          const date = `${rawDate.getDate()}.` +
+            `${rawDate.getMonth()}.` +
+            `${rawDate.getFullYear()}`;
+          curr.date = date;
         }
         console.table(parsed);
       });
