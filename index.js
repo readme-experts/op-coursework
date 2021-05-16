@@ -57,7 +57,7 @@ async function menu() {
   3 - Currency 24 h volume
   4 - Exchange rates of UAH from bank.gov.ua
   5 - Create wallet on BlockCypher
-  6 - BTC Adress Balance
+  6 - BTC Address Balance
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n'));
   switch (selection) {
