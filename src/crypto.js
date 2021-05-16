@@ -32,6 +32,7 @@ class Crypto {
   constructor(key) {
     this.defaultUrl = 'https://min-api.cryptocompare.com/data';
     this._apiKey = (key) ? key : null;
+    this.cryptoNewsUrl = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
   }
 
   async currencyToCrypto() {
@@ -93,6 +94,46 @@ class Crypto {
   async nbuExchange() {
     const data = await safeSpawn('python', './src/parser.py');
     console.table(data);
+  }
+
+  // async cryptoNews() {
+  //   https.get(this.cryptoNewsUrl, res => {
+  //     if (res.statusCode !== 200) {
+  //       const { statusCode, statusMessage } = res;
+  //       console.log(`Status Code: ${statusCode} ${statusMessage}`);
+  //       return;
+  //     }
+  //     res.setEncoding('utf8');
+  //     let buffer = '';
+  //
+  //     res.on('data', async chunk => {
+  //       buffer += chunk.toString();
+  //     });
+  //
+  //     res.on('end', async () => {
+  //       const parsed = JSON.parse(buffer);
+  //       let proposedTitles = '';
+  //       for (let i = 0; i < 5; i++) {
+  //         proposedTitles += `${i + 1}. ${parsed.Data[i].title}\n`;
+  //       }
+  //       console.log(proposedTitles);
+  //       const writtenTitleNumber = await promised.question('Type title number you\'d like to read');
+  //       console.log(parsed.Data[writtenTitleNumber - 1].body);
+  //     });
+  //   });
+  // }
+
+  async cryptoNews() {
+    const query = this.cryptoNewsUrl;
+    const result = await safeGet(query);
+    const data = result.Data;
+    let proposedTitles = 'Five most recent articles on cryptocurrency:\n';
+    for (let i = 0; i < 5; i++) {
+      proposedTitles += `${i + 1}. ${data[i].title}\n`;
+    }
+    console.log(proposedTitles);
+    let writtenTitleNumber = await promised.question('Enter number of title you\'d like to read:\n');
+    console.log(data[writtenTitleNumber - 1].body);
   }
 
   static from(key) {
