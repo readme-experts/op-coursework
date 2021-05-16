@@ -3,6 +3,7 @@
 const fs = require('fs');
 const https = require('https');
 const promised = require('./promised.js');
+const codesList = require('./codesList.json');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
 
@@ -110,7 +111,16 @@ class Crypto {
       });
 
       res.on('end', () => {
-        console.table(JSON.parse(body));
+        const parsed = JSON.parse(body);
+        for (const curr of parsed) {
+          if (codesList[curr.currencyCodeA]) {
+            curr.currencyCodeA = codesList[curr.currencyCodeA];
+          }
+          if (codesList[curr.currencyCodeB]) {
+            curr.currencyCodeB = codesList[curr.currencyCodeB];
+          }
+        }
+        console.table(parsed);
       });
     });
   }
