@@ -46,29 +46,18 @@ async function menu() {
   5 - Create wallet on BlockCypher
   6 - BTC Address Balance
   Type anything to exit.`);
-  const selection = parseInt(await question('Select action\n'));
-  switch (selection) {
-  case 1:
-    await crypto.currencyToCrypto();
-    break;
-  case 2:
-    await crypto.topFiveCurrencies();
-    break;
-  case 3:
-    await crypto.currencyPriceVolume();
-    break;
-  case 4:
-    await crypto.nbuExchange();
-    break;
-  case 5:
-    await genWalletFeature();
-    break;
-  case 6:
-    await btcAdrBalance();
-    break;
-  default:
-    process.exit();
-  }
+  const selection = parseInt(await question('Select action\n')) - 1;
+  let features = [
+    crypto.currencyToCrypto,
+    crypto.topFiveCurrencies,
+    crypto.currencyPriceVolume,
+    crypto.nbuExchange,
+    genWalletFeature,
+    btcAdrBalance,
+  ];
+  features = features.map(item => item.bind(crypto));
+  if (features[selection]) await features[selection]();
+  else process.exit();
 }
 
 (async () => {
