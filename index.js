@@ -2,7 +2,9 @@
 
 const { Wallet } = require('./src/wallet.js');
 const { Crypto } = require('./src/crypto.js');
-const { question, writeFile } = require('./src/promised.js');
+const { writeFile } = require('./src/crypto.js');
+const { Wallet } = require('./src/wallet');
+const { question } = require('./src/promised.js');
 
 const crypto = new Crypto();
 
@@ -39,6 +41,16 @@ async function genWalletFeature() {
   return 201;
 }
 
+async function btcAdrBalance() {
+  const wallet = new Wallet();
+  console.log('Write the address you want to get balance of\n');
+  const adrs = await question('');
+
+  const res = await wallet.getAdrsBalance(adrs);
+  await writeFile(res);
+  return;
+}
+
 async function menu() {
   console.log('\x1b[32m', `Menu:
   1 - Currency to BTC exchange rate
@@ -46,6 +58,7 @@ async function menu() {
   3 - Currency 24 h volume
   4 - Exchange rates of UAH from bank.gov.ua
   5 - Create wallet on BlockCypher
+  6 - BTC Address Balance
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n'));
   switch (selection) {
@@ -75,6 +88,9 @@ async function menu() {
     break;
   case 5:
     await genWalletFeature();
+    break;
+  case 6:
+    await btcAdrBalance();
     break;
   default:
     process.exit();
