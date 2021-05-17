@@ -97,37 +97,21 @@ class Crypto {
     console.table(data);
   }
 
-  monoExchange() {
-    https.get('https://api.monobank.ua/bank/currency', res => {
-      if (res.statusCode !== 200) {
-        const { statusCode, statusMessage } = res;
-        console.log(`Status Code: ${statusCode} ${statusMessage}`);
-        return;
-      }
-
-      let body = '';
-      res.on('data', chunk => {
-        body += chunk.toString();
-      });
-
-      res.on('end', () => {
-        const parsed = JSON.parse(body);
-        for (const curr of parsed) {
-          if (codesList[curr.currencyCodeA]) {
-            curr.currencyCodeA = codesList[curr.currencyCodeA];
-          }
-          if (codesList[curr.currencyCodeB]) {
-            curr.currencyCodeB = codesList[curr.currencyCodeB];
-          }
-          const rawDate = new Date(curr.date * 1000);
-          const date = `${rawDate.getDate()}.` +
-            `${rawDate.getMonth() + 1}.` +
-            `${rawDate.getFullYear()}`;
-          curr.date = date;
-        }
-        console.table(parsed);
-      });
-    });
+  async monoExchange() {
+    const data = await safeGet('https://api.monobank.ua/bank/currency');
+    if (data.errorDescription) {
+      console.log(data.errorDescription);
+      return;
+    }
+    for (const curr of data) {
+      curr.currencyCodeA = codesList[curr.currencyCodeA];
+      curr.currencyCodeB = codesList[curr.currencyCodeB];
+      const rawDate = new Date(curr.date * 1000);
+      curr.date = `${rawDate.getDate()}` +
+        `.${rawDate.getMonth() + 1}` +
+        `.${rawDate.getFullYear()}`;
+    }
+    console.table(data);
   }
 
   static from(key) {

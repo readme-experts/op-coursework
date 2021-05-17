@@ -81,7 +81,7 @@ async function menu() {
     await btcAdrBalance();
     break;
   case 7:
-    crypto.monoExchange();
+    await crypto.monoExchange();
     break;
   default:
     process.exit();
