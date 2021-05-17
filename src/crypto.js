@@ -98,23 +98,23 @@ class Crypto {
 
   async cryptoNews() {
     const query = this.cryptoNewsUrl;
-    const result = await safeGet(query);
-    const data = result.Data;
+    const info = await safeGet(query);
+    const data = info.Data;
     let proposedTitles = 'Five most recent articles on cryptocurrency:\n';
     for (let i = 0; i < 5; i++) {
       proposedTitles += `${i + 1}. ${data[i].title}\n`;
     }
-    let option = true;
-    while(option) {
+    let bool = true;
+    while(bool) {
       console.log(proposedTitles);
       let writtenTitleNumber = await promised.question('Enter number of title you\'d like to read:\n');
       console.log(data[writtenTitleNumber - 1].body);
-      let optionTemp = await promised.question('\nWould you like to read any other article from previous list?\ny/n?\n');
-      switch(optionTemp) {
+      let option = await promised.question('\nWould you like to read any other article from previous list?\ny/n?\n');
+      switch(option) {
       case 'y':
         break;
       default:
-        option = false;
+        bool = false;
         break;
       }
     }
