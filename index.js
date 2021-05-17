@@ -1,7 +1,6 @@
 'use strict';
 
-const { Crypto } = require('./src/crypto.js');
-const { writeFile } = require('./src/crypto.js');
+const { Crypto, writeFile} = require('./src/crypto.js');
 const { Wallet } = require('./src/wallet');
 const { question } = require('./src/promised.js');
 
@@ -13,22 +12,10 @@ async function genWalletFeature() {
   2 - Ethereum;
   3 - Dogecoin;
   Type anything to exit.`);
-  const selection = parseInt(await question('Select action\n'));
-  let currency;
-  switch (selection) {
-  case 1:
-    currency = 'btc';
-    break;
-  case 2:
-    currency = 'eth';
-    break;
-  case 3:
-    currency = 'doge';
-    break;
-  default:
-    return;
-  }
-  const wallet = new Wallet(currency, 'd190d4bbbc9e47a1962739eeb93f1819');
+  const selection = parseInt(await question('Select action\n')) - 1;
+  const currencies = ['btc', 'eth', 'doge'];
+  const resWall = currencies[selection];
+  const wallet = new Wallet(resWall, 'd190d4bbbc9e47a1962739eeb93f1819');
   await wallet.createWallet();
   console.log(`Wallet was successfully created! Your wallet data:
   ${wallet.keys}
