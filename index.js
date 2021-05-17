@@ -58,7 +58,7 @@ async function menu() {
   4 - Exchange rates of UAH from bank.gov.ua
   5 - Create wallet on BlockCypher
   6 - BTC Address Balance
-  8 - Recent Crypto News
+  7 - Recent Crypto News
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n'));
   switch (selection) {

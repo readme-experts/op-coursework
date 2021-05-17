@@ -124,6 +124,20 @@ $$$$
 ```
 _Credits to [BlockCypher](https://www.blockcypher.com/)_
 
+## 6. BTC Address Balance
+Get BTC address balance by using [BlockCypher](https://www.blockcypher.com/).
+```
+Select action
+>6
+Write the address you want to get balance of
+>address (instance: 13oiPCfq5xMePgVRmBvoxa2nXYHue7XRgm )
+Total received: $ satoshis
+Total send: $ satoshis
+Balance: $ satoshis
+
+```
+_Credits to [BlockCypher](https://www.blockcypher.com/)_
+
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
 ```
