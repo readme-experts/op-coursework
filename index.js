@@ -53,9 +53,9 @@ async function menu() {
     crypto.topFiveCurrencies,
     crypto.currencyPriceVolume,
     crypto.nbuExchange,
-    crypto.cryptoNews,
     genWalletFeature,
     btcAdrBalance,
+    crypto.cryptoNews,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
