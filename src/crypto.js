@@ -32,7 +32,6 @@ class Crypto {
   constructor(key) {
     this.defaultUrl = 'https://min-api.cryptocompare.com/data';
     this._apiKey = (key) ? key : null;
-    this.cryptoNewsUrl = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
   }
 
   async currencyToCrypto() {
@@ -97,26 +96,21 @@ class Crypto {
   }
 
   async cryptoNews() {
-    const query = this.cryptoNewsUrl;
-    const info = await safeGet(query);
+    const info = await safeGet('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
     const data = info.Data;
-    let proposedTitles = 'Five most recent articles on cryptocurrency:\n';
+    let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
     for (let i = 0; i < 5; i++) {
       proposedTitles += `${i + 1}. ${data[i].title}\n`;
     }
     let bool = true;
-    while(bool) {
+    while (bool) {
       console.log(proposedTitles);
-      let writtenTitleNumber = await promised.question('Enter number of title you\'d like to read:\n');
-      console.log(data[writtenTitleNumber - 1].body);
-      let option = await promised.question('\nWould you like to read any other article from previous list?\ny/n?\n');
-      switch(option) {
-      case 'y':
-        break;
-      default:
-        bool = false;
-        break;
-      }
+      const writtenTitleNumber = await promised.question(
+        'Enter number of article\'s title you\'d like to read:\n');
+      console.log('\n' + data[writtenTitleNumber - 1].body);
+      const option = await promised.question(
+        '\nWould you like to read any other article from previous list?\ny/n?\n');
+      if (option !== 'y') bool = false;
     }
   }
 
