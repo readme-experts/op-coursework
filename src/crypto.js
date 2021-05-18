@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-const https = require('https');
 const promised = require('./promised.js');
 const codesList = require('./codesList.json');
 const green = '\x1b[32m';
@@ -97,6 +96,7 @@ class Crypto {
     console.table(data);
   }
 
+
   async monoExchange() {
     const data = await safeGet('https://api.monobank.ua/bank/currency');
     if (data.errorDescription) {
@@ -112,6 +112,24 @@ class Crypto {
         `.${rawDate.getFullYear()}`;
     }
     console.table(data);
+  }
+  async cryptoNews() {
+    const info = await safeGet('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
+    const data = info.Data;
+    let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
+    for (let i = 0; i < 5; i++) {
+      proposedTitles += `${i + 1}. ${data[i].title}\n`;
+    }
+    let bool = true;
+    while (bool) {
+      console.log(proposedTitles);
+      const writtenTitleNumber = await promised.question(
+        'Enter number of article\'s title you\'d like to read:\n');
+      console.log('\n' + data[writtenTitleNumber - 1].body);
+      const option = await promised.question(
+        '\nWould you like to read any other article from previous list?\ny/n?\n');
+      if (option !== 'y') bool = false;
+    }
   }
 
   static from(key) {

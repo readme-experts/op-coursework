@@ -1,7 +1,6 @@
 'use strict';
 
-const { Crypto } = require('./src/crypto.js');
-const { writeFile } = require('./src/crypto.js');
+const { Crypto, writeFile } = require('./src/crypto.js');
 const { Wallet } = require('./src/wallet');
 const { question } = require('./src/promised.js');
 
@@ -13,22 +12,10 @@ async function genWalletFeature() {
   2 - Ethereum;
   3 - Dogecoin;
   Type anything to exit.`);
-  const selection = parseInt(await question('Select action\n'));
-  let currency;
-  switch (selection) {
-  case 1:
-    currency = 'btc';
-    break;
-  case 2:
-    currency = 'eth';
-    break;
-  case 3:
-    currency = 'doge';
-    break;
-  default:
-    return;
-  }
-  const wallet = new Wallet(currency, 'd190d4bbbc9e47a1962739eeb93f1819');
+  const selection = parseInt(await question('Select action\n')) - 1;
+  const currencies = ['btc', 'eth', 'doge'];
+  const resWall = currencies[selection];
+  const wallet = new Wallet(resWall, 'd190d4bbbc9e47a1962739eeb93f1819');
   await wallet.createWallet();
   console.log(`Wallet was successfully created! Your wallet data:
   ${wallet.keys}
@@ -59,33 +46,22 @@ async function menu() {
   5 - Create wallet on BlockCypher
   6 - BTC Address Balance
   7 - monobank exchange rates
+  8 - Recent Crypto News
   Type anything to exit.`);
-  const selection = parseInt(await question('Select action\n'));
-  switch (selection) {
-  case 1:
-    await crypto.currencyToCrypto();
-    break;
-  case 2:
-    await crypto.topFiveCurrencies();
-    break;
-  case 3:
-    await crypto.currencyPriceVolume();
-    break;
-  case 4:
-    await crypto.nbuExchange();
-    break;
-  case 5:
-    await genWalletFeature();
-    break;
-  case 6:
-    await btcAdrBalance();
-    break;
-  case 7:
-    await crypto.monoExchange();
-    break;
-  default:
-    process.exit();
-  }
+  const selection = parseInt(await question('Select action\n')) - 1;
+  let features = [
+    crypto.currencyToCrypto,
+    crypto.topFiveCurrencies,
+    crypto.currencyPriceVolume,
+    crypto.nbuExchange,
+    genWalletFeature,
+    btcAdrBalance,
+    crypto.monoExchange,
+    crypto.cryptoNews,
+  ];
+  features = features.map(item => item.bind(crypto));
+  if (features[selection]) await features[selection]();
+  else process.exit();
 }
 
 (async () => {
