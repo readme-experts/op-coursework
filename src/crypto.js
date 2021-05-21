@@ -118,15 +118,14 @@ class Crypto {
     const nonCash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11');
     const rateTypes = [cash, nonCash];
 
-    let bool = true;
-    while (bool) {
+    while (true) {
       const first = 'Do you want to get cash rate (1) or non-cash rate (2)?\n';
       const userChoice = (await promised.question(first) - 1);
       if (userChoice <= 1) console.table(rateTypes[userChoice]);
 
       const second = 'Would you like to get another rate? (y/n)\n';
       const option = await promised.question(second);
-      if (option !== 'y') bool = false;
+      if (option !== 'y') break;
     }
   }
 
