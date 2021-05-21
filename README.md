@@ -154,6 +154,29 @@ Select action
 ```
 _Credits to [monobank](https://www.monobank.ua/)_
 
+## 9. Exchange rates of UAH from privatbank.ua
+Get exchange rates from one of the most popular banks of Ukraine.
+```
+Select action
+>9
+Do you want to get cash rate (1) or non-cash rate (2)?
+1
+┌─────────┬───────┬──────────┬──────────────┬──────────────┐
+│ (index) │  ccy  │ base_ccy │     buy      │     sale     │
+├─────────┼───────┼──────────┼──────────────┼──────────────┤
+│    0    │ 'USD' │  'UAH'   │  '27.20000'  │  '27.60000'  │
+│    1    │ 'EUR' │  'UAH'   │  '33.10000'  │  '33.70000'  │
+│    2    │ 'RUR' │  'UAH'   │  '0.36000'   │  '0.39000'   │
+│    3    │ 'BTC' │  'USD'   │ '35067.3591' │ '38758.6601' │
+└─────────┴───────┴──────────┴──────────────┴──────────────┘
+```
+Keep in mind that __there are two types of rate in PrivatBank__. 
+The first one is cash rate and the second one is non-cash rate.
+
+Usually non-cash rate is more profitable :) 
+
+_Credits to [PrivatBank](https://privatbank.ua/)_
+
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
 ```
