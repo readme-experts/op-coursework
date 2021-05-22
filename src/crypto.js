@@ -128,7 +128,8 @@ class Crypto {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n');
-      const fixedBody = promised.decodeString(data[writtenTitleNumber - 1].body);
+      const fixedBody = promised.decodeString(data[writtenTitleNumber - 1].
+        body);
       console.log('\n' + fixedBody);
       const option = await promised.question(
         '\nWould you like to read any other article from previous list?\ny/n?\n'
