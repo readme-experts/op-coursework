@@ -113,21 +113,42 @@ class Crypto {
     }
     console.table(data);
   }
+
   async cryptoNews() {
     const info = await safeGet('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
     const data = info.Data;
+    const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
+
+    function decodeString(str) {
+      return str.replace(/&([^;]+);/g, (entity, entityCode) => {
+        let match;
+        if (entityCode in escapeChars) {
+          return escapeChars[entityCode];
+        } else if (entityCode.match(/^#x([\da-fA-F]+)$/)) {
+          match = entityCode.match(/^#x([\da-fA-F]+)$/);
+          return String.fromCharCode(parseInt(match[1], 16));
+        } else if (entityCode.match(/^#(\d+)$/)) {
+          match = entityCode.match(/^#(\d+)$/);
+          return String.fromCharCode(~~match[1]);
+        } else return entity;
+      });
+    }
+
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
     for (let i = 0; i < 5; i++) {
-      proposedTitles += `${i + 1}. ${data[i].title}\n`;
+      const fixedTitle = decodeString(data[i].title);
+      proposedTitles += `${i + 1}. ${fixedTitle}\n`;
     }
     let bool = true;
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n');
-      console.log('\n' + data[writtenTitleNumber - 1].body);
+      const fixedBody = decodeString(data[writtenTitleNumber - 1].body);
+      console.log('\n' + fixedBody);
       const option = await promised.question(
-        '\nWould you like to read any other article from previous list?\ny/n?\n');
+        '\nWould you like to read any other article from previous list?\ny/n?\n'
+      );
       if (option !== 'y') bool = false;
     }
   }
