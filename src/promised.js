@@ -43,10 +43,29 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handleError => func => (...args) =>
   func(...args).catch(handleError);
 
+const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
+
+function decodeString(str) {
+  return str.replace(/&([^;]+);/g, (entity, entityCode) => {
+    let match;
+    if (entityCode in escapeChars) {
+      return escapeChars[entityCode];
+    } else if (entityCode.match(/^#x([\da-fA-F]+)$/)) {
+      match = entityCode.match(/^#x([\da-fA-F]+)$/);
+      return String.fromCharCode(parseInt(match[1], 16));
+    } else if (entityCode.match(/^#(\d+)$/)) {
+      match = entityCode.match(/^#(\d+)$/);
+      return String.fromCharCode(~~match[1]);
+    } else return entity;
+  });
+}
+
 module.exports = {
   question,
   getRequest,
   postRequest,
   promiseSpawn,
   errorWrapper,
+  escapeChars,
+  decodeString,
 };
