@@ -44,11 +44,11 @@ const errorWrapper = handleError => func => (...args) =>
   func(...args).catch(handleError);
 
 const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
+const regExp = [/^#x([\da-fA-F]+)$/, /^#(\d+)$/];
 
 function decodeString(str) {
   return str.replace(/&([^;]+);/g, (entity, entityCode) => {
     let match;
-    const regExp = [/^#x([\da-fA-F]+)$/, /^#(\d+)$/];
     if (entityCode in escapeChars) {
       return escapeChars[entityCode];
     } else if (entityCode.match(regExp[0])) {
