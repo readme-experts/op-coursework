@@ -48,13 +48,14 @@ const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
 function decodeString(str) {
   return str.replace(/&([^;]+);/g, (entity, entityCode) => {
     let match;
+    const regExp = [/^#x([\da-fA-F]+)$/, /^#(\d+)$/];
     if (entityCode in escapeChars) {
       return escapeChars[entityCode];
-    } else if (entityCode.match(/^#x([\da-fA-F]+)$/)) {
-      match = entityCode.match(/^#x([\da-fA-F]+)$/);
+    } else if (entityCode.match(regExp[0])) {
+      match = entityCode.match(regExp[0]);
       return String.fromCharCode(parseInt(match[1], 16));
-    } else if (entityCode.match(/^#(\d+)$/)) {
-      match = entityCode.match(/^#(\d+)$/);
+    } else if (entityCode.match(regExp[1])) {
+      match = entityCode.match(regExp[1]);
       return String.fromCharCode(~~match[1]);
     } else return entity;
   });
@@ -66,6 +67,5 @@ module.exports = {
   postRequest,
   promiseSpawn,
   errorWrapper,
-  escapeChars,
   decodeString,
 };
