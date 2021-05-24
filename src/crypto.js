@@ -132,18 +132,23 @@ class Crypto {
   async cryptoNews() {
     const info = await safeGet('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
     const data = info.Data;
+
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
     for (let i = 0; i < 5; i++) {
-      proposedTitles += `${i + 1}. ${data[i].title}\n`;
+      const fixedTitle = promised.decodeString(data[i].title);
+      proposedTitles += `${i + 1}. ${fixedTitle}\n`;
     }
     let bool = true;
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n');
-      console.log('\n' + data[writtenTitleNumber - 1].body);
+      const fixedBody = promised.decodeString(data[writtenTitleNumber - 1].
+        body);
+      console.log('\n' + fixedBody);
       const option = await promised.question(
-        '\nWould you like to read any other article from previous list?\ny/n?\n');
+        '\nWould you like to read any other article from previous list?\ny/n?\n'
+      );
       if (option !== 'y') bool = false;
     }
   }
