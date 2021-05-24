@@ -96,7 +96,6 @@ class Crypto {
     console.table(data);
   }
 
-
   async monoExchange() {
     const data = await safeGet('https://api.monobank.ua/bank/currency');
     if (data.errorDescription) {
@@ -112,6 +111,22 @@ class Crypto {
         `.${rawDate.getFullYear()}`;
     }
     console.table(data);
+  }
+
+  async privatExchange() {
+    const cash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
+    const nonCash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11');
+    const rateTypes = [cash, nonCash];
+
+    while (true) {
+      const first = 'Do you want to get cash rate (1) or non-cash rate (2)?\n';
+      const userChoice = (await promised.question(first) - 1);
+      if (userChoice <= 1) console.table(rateTypes[userChoice]);
+
+      const second = 'Would you like to get another rate? (y/n)\n';
+      const option = await promised.question(second);
+      if (option !== 'y') break;
+    }
   }
 
   async cryptoNews() {
