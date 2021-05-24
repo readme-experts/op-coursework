@@ -47,6 +47,7 @@ async function menu() {
   6 - BTC Address Balance
   7 - monobank exchange rates
   8 - Recent Crypto News
+  9 - PrivatBank exchange rates
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n')) - 1;
   let features = [
@@ -58,6 +59,7 @@ async function menu() {
     btcAdrBalance,
     crypto.monoExchange,
     crypto.cryptoNews,
+    crypto.privatExchange,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
