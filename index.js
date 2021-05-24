@@ -37,6 +37,12 @@ async function btcAdrBalance() {
   return;
 }
 
+async function getFeeRates() {
+  const result = await crypto.feesRate();
+  await writeFile(result);
+  return;
+}
+
 async function menu() {
   console.log('\x1b[32m', `Menu:
   1 - Currency to BTC exchange rate
@@ -48,6 +54,7 @@ async function menu() {
   7 - monobank exchange rates
   8 - Recent Crypto News
   9 - PrivatBank exchange rates
+  10 - Cryptocurrency fee rates
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n')) - 1;
   let features = [
@@ -60,6 +67,7 @@ async function menu() {
     crypto.monoExchange,
     crypto.cryptoNews,
     crypto.privatExchange,
+    getFeeRates,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
