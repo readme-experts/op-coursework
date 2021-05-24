@@ -173,7 +173,7 @@ class Crypto {
       }
       res.push('\n');
     }
-    console.log(`${res.join('\n')}`);
+    console.log(res.join('\n'));
     return res;
   }
 
