@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const https = require('https');
-const fs = require('fs');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
@@ -85,5 +84,4 @@ module.exports = {
   promiseSpawn,
   errorWrapper,
   decodeString,
-  writeFile,
 };
