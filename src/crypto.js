@@ -102,33 +102,6 @@ class Crypto {
       if (option !== 'y') bool = false;
     }
   }
-  async feesRate() {
-    const cryptos = ['bitcoin', 'bitcoin-cash', 'dogecoin', 'dash', 'litecoin'];
-    const res = [];
-    res.push('These are fee rates for some cryptocurrencies:');
-    for (const crypto of cryptos) {
-      res.push(crypto.toUpperCase());
-      const options = {
-        method: 'GET',
-        hostname: 'rest.cryptoapis.io',
-        path: `/v2/blockchain-data/${crypto}/testnet/mempool/fees`,
-        qs: [],
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': '43a92a397d069a08d7699bf43463076a5209771d'
-        },
-      };
-      const result = await safePost(options, '');
-      const keys = Object.keys(result.data.item);
-      keys.shift();
-      for (const key of keys) {
-        await  res.push(`${key}: ${result.data.item[key]}`);
-      }
-      res.push('\n');
-    }
-    console.log(res.join('\n'));
-    return res;
-  }
 
   static from(key) {
     return new Crypto(key);
