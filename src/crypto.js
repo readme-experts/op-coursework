@@ -11,7 +11,6 @@ const handleError = e => {
 
 const errorHandlerWrapped = promised.errorWrapper(handleError);
 
-const safePost = errorHandlerWrapped(promised.postRequest);
 const safeGet = errorHandlerWrapped(promised.getRequest);
 
 class Crypto {
@@ -24,6 +23,9 @@ class Crypto {
   }
 
   async currencyToCrypto(currency) {
+    if (!currency) {
+      currency = await promised.question('Type currency you want to convert\n');
+    }
     const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
     const result = await safeGet(query);
     const resultText = [];
@@ -52,7 +54,11 @@ class Crypto {
     return result;
   }
 
-  async getCurrencyPriceVolume(input) {
+  async currencyPriceVolume(input) {
+    if (!input) {
+      const text = 'Type curr you want to get 24h volume of/res curr\n';
+      input = await promised.question(text);
+    }
     const [curr, volumeCurr] = input.split(', ');
     const url = `/v2/histoday?fsym=${curr}&tsym=${volumeCurr}&limit=1`;
     const query = this.defaultUrl + url;
