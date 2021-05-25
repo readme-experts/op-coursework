@@ -2,7 +2,6 @@
 
 const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
-const { writeFile } = require('./crypto.js');
 const codesList = require('./codesList.json');
 
 const handleError = e => {
@@ -42,7 +41,7 @@ const btcAdrBalance = async () =>  {
   const adrs = await promised.question('');
 
   const res = await wallet.getAdrsBalance(adrs);
-  await writeFile(res);
+  await promised.writeFile(res);
   return;
 };
 
@@ -87,5 +86,8 @@ const privatExchange = async () => {
 
 module.exports = {
   genWalletFeature,
-  btcAdrBalance
+  btcAdrBalance,
+  nbuExchange,
+  monoExchange,
+  privatExchange,
 };
