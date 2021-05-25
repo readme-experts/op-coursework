@@ -2,7 +2,7 @@
 
 const { Crypto } = require('./src/crypto.js');
 const { question } = require('./src/promised.js');
-const exchanges = require('./src/otherCurrency.js');
+const exchanges = require('./src/exchanges.js');
 
 const crypto = new Crypto();
 
