@@ -12,7 +12,7 @@ const handleError = e => {
 const errorHandlerWrapped = promised.errorWrapper(handleError);
 
 const safePost = errorHandlerWrapped(promised.postRequest);
-const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
+const safeGet = errorHandlerWrapped(promised.getRequest);
 
 class Crypto {
 
