@@ -1,8 +1,8 @@
 'use strict';
 
-const { Crypto, writeFile } = require('./src/crypto.js');
-const { Wallet } = require('./src/wallet');
+const { Crypto } = require('./src/crypto.js');
 const { question } = require('./src/promised.js');
+const { genWalletFeature, btcAdrBalance } = require('./src/otherCurrency.js');
 
 const crypto = new Crypto();
 
