@@ -25,7 +25,6 @@ const handleError = e => {
 
 const errorHandlerWrapped = promised.errorWrapper(handleError);
 
-//Обернутая функция request
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
 
