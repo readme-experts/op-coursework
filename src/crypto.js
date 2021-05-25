@@ -129,7 +129,7 @@ class Crypto {
   }
 
   async cryptoNews() {
-    const info = await safeGet('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
+    const info = await safeGet(`${this.defaultUrl} + 'v2/news/?lang=EN`);
     const data = info.Data;
 
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
