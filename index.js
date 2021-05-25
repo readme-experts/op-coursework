@@ -1,8 +1,7 @@
 'use strict';
 
-const { Wallet } = require('./src/wallet.js');
 const { Crypto } = require('./src/crypto.js');
-const { question } = require('./src/promised.js');
+const { question, writeFile } = require('./src/promised.js');
 const exchanges = require('./src/exchanges.js');
 
 const crypto = new Crypto();
@@ -37,7 +36,7 @@ async function menu() {
     exchanges.monoExchange,
     crypto.cryptoNews,
     exchanges.privatExchange,
-    getFeeRates,
+    exchanges.getFeeRates,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
