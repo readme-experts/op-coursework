@@ -2,7 +2,7 @@
 
 const { Crypto } = require('./src/crypto.js');
 const { question } = require('./src/promised.js');
-const { genWalletFeature, btcAdrBalance } = require('./src/otherCurrency.js');
+const exchanges = require('./src/otherCurrency.js');
 
 const crypto = new Crypto();
 
@@ -23,12 +23,12 @@ async function menu() {
     crypto.currencyToCrypto,
     crypto.topFiveCurrencies,
     crypto.currencyPriceVolume,
-    crypto.nbuExchange,
-    genWalletFeature,
-    btcAdrBalance,
-    crypto.monoExchange,
+    exchanges.nbuExchange,
+    exchanges.genWalletFeature,
+    exchanges.btcAdrBalance,
+    exchanges.monoExchange,
     crypto.cryptoNews,
-    crypto.privatExchange,
+    exchanges.privatExchange,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
