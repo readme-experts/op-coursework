@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const promised = require('./promised.js');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
@@ -31,7 +30,7 @@ class Crypto {
         resultText.push(`${key}: ${result[key]}`);
       }
       console.log(`${resultText.join('\n')}\n`);
-      await writeFile(resultText);
+      await promised.writeFile(resultText);
     }
     return result;
   }
@@ -46,7 +45,7 @@ class Crypto {
       resultText.push(`${index + 1}. ${el}`);
     });
     console.log(`${resultText.join('\n')}\n`);
-    await writeFile(resultText);
+    await promised.writeFile(resultText);
     return result;
   }
 
@@ -71,7 +70,7 @@ class Crypto {
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
       console.log(`${resultText.join('\n')}\n`);
-      await writeFile(resultText);
+      await promised.writeFile(resultText);
     }
     return result.Data;
   }
@@ -108,5 +107,4 @@ class Crypto {
 
 module.exports = {
   Crypto,
-  writeFile,
 };
