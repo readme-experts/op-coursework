@@ -1,22 +1,8 @@
 'use strict';
 
-const fs = require('fs');
 const promised = require('./promised.js');
-const codesList = require('./codesList.json');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
-
-const writeFile = async resultTxt => {
-  const select = parseInt(await promised.question('Print 1 to save results\n'));
-  if (select === 1) {
-    const fileName = ('Write the name of txt file to save your results\n');
-    const txtName = await promised.question(fileName);
-    fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
-    return txtName;
-
-  } else return;
-
-};
 
 const handleError = e => {
   console.log(`Something gone wrong, error:\n${e}`);
@@ -25,9 +11,7 @@ const handleError = e => {
 
 const errorHandlerWrapped = promised.errorWrapper(handleError);
 
-//Обернутая функция request
 const safeGet = errorHandlerWrapped(promised.getRequest);
-const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
 
 class Crypto {
   constructor(key) {
@@ -46,7 +30,7 @@ class Crypto {
         resultText.push(`${key}: ${result[key]}`);
       }
       console.log(`${resultText.join('\n')}\n`);
-      await writeFile(resultText);
+      await promised.writeFile(resultText);
     }
     return result;
   }
@@ -61,7 +45,7 @@ class Crypto {
       resultText.push(`${index + 1}. ${el}`);
     });
     console.log(`${resultText.join('\n')}\n`);
-    await writeFile(resultText);
+    await promised.writeFile(resultText);
     return result;
   }
 
@@ -86,51 +70,13 @@ class Crypto {
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
       console.log(`${resultText.join('\n')}\n`);
-      await writeFile(resultText);
+      await promised.writeFile(resultText);
     }
     return result.Data;
   }
 
-  async nbuExchange() {
-    const data = await safeSpawn('python', './src/parser.py');
-    console.table(data);
-  }
-
-  async monoExchange() {
-    const data = await safeGet('https://api.monobank.ua/bank/currency');
-    if (data.errorDescription) {
-      console.log(data.errorDescription);
-      return;
-    }
-    for (const curr of data) {
-      curr.currencyCodeA = codesList[curr.currencyCodeA];
-      curr.currencyCodeB = codesList[curr.currencyCodeB];
-      const rawDate = new Date(curr.date * 1000);
-      curr.date = `${rawDate.getDate()}` +
-        `.${rawDate.getMonth() + 1}` +
-        `.${rawDate.getFullYear()}`;
-    }
-    console.table(data);
-  }
-
-  async privatExchange() {
-    const cash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
-    const nonCash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11');
-    const rateTypes = [cash, nonCash];
-
-    while (true) {
-      const first = 'Do you want to get cash rate (1) or non-cash rate (2)?\n';
-      const userChoice = (await promised.question(first) - 1);
-      if (userChoice <= 1) console.table(rateTypes[userChoice]);
-
-      const second = 'Would you like to get another rate? (y/n)\n';
-      const option = await promised.question(second);
-      if (option !== 'y') break;
-    }
-  }
-
   async cryptoNews() {
-    const info = await safeGet('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
+    const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
 
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
@@ -161,5 +107,4 @@ class Crypto {
 
 module.exports = {
   Crypto,
-  writeFile,
 };
