@@ -101,12 +101,7 @@ class Crypto {
       );
       if (option !== 'y') bool = false;
     }
-
-  async nbuExchange() {
-    const data = await safeSpawn('python', './src/parser.py');
-    return data;
   }
-
   async feesRate() {
     const cryptos = ['bitcoin', 'bitcoin-cash', 'dogecoin', 'dash', 'litecoin'];
     const res = [];
