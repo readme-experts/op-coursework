@@ -84,7 +84,6 @@ class Crypto {
     return resultText.join('\n');
   }
 
-
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
@@ -112,7 +111,6 @@ class Crypto {
   static from(key) {
     return new Crypto(key);
   }
-
 }
 
 module.exports = {

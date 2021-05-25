@@ -1,4 +1,5 @@
 'use strict';
+
 const { Crypto } = require('./crypto');
 const assert = require('assert').strict;
 

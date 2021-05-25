@@ -114,7 +114,6 @@ const feesRate = async () => {
   return res;
 };
 
-
 module.exports = {
   genWalletFeature,
   btcAdrBalance,

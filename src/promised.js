@@ -5,13 +5,13 @@ const https = require('https');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
 const question = str => new Promise(resolve => rl.question(str, resolve));
+
 const getRequest = async url => new Promise((resolve, reject) => {
   https.get(url, async res => {
     const buffers = [];
@@ -44,8 +44,8 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handleError => func => (...args) =>
   func(...args).catch(handleError);
 
-
 const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
+
 const regExp = [/&([^;]+);/g, /^#x([\da-fA-F]+)$/, /^#(\d+)$/];
 
 function decodeString(str) {
@@ -63,7 +63,6 @@ function decodeString(str) {
   });
 }
 
-
 const writeFile = async resultTxt => {
   const select = parseInt(await question('Print 1 to save results\n'));
   if (select === 1) {
@@ -71,9 +70,7 @@ const writeFile = async resultTxt => {
     const txtName = await question(fileName);
     fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
     return txtName;
-
   } else return;
-
 };
 
 module.exports = {

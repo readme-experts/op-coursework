@@ -37,6 +37,7 @@ class Wallet {
         this.#keys = result;
         return result;
     }
+
     async getAdrsBalance(adrs) {
         const path =  `/v1/btc/main/addrs/${adrs}/balance`;
         const link = 'https://'+this.defaultUrl+path;
@@ -48,6 +49,7 @@ class Wallet {
         console.log(`${result.join('\n')}\n`);
         return result;
     }
+
     get keys() {
         const walletInfo = [];
         const keys = Object.keys(this.#keys);
@@ -57,7 +59,7 @@ class Wallet {
         return walletInfo;
     }
 }
+
 module.exports = {
     Wallet
 };
-
