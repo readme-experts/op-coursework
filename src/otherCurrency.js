@@ -5,6 +5,15 @@ const { Wallet } = require('./wallet.js');
 const { writeFile } = require('./crypto.js');
 const codesList = require('./codesList.json');
 
+const handleError = e => {
+  console.log(`Something gone wrong, error:\n${e}`);
+  process.exit();
+};
+
+const errorHandlerWrapped = promised.errorWrapper(handleError);
+
+const safeGet = errorHandlerWrapped(promised.getRequest);
+const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
 
 const genWalletFeature = async () => {
   console.log('\x1b[32m', `Choose which wallet do you want to make:

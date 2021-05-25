@@ -5,18 +5,6 @@ const promised = require('./promised.js');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
 
-const writeFile = async resultTxt => {
-  const select = parseInt(await promised.question('Print 1 to save results\n'));
-  if (select === 1) {
-    const fileName = ('Write the name of txt file to save your results\n');
-    const txtName = await promised.question(fileName);
-    fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
-    return txtName;
-
-  } else return;
-
-};
-
 const handleError = e => {
   console.log(`Something gone wrong, error:\n${e}`);
   process.exit();
@@ -25,7 +13,6 @@ const handleError = e => {
 const errorHandlerWrapped = promised.errorWrapper(handleError);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
-const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
 
 class Crypto {
   constructor(key) {
