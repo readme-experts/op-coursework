@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const promised = require('./promised.js');
-const codesList = require('./codesList.json');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
 

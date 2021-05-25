@@ -3,6 +3,8 @@
 const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
 const { writeFile } = require('./crypto.js');
+const codesList = require('./codesList.json');
+
 
 const genWalletFeature = async () => {
   console.log('\x1b[32m', `Choose which wallet do you want to make:
@@ -10,7 +12,7 @@ const genWalletFeature = async () => {
     2 - Ethereum;
     3 - Dogecoin;
     Type anything to exit.`);
-  const selection = parseInt(await question('Select action\n')) - 1;
+  const selection = parseInt(await promised.question('Select action\n')) - 1;
   const currencies = ['btc', 'eth', 'doge'];
   const resWall = currencies[selection];
   const wallet = new Wallet(resWall, 'd190d4bbbc9e47a1962739eeb93f1819');
@@ -28,7 +30,7 @@ const genWalletFeature = async () => {
 const btcAdrBalance = async () =>  {
   const wallet = new Wallet();
   console.log('Write the address you want to get balance of\n');
-  const adrs = await question('');
+  const adrs = await promised.question('');
 
   const res = await wallet.getAdrsBalance(adrs);
   await writeFile(res);
