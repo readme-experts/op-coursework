@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const https = require('https');
+const fs = require('fs');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
@@ -44,6 +45,7 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handleError => func => (...args) =>
   func(...args).catch(handleError);
 
+
 const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
 const regExp = [/&([^;]+);/g, /^#x([\da-fA-F]+)$/, /^#(\d+)$/];
 
@@ -62,6 +64,7 @@ function decodeString(str) {
   });
 }
 
+
 const writeFile = async resultTxt => {
   const select = parseInt(await question('Print 1 to save results\n'));
   if (select === 1) {
@@ -74,9 +77,9 @@ const writeFile = async resultTxt => {
 
 };
 
-
 module.exports = {
   question,
+  writeFile,
   getRequest,
   postRequest,
   promiseSpawn,

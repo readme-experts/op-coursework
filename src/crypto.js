@@ -14,14 +14,16 @@ const errorHandlerWrapped = promised.errorWrapper(handleError);
 const safeGet = errorHandlerWrapped(promised.getRequest);
 
 class Crypto {
-  constructor(key) {
+
+  //#apiKey;
+
+  constructor(/*key*/) {
     this.defaultUrl = 'https://min-api.cryptocompare.com/data';
-    this._apiKey = (key) ? key : null;
+    //this.#apiKey = (key) ? key : null;
   }
 
-  async currencyToCrypto() {
-    const curr = await promised.question('Type currency you want to convert\n');
-    const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${curr}`;
+  async currencyToCrypto(currency) {
+    const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
     const result = await safeGet(query);
     const resultText = [];
     if (result) {
@@ -32,7 +34,7 @@ class Crypto {
       console.log(`${resultText.join('\n')}\n`);
       await promised.writeFile(resultText);
     }
-    return result;
+    return resultText.join('\n');
   }
 
   async topFiveCurrencies() {
@@ -49,9 +51,8 @@ class Crypto {
     return result;
   }
 
-  async currencyPriceVolume() {
-    const currText = 'Type curr you want to get 24h volume of/res curr\n';
-    const [curr, volumeCurr] = (await promised.question(currText)).split(',');
+  async getCurrencyPriceVolume(input) {
+    const [curr, volumeCurr] = input.split(', ');
     const url = `/v2/histoday?fsym=${curr}&tsym=${volumeCurr}&limit=1`;
     const query = this.defaultUrl + url;
     const result = await safeGet(query);
@@ -63,17 +64,19 @@ class Crypto {
     const highest = `${data.Data[1].high} ${volumeCurr} `;
     let diff = `${priceDiff} ${volumeCurr}`;
     if (result) {
-      const lowText = `The lowest price  for 24 hours is: ${lowest}`;
+      const lowText = `The lowest price for 24 hours is: ${lowest}`;
       const lowestText = red + lowText + green;
       const highestText = `The highest price for 24 hours is: ${highest}`;
       diff = (priceDiff > 0) ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
+
       console.log(`${resultText.join('\n')}\n`);
       await promised.writeFile(resultText);
     }
-    return result.Data;
+    return resultText.join('\n');
   }
+
 
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
@@ -97,6 +100,10 @@ class Crypto {
       );
       if (option !== 'y') bool = false;
     }
+
+  async nbuExchange() {
+    const data = await safeSpawn('python', './src/parser.py');
+    return data;
   }
 
   static from(key) {
