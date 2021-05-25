@@ -24,7 +24,7 @@ async function genWalletFeature() {
    We don't save any information about created wallets
    Make sure you saved all the information.
    `);
-  return 201;
+  return wallet;
 }
 
 async function btcAdrBalance() {
