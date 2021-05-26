@@ -60,7 +60,7 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handler => func => (...args) =>
   func(...args).catch(handler);
 
-const classWrapper = (Class, handler) => {
+const classWrapper = (Class, handler, ...args) => {
   if (Object.getOwnPropertyNames(Class.prototype).length < 2) {
     return Class;
   }
@@ -68,7 +68,7 @@ const classWrapper = (Class, handler) => {
     hasOwn(proto, prop) && typeof proto[prop] === 'function';
   for (const prop in Object.getOwnPropertyDescriptors(Class.prototype)) {
     if (cond(Class.prototype, prop) && prop !== 'constructor') {
-      Class.prototype[prop] = handler(Class.prototype[prop], Class);
+      Class.prototype[prop] = handler(Class.prototype[prop], Class, ...args);
     }
   }
   return Class;

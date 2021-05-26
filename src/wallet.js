@@ -8,19 +8,19 @@ const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Wallet {
-  #token;
-  #keys;
+  _token;
+  _keys;
 
   constructor(currency, token) {
     this.defaultUrl = 'api.blockcypher.com';
     this.defaultPath = `/v1/${currency}/main/`;
-    this.#token = token;
+    this._token = token;
   }
 
   async createWallet() {
     const path = this.defaultPath + `addrs?token=`;
     const data = JSON.stringify({
-      token: this.#token,
+      token: this._token,
     });
     const options = {
       method: 'POST',
@@ -29,7 +29,7 @@ class Wallet {
       headers: {},
     };
     const result = await safePost(options, data);
-    this.#keys = result;
+    this._keys = result;
     return result;
   }
   async getAdrsBalance(adrs) {
@@ -44,11 +44,11 @@ class Wallet {
     return result;
   }
   get keys() {
-    if (!this.#keys) return null;
+    if (!this._keys) return null;
     const walletInfo = [];
-    const keys = Object.keys(this.#keys);
+    const keys = Object.keys(this._keys);
     for (const key of keys) {
-      walletInfo.push(`${key}:${this.#keys[key]}\n`);
+      walletInfo.push(`${key}:${this._keys[key]}\n`);
     }
     return walletInfo;
   }
