@@ -4,12 +4,8 @@ const promised = require('./promised.js');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
 
-const handleError = e => {
-  console.log(`Something gone wrong, error:\n${e}`);
-  process.exit();
-};
 
-const errorHandlerWrapped = promised.errorWrapper(handleError);
+const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
 

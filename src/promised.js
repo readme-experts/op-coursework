@@ -13,6 +13,19 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+const handler = e => {
+  console.log(`Something gone wrong, error:\n${e}`);
+  process.exit();
+};
+
+const objHandler = method => (...args) => {
+  try {
+    return method.apply(this, args);
+  } catch (e) {
+    handler(e);
+  }
+};
+
 const question = str => new Promise(resolve => rl.question(str, resolve));
 const getRequest = async url => new Promise((resolve, reject) => {
   https.get(url, async res => {
@@ -46,13 +59,15 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handler => func => (...args) =>
   func(...args).catch(handler);
 
-const objWrapper = (obj, handler) => {
-  const keys = Object.keys(obj);
-  for (const key of keys) {
-    if (hasOwn(obj, key) && typeof obj[key] === 'function') {
-      obj[key].catch(handler);
+const objWrapper = Class => {
+  const cond = (proto, prop) =>
+    hasOwn(proto, prop) && typeof proto[prop] === 'function';
+  for (const prop in Object.getOwnPropertyDescriptors(Class.prototype)) {
+    if (cond(Class.prototype, prop) && prop !== 'constructor') {
+      Class.prototype[prop] = objHandler(Class.prototype[prop]);
     }
   }
+  return Class;
 };
 
 const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
@@ -95,4 +110,5 @@ module.exports = {
   errorWrapper,
   decodeString,
   objWrapper,
+  handler,
 };

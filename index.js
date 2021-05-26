@@ -2,10 +2,17 @@
 
 const { Crypto } = require('./src/crypto.js');
 const { question } = require('./src/promised.js');
+const promised = require('./src/promised.js');
 const exchanges = require('./src/exchanges.js');
 
-const crypto = new Crypto();
+//const crypto = new Crypto();
 
+const SafeCrypto = promised.objWrapper(Crypto, promised.handler);
+const crypto = new SafeCrypto();
+
+console.log(Object.getOwnPropertyDescriptors(SafeCrypto.prototype));
+
+crypto.topFiveCurrencies();
 
 async function menu() {
   console.log('\x1b[32m', `Menu:

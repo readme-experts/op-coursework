@@ -4,12 +4,8 @@ const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
 const codesList = require('./codesList.json');
 
-const handleError = e => {
-  console.log(`Something gone wrong, error:\n${e}`);
-  process.exit();
-};
 
-const errorHandlerWrapped = promised.errorWrapper(handleError);
+const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
