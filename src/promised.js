@@ -60,6 +60,9 @@ const errorWrapper = handler => func => (...args) =>
   func(...args).catch(handler);
 
 const objWrapper = Class => {
+  if (Object.getOwnPropertyNames(Class.prototype).length < 2) {
+    return Class;
+  }
   const cond = (proto, prop) =>
     hasOwn(proto, prop) && typeof proto[prop] === 'function';
   for (const prop in Object.getOwnPropertyDescriptors(Class.prototype)) {
