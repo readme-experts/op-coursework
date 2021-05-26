@@ -20,11 +20,7 @@ const handler = e => {
 
 const objHandler = (method, Context, ...constr) => (...args) => {
   const ctx = new Context(...constr);
-  try {
-    return method.apply(ctx, args);
-  } catch (e) {
-    handler(e);
-  }
+  return method.apply(ctx, args).catch(handler);
 };
 
 const question = str => new Promise(resolve => rl.question(str, resolve));
