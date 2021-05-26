@@ -39,8 +39,12 @@ const postRequest = (options, data) => new Promise((resolve, reject) => {
   const req = https.request(options, async res => {
     const buffers = [];
     for await (const chunk of res) buffers.push(chunk);
-    const reqData = JSON.parse(Buffer.concat(buffers).toString());
-    resolve(reqData);
+    try {
+      const reqData = JSON.parse(Buffer.concat(buffers).toString());
+      resolve(reqData);
+    } catch (e) {
+      handler(buffers.toString() + '\n' + e);
+    }
   });
   req.write(data);
   req.on('error', reject);
