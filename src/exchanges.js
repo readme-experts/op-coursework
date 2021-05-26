@@ -10,6 +10,7 @@ const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
+const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 const genWalletFeature = async () => {
   console.log('\x1b[32m', `Choose which wallet do you want to make:
@@ -38,7 +39,7 @@ const btcAdrBalance = async () =>  {
   const adrs = await promised.question('');
 
   const res = await wallet.getAdrsBalance(adrs);
-  await promised.writeFile(res);
+  await safeWrite(res);
   return;
 };
 

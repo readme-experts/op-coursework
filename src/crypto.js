@@ -8,6 +8,7 @@ const red = '\x1b[31m';
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
+const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 class RawCrypto {
 
@@ -31,7 +32,7 @@ class RawCrypto {
         resultText.push(`${key}: ${result[key]}`);
       }
       console.log(`${resultText.join('\n')}\n`);
-      await promised.writeFile(resultText);
+      await safeWrite(resultText);
     }
     return resultText.join('\n');
   }
@@ -46,7 +47,7 @@ class RawCrypto {
       resultText.push(`${index + 1}. ${el}`);
     });
     console.log(`${resultText.join('\n')}\n`);
-    await promised.writeFile(resultText);
+    await safeWrite(resultText);
     return result;
   }
 
@@ -75,7 +76,7 @@ class RawCrypto {
       resultText.push(lowestText, highestText, diffText);
 
       console.log(`${resultText.join('\n')}\n`);
-      await promised.writeFile(resultText);
+      await safeWrite(resultText);
     }
     return resultText.join('\n');
   }
