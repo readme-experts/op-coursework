@@ -6,6 +6,8 @@ const readline = require('readline');
 const { spawn } = require('child_process');
 
 
+
+const hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -41,9 +43,17 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
   pyProcess.stderr.on('data', err => reject(err));
 });
 
-const errorWrapper = handleError => func => (...args) =>
-  func(...args).catch(handleError);
+const errorWrapper = handler => func => (...args) =>
+  func(...args).catch(handler);
 
+const objWrapper = (obj, handler) => {
+  const keys = Object.keys(obj);
+  for (const key of keys) {
+    if (hasOwn(obj, key) && typeof obj[key] === 'function') {
+      obj[key].catch(handler);
+    }
+  }
+};
 
 const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
 const regExp = [/&([^;]+);/g, /^#x([\da-fA-F]+)$/, /^#(\d+)$/];
@@ -84,4 +94,5 @@ module.exports = {
   promiseSpawn,
   errorWrapper,
   decodeString,
+  objWrapper,
 };
