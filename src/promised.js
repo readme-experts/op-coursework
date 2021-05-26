@@ -18,9 +18,10 @@ const handler = e => {
   process.exit();
 };
 
-const objHandler = method => (...args) => {
+const objHandler = (method, Context, ...constr) => (...args) => {
+  const ctx = new Context(...constr);
   try {
-    return method.apply(this, args);
+    return method.apply(ctx, args);
   } catch (e) {
     handler(e);
   }
@@ -67,7 +68,7 @@ const objWrapper = (Class, handler) => {
     hasOwn(proto, prop) && typeof proto[prop] === 'function';
   for (const prop in Object.getOwnPropertyDescriptors(Class.prototype)) {
     if (cond(Class.prototype, prop) && prop !== 'constructor') {
-      Class.prototype[prop] = handler(Class.prototype[prop]);
+      Class.prototype[prop] = handler(Class.prototype[prop], Class);
     }
   }
   return Class;

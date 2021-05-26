@@ -9,7 +9,7 @@ const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
 
-class Crypto {
+class RawCrypto {
 
   //#apiKey;
 
@@ -106,10 +106,12 @@ class Crypto {
   }
 
   static from(key) {
-    return new Crypto(key);
+    return new RawCrypto(key);
   }
 
 }
+
+const Crypto = promised.objWrapper(RawCrypto, promised.objHandler);
 
 module.exports = {
   Crypto,
