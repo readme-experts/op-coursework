@@ -59,7 +59,7 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handler => func => (...args) =>
   func(...args).catch(handler);
 
-const objWrapper = Class => {
+const objWrapper = (Class, handler) => {
   if (Object.getOwnPropertyNames(Class.prototype).length < 2) {
     return Class;
   }
@@ -67,7 +67,7 @@ const objWrapper = Class => {
     hasOwn(proto, prop) && typeof proto[prop] === 'function';
   for (const prop in Object.getOwnPropertyDescriptors(Class.prototype)) {
     if (cond(Class.prototype, prop) && prop !== 'constructor') {
-      Class.prototype[prop] = objHandler(Class.prototype[prop]);
+      Class.prototype[prop] = handler(Class.prototype[prop]);
     }
   }
   return Class;
@@ -114,4 +114,5 @@ module.exports = {
   decodeString,
   objWrapper,
   handler,
+  objHandler,
 };
