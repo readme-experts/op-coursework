@@ -111,7 +111,7 @@ class RawCrypto {
 
 }
 
-const Crypto = promised.objWrapper(RawCrypto, promised.objHandler);
+const Crypto = promised.classWrapper(RawCrypto, promised.classHandler);
 
 module.exports = {
   Crypto,

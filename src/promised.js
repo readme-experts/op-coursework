@@ -18,7 +18,7 @@ const handler = e => {
   process.exit();
 };
 
-const objHandler = (method, Context, ...constr) => (...args) => {
+const classHandler = (method, Context, ...constr) => (...args) => {
   const ctx = new Context(...constr);
   return method.apply(ctx, args).catch(handler);
 };
@@ -60,7 +60,7 @@ const promiseSpawn = (lang, path) => new Promise((resolve, reject) => {
 const errorWrapper = handler => func => (...args) =>
   func(...args).catch(handler);
 
-const objWrapper = (Class, handler) => {
+const classWrapper = (Class, handler) => {
   if (Object.getOwnPropertyNames(Class.prototype).length < 2) {
     return Class;
   }
@@ -113,7 +113,7 @@ module.exports = {
   promiseSpawn,
   errorWrapper,
   decodeString,
-  objWrapper,
+  classWrapper,
   handler,
-  objHandler,
+  classHandler,
 };
