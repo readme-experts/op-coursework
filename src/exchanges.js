@@ -4,6 +4,9 @@ const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
 const codesList = require('./codesList.json');
 
+const green = '\x1b[32m';
+const red = '\x1b[31m';
+
 const handleError = e => {
   console.log(`Something gone wrong, error:\n${e}`);
   process.exit();
@@ -49,6 +52,27 @@ const btcAdrBalance = async () =>  {
 const nbuExchange = async () =>  {
   const data = await safeSpawn('python', './src/parser.py');
   console.table(data);
+};
+
+const currencyCodeNumber = async () => {
+  const question = 'Enter currency code or its number:\n';
+  const request = await promised.question(question);
+
+  if (/^\d$/.test(request)) {
+    console.log(`${codesList[parseInt(request)]}`);
+    return;
+  }
+
+  if (/^\w$/.test(request)) {
+    for (const curr in codesList) {
+      if (request.toUpperCase() === codesList[curr]) console.log(curr);
+    }
+    return;
+  }
+
+  console.log(`${red}` +
+    'Something went wrong!\nMake sure you entered correct data.' +
+    `${green}`);
 };
 
 const monoExchange = async () => {
@@ -118,6 +142,7 @@ module.exports = {
   genWalletFeature,
   btcAdrBalance,
   nbuExchange,
+  currencyCodeNumber,
   monoExchange,
   privatExchange,
   feesRate,
