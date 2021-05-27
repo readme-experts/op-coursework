@@ -63,7 +63,7 @@ const currencyCodeNumber = async () => {
     return;
   }
 
-  if (/^\w$/.test(request)) {
+  if (/[a-zA-Z]/.test(request)) {
     for (const curr in codesList) {
       if (request.toUpperCase() === codesList[curr]) console.log(curr);
     }
