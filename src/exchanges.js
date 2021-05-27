@@ -59,8 +59,12 @@ const currencyCodeNumber = async () => {
   while (true) {
     const request = await promised.question(question);
 
-    if (/^\d$/.test(request)) {
-      console.log(`${codesList[parseInt(request)]}`);
+    if (/^\d+$/.test(request)) {
+      if (codesList[parseInt(request)] === undefined) {
+        console.log(`${red}` +
+          'Something went wrong!\nMake sure you entered correct data.' +
+          `${green}`);
+      } else console.log(`${codesList[parseInt(request)]}`);
     } else if (/[a-zA-Z]/.test(request)) {
       for (const curr in codesList) {
         if (request.toUpperCase() === codesList[curr]) console.log(curr);
