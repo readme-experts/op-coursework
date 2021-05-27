@@ -177,6 +177,23 @@ Usually non-cash rate is more profitable :)
 
 _Credits to [PrivatBank](https://privatbank.ua/)_
 
+## 11. Show currency code by its number and vice versa
+Get currency number entering its code and currency code entering its number.
+```
+Select action
+>11
+Enter currency code or its number:
+>usd
+840
+Would you like to get another currency? (y/n)
+>y
+Enter currency code or its number:
+>uah
+980
+Would you like to get another currency? (y/n)
+>n
+```
+
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
 ```
