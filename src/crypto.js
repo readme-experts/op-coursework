@@ -110,6 +110,26 @@ class Crypto {
   }
 
   async transactionInfo() {
+    const cryptoNames = {
+      1: 'Bitcoin',
+      2: 'Dash',
+      3: 'Dogecoin',
+      4: 'Litecoin',
+    };
+    const abbreviation = {
+      1: 'btc',
+      2: 'dash',
+      3: 'doge',
+      4: 'ltc',
+    };
+
+    console.log('\nList of cryptos:')
+    for (const key in cryptoNames) {
+      console.log(`${key}. ${cryptoNames[key]}`);
+    }
+
+    const chosenCrypto = await promised.question('\nEnter the number' +
+      ' of crypto from the list above you\'d to like to input hash of: \n');
     const hash = await promised.question('\nEnter the hash of ' +
       'transaction you\'d like to get info about: \n');
 
@@ -118,11 +138,11 @@ class Crypto {
       return;
     }
 
-    const link = `https://api.blockcypher.com/v1/btc/main/txs/${hash}`;
+    const link = `https://api.blockcypher.com/v1/${abbreviation[chosenCrypto]}/main/txs/${hash}`;
     const info = await safeGet(link);
     const keys = ['total', 'fees', 'size', 'preference', 'confirmed', ];
     const outputKeys = [
-      'Satoshis sent',
+      '\nSatoshis sent',
       'Fee in satoshis',
       'Transaction size in bytes',
       'Transaction preference',
@@ -132,6 +152,7 @@ class Crypto {
     for (let i = 0; i < keys.length; i++) {
       console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
     }
+    console.log();
   }
 
   static from(key) {
