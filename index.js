@@ -19,6 +19,7 @@ async function menu() {
   8 - Recent Crypto News
   9 - PrivatBank exchange rates
   10 - Cryptocurrency fee rates
+  11 - Transaction info by its hash
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n')) - 1;
   let features = [
@@ -32,6 +33,7 @@ async function menu() {
     crypto.cryptoNews,
     exchanges.privatExchange,
     exchanges.feesRate,
+    crypto.transactionInfo,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
