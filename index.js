@@ -6,7 +6,6 @@ const exchanges = require('./src/exchanges.js');
 
 const crypto = new Crypto();
 
-
 async function menu() {
   console.log('\x1b[32m', `Menu:
   1 - Currency to BTC exchange rate
