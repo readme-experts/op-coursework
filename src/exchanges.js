@@ -56,23 +56,25 @@ const nbuExchange = async () =>  {
 
 const currencyCodeNumber = async () => {
   const question = 'Enter currency code or its number:\n';
-  const request = await promised.question(question);
+  while (true) {
+    const request = await promised.question(question);
 
-  if (/^\d$/.test(request)) {
-    console.log(`${codesList[parseInt(request)]}`);
-    return;
-  }
-
-  if (/[a-zA-Z]/.test(request)) {
-    for (const curr in codesList) {
-      if (request.toUpperCase() === codesList[curr]) console.log(curr);
+    if (/^\d$/.test(request)) {
+      console.log(`${codesList[parseInt(request)]}`);
+    } else if (/[a-zA-Z]/.test(request)) {
+      for (const curr in codesList) {
+        if (request.toUpperCase() === codesList[curr]) console.log(curr);
+      }
+    } else {
+      console.log(`${red}` +
+        'Something went wrong!\nMake sure you entered correct data.' +
+        `${green}`);
     }
-    return;
-  }
 
-  console.log(`${red}` +
-    'Something went wrong!\nMake sure you entered correct data.' +
-    `${green}`);
+    const loop = 'Would you like to get another currency? (y/n)\n';
+    const option = await promised.question(loop);
+    if (option !== 'y') break;
+  }
 };
 
 const monoExchange = async () => {
