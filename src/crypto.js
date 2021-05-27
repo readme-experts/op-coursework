@@ -112,22 +112,25 @@ class Crypto {
   async transactionInfo() {
     const hash = await promised.question('\nEnter the hash of ' +
       'transaction you\'d like to get info about: \n');
+
     if (hash.length !== 64) {
-      console.log('Wrong hash');
+      console.log(`${red}Wrong hash${green}`);
       return;
     }
+
     const link = `https://api.blockcypher.com/v1/btc/main/txs/${hash}`;
     const info = await safeGet(link);
-    const keys = ['total', 'fees', 'size', 'preference', 'confirmed'];
-    const beautifiedKeys = ['Satoshis sent', 'Fee in satoshis', 'Size in bytes', 'Preference', 'Confirmed at'];
-    // let counter = 0;
-    // for (const value of keys) {
-    //   console.log(`${govno[counter]} ${info[value]}`);
-    //   counter++;
-    // }
+    const keys = ['total', 'fees', 'size', 'preference', 'confirmed', ];
+    const outputKeys = [
+      'Satoshis sent',
+      'Fee in satoshis',
+      'Transaction size in bytes',
+      'Transaction preference',
+      'Confirmed at',
+    ];
 
     for (let i = 0; i < keys.length; i++) {
-      console.log(`${beautifiedKeys[i]}: ${info[keys[i]]}`)
+      console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
     }
   }
 
