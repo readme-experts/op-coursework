@@ -140,12 +140,20 @@ class Crypto {
 
     const link = `https://api.blockcypher.com/v1/${abbreviation[chosenCrypto]}/main/txs/${hash}`;
     const info = await safeGet(link);
-    const keys = ['total', 'fees', 'size', 'preference', 'confirmed', ];
+    const keys = [
+      'total',
+      'fees',
+      'size',
+      'preference',
+      'received',
+      'confirmed',
+    ];
     const outputKeys = [
       '\nSatoshis sent',
       'Fee in satoshis',
       'Transaction size in bytes',
       'Transaction preference',
+      'Received at',
       'Confirmed at',
     ];
 
