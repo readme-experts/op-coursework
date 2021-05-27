@@ -153,8 +153,10 @@ class Crypto {
       'Transaction preference',
       'Received at',
     ];
-
-    if (Object.prototype.hasOwnProperty.call('info', 'confirmed')) {
+    if (Object.prototype.hasOwnProperty.call(info, 'error')) {
+      console.log(`${red}Wrong hash${green}`);
+      return;
+    } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
       keys.push('confirmed');
       outputKeys.push('Confirmed at');
     } else console.log('\nTransaction isn\'t confirmed yet :C');
