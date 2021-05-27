@@ -123,7 +123,7 @@ class Crypto {
       4: 'ltc',
     };
 
-    console.log('\nList of cryptos:')
+    console.log('\nList of cryptos:');
     for (const key in cryptoNames) {
       console.log(`${key}. ${cryptoNames[key]}`);
     }
