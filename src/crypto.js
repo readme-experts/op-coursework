@@ -138,15 +138,13 @@ class Crypto {
       return;
     }
 
-    const link = `https://api.blockcypher.com/v1/${abbreviation[chosenCrypto]}/main/txs/${hash}`;
-    const info = await safeGet(link);
+    const info = await safeGet(`https://api.blockcypher.com/v1/${abbreviation[chosenCrypto]}/main/txs/${hash}`);
     const keys = [
       'total',
       'fees',
       'size',
       'preference',
       'received',
-      'confirmed',
     ];
     const outputKeys = [
       '\nSatoshis sent',
@@ -154,8 +152,12 @@ class Crypto {
       'Transaction size in bytes',
       'Transaction preference',
       'Received at',
-      'Confirmed at',
     ];
+
+    if (Object.prototype.hasOwnProperty.call('info', 'confirmed')) {
+      keys.push('confirmed');
+      outputKeys.push('Confirmed at');
+    } else console.log('\nTransaction isn\'t confirmed yet :C');
 
     for (let i = 0; i < keys.length; i++) {
       console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
