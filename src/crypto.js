@@ -4,14 +4,12 @@ const promised = require('./promised.js');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
 
-
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 class RawCrypto {
-
   //#apiKey;
 
   constructor(/*key*/) {
@@ -71,7 +69,7 @@ class RawCrypto {
       const lowText = `The lowest price for 24 hours is: ${lowest}`;
       const lowestText = red + lowText + green;
       const highestText = `The highest price for 24 hours is: ${highest}`;
-      diff = (priceDiff > 0) ? '+' + diff : diff;
+      diff = priceDiff > 0 ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
 
@@ -80,7 +78,6 @@ class RawCrypto {
     }
     return resultText.join('\n');
   }
-
 
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
@@ -95,9 +92,11 @@ class RawCrypto {
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
-        'Enter number of article\'s title you\'d like to read:\n');
-      const fixedBody = promised.decodeString(data[writtenTitleNumber - 1].
-        body);
+        'Enter number of article\'s title you\'d like to read:\n'
+      );
+      const fixedBody = promised.decodeString(
+        data[writtenTitleNumber - 1].body
+      );
       console.log('\n' + fixedBody);
       const option = await promised.question(
         '\nWould you like to read any other article from previous list?\ny/n?\n'
@@ -109,7 +108,6 @@ class RawCrypto {
   static from(key) {
     return new RawCrypto(key);
   }
-
 }
 
 const Crypto = promised.classWrapper(RawCrypto, promised.classHandler);

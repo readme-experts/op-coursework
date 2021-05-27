@@ -33,7 +33,7 @@ class Wallet {
     return result;
   }
   async getAdrsBalance(adrs) {
-    const path =  `/v1/btc/main/addrs/${adrs}/balance`;
+    const path = `/v1/btc/main/addrs/${adrs}/balance`;
     const link = 'https://' + this.defaultUrl + path;
     const result = [];
     const getInfo = await safeGet(link);
@@ -55,6 +55,5 @@ class Wallet {
 }
 
 module.exports = {
-  Wallet
+  Wallet,
 };
-

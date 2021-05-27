@@ -7,7 +7,9 @@ const exchanges = require('./src/exchanges.js');
 const crypto = new Crypto();
 
 async function menu() {
-  console.log('\x1b[32m', `Menu:
+  console.log(
+    '\x1b[32m',
+    `Menu:
   1 - Currency to BTC exchange rate
   2 - Top five crypto by volume
   3 - Currency 24 h volume
@@ -18,7 +20,8 @@ async function menu() {
   8 - Recent Crypto News
   9 - PrivatBank exchange rates
   10 - Cryptocurrency fee rates
-  Type anything to exit.`);
+  Type anything to exit.`
+  );
   const selection = parseInt(await question('Select action\n')) - 1;
   let features = [
     crypto.currencyToCrypto,
