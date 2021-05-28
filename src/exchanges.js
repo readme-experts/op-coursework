@@ -58,21 +58,27 @@ const currencyCodeNumber = async () => {
   const question = 'Enter currency code or its number:\n';
   while (true) {
     const request = await promised.question(question);
+    const error = `${red}` +
+      'Something went wrong!\nMake sure you entered correct data.' +
+      `${green}`;
 
     if (/^\d+$/.test(request)) {
-      if (codesList[parseInt(request)] === undefined) {
-        console.log(`${red}` +
-          'Something went wrong!\nMake sure you entered correct data.' +
-          `${green}`);
-      } else console.log(`${codesList[parseInt(request)]}`);
+      const code = codesList[parseInt(request)];
+      if (code === undefined) {
+        console.log(error);
+      } else {
+        console.log(`${code}`);
+      }
     } else if (/[a-zA-Z]/.test(request)) {
+      let currency;
       for (const curr in codesList) {
-        if (request.toUpperCase() === codesList[curr]) console.log(curr);
+        if (request.toUpperCase() === codesList[curr]) currency = curr;
+      }
+      if (!currency) {
+        console.log(error);
       }
     } else {
-      console.log(`${red}` +
-        'Something went wrong!\nMake sure you entered correct data.' +
-        `${green}`);
+      console.log(error);
     }
 
     const loop = 'Would you like to get another currency? (y/n)\n';
