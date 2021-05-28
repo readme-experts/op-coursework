@@ -36,7 +36,7 @@ const genWalletFeature = async () => {
   return wallet;
 };
 
-const btcAdrBalance = async () =>  {
+const btcAdrBalance = async () => {
   const wallet = new Wallet();
   console.log('Write the address you want to get balance of\n');
   const adrs = await promised.question('');
@@ -46,7 +46,7 @@ const btcAdrBalance = async () =>  {
   return;
 };
 
-const nbuExchange = async () =>  {
+const nbuExchange = async () => {
   const data = await safeSpawn('python', './src/parser.py');
   console.table(data);
 };

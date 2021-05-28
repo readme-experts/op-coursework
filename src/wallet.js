@@ -10,6 +10,7 @@ const handleError = e => {
 const errorHandlerWrapped = promised.errorWrapper(handleError);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
+
 const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Wallet {
