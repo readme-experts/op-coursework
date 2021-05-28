@@ -70,7 +70,7 @@ const writeFile = async resultTxt => {
     const txtName = await question(fileName);
     fs.writeFileSync(`${txtName}.txt`, resultTxt.join('\n'), 'utf8');
     return txtName;
-  }
+  } else return;
 };
 
 module.exports = {

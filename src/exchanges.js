@@ -43,6 +43,7 @@ const btcAdrBalance = async () =>  {
 
   const res = await wallet.getAdrsBalance(adrs);
   await promised.writeFile(res);
+  return;
 };
 
 const nbuExchange = async () =>  {
