@@ -72,14 +72,9 @@ const currencyCodeNumber = async () => {
     } else if (/[a-zA-Z]/.test(request)) {
       let currency;
       for (const curr in codesList) {
-        if (request.toUpperCase() === codesList[curr]) {
-          currency = curr;
-          console.log(currency);
-        }
+        if (request.toUpperCase() === codesList[curr]) currency = curr;
       }
-      if (!currency) {
-        console.log(error);
-      }
+      currency ? console.log(currency) : console.log(error);
     } else {
       console.log(error);
     }
