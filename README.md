@@ -201,6 +201,46 @@ Usually non-cash rate is more profitable :)
 
 _Credits to [PrivatBank](https://privatbank.ua/)_
 
+## 10. Cryptocurrency fee rates
+Get cryptocurrency fee rates(Bitcoin,Bitcoin-cash,Dogecoin,Dash,Litecoin)
+```
+Select action
+>10
+These are fee rates for some cryptocurrencies:
+BITCOIN
+fast: 0.00000208
+slow: 0.00000032
+standard: 0.00000073
+
+
+BITCOIN-CASH
+fast: 0.00000004
+slow: 0.00000003
+standard: 0.00000004
+
+
+DOGECOIN
+fast: 0.00523561
+slow: 0.00520833
+standard: 0.00522197
+
+
+DASH
+fast: 0.00000005
+slow: 0.00000003
+standard: 0.00000004
+
+
+LITECOIN
+fast: 0.00000026
+slow: 0.00000023
+standard: 0.00000025
+
+
+Clear menu(y/n)?
+>n
+```
+
 ## 11. Show currency code by its number and vice versa
 Get currency number entering its code and currency code entering its number.
 ```
