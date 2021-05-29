@@ -5,6 +5,7 @@ const promised = require('./promised.js');
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
+
 const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Wallet {
