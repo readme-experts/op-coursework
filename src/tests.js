@@ -1,5 +1,6 @@
 'use strict';
-const { Crypto } = require('./crypto');
+
+const { Crypto } = require('./crypto.js');
 const assert = require('assert').strict;
 
 const crypto = new Crypto();

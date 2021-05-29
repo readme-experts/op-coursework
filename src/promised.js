@@ -82,6 +82,7 @@ const classWrapper = (Class, handler, ...args) => {
 };
 
 const escapeChars = { lt: '<', gt: '>', quot: '"', apos: '\'', amp: '&' };
+
 const regExp = [/&([^;]+);/g, /^#x([\da-fA-F]+)$/, /^#(\d+)$/];
 
 function decodeString(str) {

@@ -4,6 +4,9 @@ const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
 const codesList = require('./codesList.json');
 
+const green = '\x1b[32m';
+const red = '\x1b[31m';
+
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
@@ -48,6 +51,37 @@ const btcAdrBalance = async () => {
 const nbuExchange = async () => {
   const data = await safeSpawn('python', './src/parser.py');
   console.table(data);
+};
+
+const currencyCodeNumber = async () => {
+  const question = 'Enter currency code or its number:\n';
+  while (true) {
+    const request = await promised.question(question);
+    const error = `${red}` +
+      'Something went wrong!\nMake sure you entered correct data.' +
+      `${green}`;
+
+    if (/^\d+$/.test(request)) {
+      const code = codesList[parseInt(request)];
+      if (code === undefined) {
+        console.log(error);
+      } else {
+        console.log(`${code}`);
+      }
+    } else if (/[a-zA-Z]/.test(request)) {
+      let currency;
+      for (const curr in codesList) {
+        if (request.toUpperCase() === codesList[curr]) currency = curr;
+      }
+      currency ? console.log(currency) : console.log(error);
+    } else {
+      console.log(error);
+    }
+
+    const loop = 'Would you like to get another currency? (y/n)\n';
+    const option = await promised.question(loop);
+    if (option !== 'y') break;
+  }
 };
 
 const monoExchange = async () => {
@@ -122,6 +156,7 @@ module.exports = {
   genWalletFeature,
   btcAdrBalance,
   nbuExchange,
+  currencyCodeNumber,
   monoExchange,
   privatExchange,
   feesRate,
