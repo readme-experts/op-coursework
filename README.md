@@ -154,6 +154,30 @@ Select action
 ```
 _Credits to [monobank](https://www.monobank.ua/)_
 
+## 8. Recent crypto news 
+Read recent news crypto news.
+````
+Select action
+>8
+
+Five most recent articles on cryptocurrency:
+1. Puerto Rico’s Crypto Tax Haven Dreams are on the Rocks
+2. Billionaire investor Bill Ackman says he wouldn’t invest in bitcoin because it is purely speculative
+3. Biden's $6 Trillion Budget Could Fuel Inflation Fears And Bitcoin Gains
+4. Bitcoin Challenges $40K Again Following Biden’s $6 Trillion Spending Budget Reveal
+5.Crypto Mouthpieces Need Muting: Why There’s No Coordinated Bitcoin FUD
+
+Enter number of article you'd like to read:
+>1
+
+Like the IRS in the mainland US, the Puerto Rican tax authority hasn’t issued definite guidance on crypto.The post Puerto Rico’s Crypto Tax Haven Dreams are on the Rocks appeared first on Blockworks.
+
+Would you like to read any other article from previous list?
+y/n
+>(choice)
+````
+Credits to [CryptoCompare](https://www.cryptocompare.com/)
+
 ## 9. Exchange rates of UAH from privatbank.ua
 Get exchange rates from one of the most popular banks of Ukraine.
 ```
@@ -193,6 +217,32 @@ Enter currency code or its number:
 Would you like to get another currency? (y/n)
 >n
 ```
+## 12. Transaction info by its hash
+Find out information about any btc/dash/doge/ltc transaction by its hash
+````
+Select action
+11
+
+List of cryptos:
+1. Bitcoin
+2. Dash
+3. Dogecoin
+4. Litecoin
+
+Enter the number of crypto from the list above you'd to like to input hash of: 
+3
+
+Enter the hash of transaction you'd like to get info about: 
+645127c390c019f61b255ea79b15d8ebb5203e9febbe76b0a7531225e20275ff
+
+Satoshis sent: 14794235305186972
+Fee in satoshis: 100000000
+Transaction size in bytes: 226
+Transaction preference: high
+Received at: 2021-05-27T15:23:38.019Z
+Confirmed at: 2021-05-27T15:24:00Z
+````
+Credits to [BlockCypher](https://www.blockcypher.com/)
 
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
