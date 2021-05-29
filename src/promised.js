@@ -5,6 +5,11 @@ const https = require('https');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
+const colors = {
+  green: '\x1b[32m',
+  red: '\x1b[31m',
+};
+
 const hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
 const rl = readline.createInterface({
   input: process.stdin,
@@ -111,6 +116,7 @@ const writeFile = async resultTxt => {
 };
 
 module.exports = {
+  colors,
   question,
   writeFile,
   getRequest,
