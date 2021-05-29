@@ -53,6 +53,11 @@ const nbuExchange = async () => {
   console.table(data);
 };
 
+const nbuAlternative = async () => {
+  const data = await safeGet('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
+  console.table(data);
+};
+
 const currencyCodeNumber = async () => {
   const question = 'Enter currency code or its number:\n';
   while (true) {
@@ -156,6 +161,7 @@ module.exports = {
   genWalletFeature,
   btcAdrBalance,
   nbuExchange,
+  nbuAlternative,
   currencyCodeNumber,
   monoExchange,
   privatExchange,

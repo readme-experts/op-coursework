@@ -284,6 +284,24 @@ Confirmed at: 2021-05-27T15:24:00Z
 ````
 Credits to [BlockCypher](https://www.blockcypher.com/)
 
+## 13. Exchange rates of UAH from bank.gov.ua (Alternative source)
+Get official exchange rates.
+```
+Select action
+>13
+┌─────────┬──────┬──────────────────────────────────────┬────────────┬───────┬──────────────┐
+│ (index) │ r030 │                 txt                  │    rate    │  cc   │ exchangedate │
+├─────────┼──────┼──────────────────────────────────────┼────────────┼───────┼──────────────┤
+│    0    │  36  │        'Австралійський долар'        │  21.1396   │ 'AUD' │ '31.05.2021' │
+│    1    │ 124  │          'Канадський долар'          │  22.7079   │ 'CAD' │ '31.05.2021' │
+│    2    │ 156  │          'Юань Женьміньбі'           │   4.3126   │ 'CNY' │ '31.05.2021' │
+│    3    │ 191  │                'Куна'                │   4.4408   │ 'HRK' │ '31.05.2021' │
+│    4    │ 203  │            'Чеська крона'            │   1.3118   │ 'CZK' │ '31.05.2021' │
+│    5    │ 208  │           'Данська крона'            │   4.4899   │ 'DKK' │ '31.05.2021' │
+...
+```
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
+
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
 ```
