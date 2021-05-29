@@ -4,17 +4,12 @@ const promised = require('./promised.js');
 const green = '\x1b[32m';
 const red = '\x1b[31m';
 
-const handleError = e => {
-  console.log(`Something gone wrong, error:\n${e}`);
-  process.exit();
-};
-
-const errorHandlerWrapped = promised.errorWrapper(handleError);
+const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
+const safeWrite = errorHandlerWrapped(promised.writeFile);
 
-class Crypto {
-
+class RawCrypto {
   //#apiKey;
 
   constructor(/*key*/) {
@@ -35,7 +30,7 @@ class Crypto {
         resultText.push(`${key}: ${result[key]}`);
       }
       console.log(`${resultText.join('\n')}\n`);
-      await promised.writeFile(resultText);
+      await safeWrite(resultText);
     }
     return resultText.join('\n');
   }
@@ -50,7 +45,7 @@ class Crypto {
       resultText.push(`${index + 1}. ${el}`);
     });
     console.log(`${resultText.join('\n')}\n`);
-    await promised.writeFile(resultText);
+    await safeWrite(resultText);
     return result;
   }
 
@@ -74,16 +69,15 @@ class Crypto {
       const lowText = `The lowest price for 24 hours is: ${lowest}`;
       const lowestText = red + lowText + green;
       const highestText = `The highest price for 24 hours is: ${highest}`;
-      diff = (priceDiff > 0) ? '+' + diff : diff;
+      diff = priceDiff > 0 ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
       resultText.push(lowestText, highestText, diffText);
 
       console.log(`${resultText.join('\n')}\n`);
-      await promised.writeFile(resultText);
+      await safeWrite(resultText);
     }
     return resultText.join('\n');
   }
-
 
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
@@ -98,9 +92,11 @@ class Crypto {
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
-        'Enter number of article\'s title you\'d like to read:\n');
-      const fixedBody = promised.decodeString(data[writtenTitleNumber - 1].
-        body);
+        'Enter number of article\'s title you\'d like to read:\n'
+      );
+      const fixedBody = promised.decodeString(
+        data[writtenTitleNumber - 1].body
+      );
       console.log('\n' + fixedBody);
       const option = await promised.question(
         '\nWould you like to read any other article from previous list?\ny/n?\n'
@@ -168,10 +164,11 @@ class Crypto {
   }
 
   static from(key) {
-    return new Crypto(key);
+    return new RawCrypto(key);
   }
-
 }
+
+const Crypto = promised.classWrapper(RawCrypto, promised.classHandler);
 
 module.exports = {
   Crypto,

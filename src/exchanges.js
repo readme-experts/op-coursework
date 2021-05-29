@@ -4,23 +4,25 @@ const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
 const codesList = require('./codesList.json');
 
-const handleError = e => {
-  console.log(`Something gone wrong, error:\n${e}`);
-  process.exit();
-};
+const green = '\x1b[32m';
+const red = '\x1b[31m';
 
-const errorHandlerWrapped = promised.errorWrapper(handleError);
+const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
+const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 const genWalletFeature = async () => {
-  console.log('\x1b[32m', `Choose which wallet do you want to make:
+  console.log(
+    '\x1b[32m',
+    `Choose which wallet do you want to make:
     1 - Bitcoin;
     2 - Ethereum;
     3 - Dogecoin;
-    Type anything to exit.`);
+    Type anything to exit.`
+  );
   const selection = parseInt(await promised.question('Select action\n')) - 1;
   const currencies = ['btc', 'eth', 'doge'];
   const resWall = currencies[selection];
@@ -36,19 +38,50 @@ const genWalletFeature = async () => {
   return wallet;
 };
 
-const btcAdrBalance = async () =>  {
+const btcAdrBalance = async () => {
   const wallet = new Wallet();
   console.log('Write the address you want to get balance of\n');
   const adrs = await promised.question('');
 
   const res = await wallet.getAdrsBalance(adrs);
-  await promised.writeFile(res);
+  await safeWrite(res);
   return;
 };
 
-const nbuExchange = async () =>  {
+const nbuExchange = async () => {
   const data = await safeSpawn('python', './src/parser.py');
   console.table(data);
+};
+
+const currencyCodeNumber = async () => {
+  const question = 'Enter currency code or its number:\n';
+  while (true) {
+    const request = await promised.question(question);
+    const error = `${red}` +
+      'Something went wrong!\nMake sure you entered correct data.' +
+      `${green}`;
+
+    if (/^\d+$/.test(request)) {
+      const code = codesList[parseInt(request)];
+      if (code === undefined) {
+        console.log(error);
+      } else {
+        console.log(`${code}`);
+      }
+    } else if (/[a-zA-Z]/.test(request)) {
+      let currency;
+      for (const curr in codesList) {
+        if (request.toUpperCase() === codesList[curr]) currency = curr;
+      }
+      currency ? console.log(currency) : console.log(error);
+    } else {
+      console.log(error);
+    }
+
+    const loop = 'Would you like to get another currency? (y/n)\n';
+    const option = await promised.question(loop);
+    if (option !== 'y') break;
+  }
 };
 
 const monoExchange = async () => {
@@ -61,21 +94,26 @@ const monoExchange = async () => {
     curr.currencyCodeA = codesList[curr.currencyCodeA];
     curr.currencyCodeB = codesList[curr.currencyCodeB];
     const rawDate = new Date(curr.date * 1000);
-    curr.date = `${rawDate.getDate()}` +
-        `.${rawDate.getMonth() + 1}` +
-        `.${rawDate.getFullYear()}`;
+    curr.date =
+      `${rawDate.getDate()}` +
+      `.${rawDate.getMonth() + 1}` +
+      `.${rawDate.getFullYear()}`;
   }
   console.table(data);
 };
 
 const privatExchange = async () => {
-  const cash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
-  const nonCash = await safeGet('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11');
+  const cash = await safeGet(
+    'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'
+  );
+  const nonCash = await safeGet(
+    'https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11'
+  );
   const rateTypes = [cash, nonCash];
 
   while (true) {
     const first = 'Do you want to get cash rate (1) or non-cash rate (2)?\n';
-    const userChoice = (await promised.question(first) - 1);
+    const userChoice = (await promised.question(first)) - 1;
     if (userChoice <= 1) console.table(rateTypes[userChoice]);
 
     const second = 'Would you like to get another rate? (y/n)\n';
@@ -95,7 +133,7 @@ const feesRate = async () => {
     qs: [],
     headers: {
       'Content-Type': 'application/json',
-      'X-API-Key': '43a92a397d069a08d7699bf43463076a5209771d'
+      'X-API-Key': '43a92a397d069a08d7699bf43463076a5209771d',
     },
   };
   for (const crypto of cryptos) {
@@ -114,11 +152,11 @@ const feesRate = async () => {
   return res;
 };
 
-
 module.exports = {
   genWalletFeature,
   btcAdrBalance,
   nbuExchange,
+  currencyCodeNumber,
   monoExchange,
   privatExchange,
   feesRate,

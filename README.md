@@ -201,7 +201,23 @@ Usually non-cash rate is more profitable :)
 
 _Credits to [PrivatBank](https://privatbank.ua/)_
 
-## 11. Transaction info by its hash
+## 11. Show currency code by its number and vice versa
+Get currency number entering its code and currency code entering its number.
+```
+Select action
+>11
+Enter currency code or its number:
+>usd
+840
+Would you like to get another currency? (y/n)
+>y
+Enter currency code or its number:
+>uah
+980
+Would you like to get another currency? (y/n)
+>n
+```
+## 12. Transaction info by its hash
 Find out information about any btc/dash/doge/ltc transaction by its hash
 ````
 Select action

@@ -6,9 +6,10 @@ const exchanges = require('./src/exchanges.js');
 
 const crypto = new Crypto();
 
-
 async function menu() {
-  console.log('\x1b[32m', `Menu:
+  console.log(
+    '\x1b[32m',
+    `Menu:
   1 - Currency to BTC exchange rate
   2 - Top five crypto by volume
   3 - Currency 24 h volume
@@ -19,7 +20,8 @@ async function menu() {
   8 - Recent Crypto News
   9 - PrivatBank exchange rates
   10 - Cryptocurrency fee rates
-  11 - Transaction info by its hash
+  11 - Show currency code by its number and vice versa
+  12 - Transaction info by its hash
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n')) - 1;
   let features = [
@@ -33,6 +35,7 @@ async function menu() {
     crypto.cryptoNews,
     exchanges.privatExchange,
     exchanges.feesRate,
+    exchanges.currencyCodeNumber,
     crypto.transactionInfo,
   ];
   features = features.map(item => item.bind(crypto));
