@@ -4,9 +4,6 @@ const promised = require('./promised.js');
 const { Wallet } = require('./wallet.js');
 const codesList = require('./codesList.json');
 
-const green = '\x1b[32m';
-const red = '\x1b[31m';
-
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
@@ -53,13 +50,18 @@ const nbuExchange = async () => {
   console.table(data);
 };
 
+const nbuAlternative = async () => {
+  const data = await safeGet('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
+  console.table(data);
+};
+
 const currencyCodeNumber = async () => {
   const question = 'Enter currency code or its number:\n';
   while (true) {
     const request = await promised.question(question);
-    const error = `${red}` +
+    const error = `${promised.colors.red}` +
       'Something went wrong!\nMake sure you entered correct data.' +
-      `${green}`;
+      `${promised.colors.green}`;
 
     if (/^\d+$/.test(request)) {
       const code = codesList[parseInt(request)];
@@ -156,6 +158,7 @@ module.exports = {
   genWalletFeature,
   btcAdrBalance,
   nbuExchange,
+  nbuAlternative,
   currencyCodeNumber,
   monoExchange,
   privatExchange,

@@ -1,8 +1,6 @@
 'use strict';
 
 const promised = require('./promised.js');
-const green = '\x1b[32m';
-const red = '\x1b[31m';
 
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
@@ -67,7 +65,7 @@ class RawCrypto {
     let diff = `${priceDiff} ${volumeCurr}`;
     if (result) {
       const lowText = `The lowest price for 24 hours is: ${lowest}`;
-      const lowestText = red + lowText + green;
+      const lowestText = promised.colors.red + lowText + promised.colors.green;
       const highestText = `The highest price for 24 hours is: ${highest}`;
       diff = priceDiff > 0 ? '+' + diff : diff;
       const diffText = `24 hour price differance: ${diff}`;
@@ -130,7 +128,7 @@ class RawCrypto {
       'transaction you\'d like to get info about: \n');
 
     if (hash.length !== 64) {
-      console.log(`${red}Wrong hash${green}`);
+      console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
       return;
     }
 
@@ -150,7 +148,7 @@ class RawCrypto {
       'Received at',
     ];
     if (Object.prototype.hasOwnProperty.call(info, 'error')) {
-      console.log(`${red}Wrong hash${green}`);
+      console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
       return;
     } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
       keys.push('confirmed');

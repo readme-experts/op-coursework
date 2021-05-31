@@ -201,6 +201,46 @@ Usually non-cash rate is more profitable :)
 
 _Credits to [PrivatBank](https://privatbank.ua/)_
 
+## 10. Cryptocurrency fee rates
+Get cryptocurrency fee rates(Bitcoin,Bitcoin-cash,Dogecoin,Dash,Litecoin)
+```
+Select action
+>10
+These are fee rates for some cryptocurrencies:
+BITCOIN
+fast: 0.00000208
+slow: 0.00000032
+standard: 0.00000073
+
+
+BITCOIN-CASH
+fast: 0.00000004
+slow: 0.00000003
+standard: 0.00000004
+
+
+DOGECOIN
+fast: 0.00523561
+slow: 0.00520833
+standard: 0.00522197
+
+
+DASH
+fast: 0.00000005
+slow: 0.00000003
+standard: 0.00000004
+
+
+LITECOIN
+fast: 0.00000026
+slow: 0.00000023
+standard: 0.00000025
+
+
+Clear menu(y/n)?
+>n
+```
+
 ## 11. Show currency code by its number and vice versa
 Get currency number entering its code and currency code entering its number.
 ```
@@ -243,6 +283,24 @@ Received at: 2021-05-27T15:23:38.019Z
 Confirmed at: 2021-05-27T15:24:00Z
 ````
 Credits to [BlockCypher](https://www.blockcypher.com/)
+
+## 13. Exchange rates of UAH from bank.gov.ua (Alternative source)
+Get official exchange rates.
+```
+Select action
+>13
+┌─────────┬──────┬──────────────────────────────────────┬────────────┬───────┬──────────────┐
+│ (index) │ r030 │                 txt                  │    rate    │  cc   │ exchangedate │
+├─────────┼──────┼──────────────────────────────────────┼────────────┼───────┼──────────────┤
+│    0    │  36  │        'Австралійський долар'        │  21.1396   │ 'AUD' │ '31.05.2021' │
+│    1    │ 124  │          'Канадський долар'          │  22.7079   │ 'CAD' │ '31.05.2021' │
+│    2    │ 156  │          'Юань Женьміньбі'           │   4.3126   │ 'CNY' │ '31.05.2021' │
+│    3    │ 191  │                'Куна'                │   4.4408   │ 'HRK' │ '31.05.2021' │
+│    4    │ 203  │            'Чеська крона'            │   1.3118   │ 'CZK' │ '31.05.2021' │
+│    5    │ 208  │           'Данська крона'            │   4.4899   │ 'DKK' │ '31.05.2021' │
+...
+```
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
 
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.

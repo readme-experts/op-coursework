@@ -22,6 +22,7 @@ async function menu() {
   10 - Cryptocurrency fee rates
   11 - Show currency code by its number and vice versa
   12 - Transaction info by its hash
+  13 - Exchange rates of UAH from bank.gov.ua (Alternative)
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n')) - 1;
   let features = [
@@ -37,6 +38,7 @@ async function menu() {
     exchanges.feesRate,
     exchanges.currencyCodeNumber,
     crypto.transactionInfo,
+    exchanges.nbuAlternative,
   ];
   features = features.map(item => item.bind(crypto));
   if (features[selection]) await features[selection]();
