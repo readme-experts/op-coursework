@@ -80,18 +80,28 @@ class RawCrypto {
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
+    const amountOfArticles = 5;
+    const arrayOfArticleNumbers = [1, 2, 3, 4, 5];
 
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < amountOfArticles; i++) {
       const fixedTitle = promised.decodeString(data[i].title);
       proposedTitles += `${i + 1}. ${fixedTitle}\n`;
     }
+
     let bool = true;
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n'
       );
+
+      if (!arrayOfArticleNumbers.includes(+writtenTitleNumber)) {
+        console.log(`${promised.colors.red}Wrong number
+        ${promised.colors.green}`);
+        return;
+      }
+
       const fixedBody = promised.decodeString(
         data[writtenTitleNumber - 1].body
       );
@@ -99,7 +109,9 @@ class RawCrypto {
       const option = await promised.question(
         '\nWould you like to read any other article from previous list?\ny/n?\n'
       );
-      if (option !== 'y') bool = false;
+      if (option !== 'y') {
+        bool = false;
+      }
     }
   }
 
