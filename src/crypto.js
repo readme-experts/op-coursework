@@ -88,11 +88,11 @@ class RawCrypto {
       5,
     ];
 
-    let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
-    for (let i = 0; i < articleNumbers.length; i++) {
-      const fixedTitle = promised.decodeString(data[i].title);
-      proposedTitles += `${i + 1}. ${fixedTitle}\n`;
-    }
+    const proposedTitles = '\nFive most recent articles on cryptocurrency:\n' +
+    data.filter((item, index) => index < articleNumbers.length)
+      .map((item, index) =>
+        `${index + 1}. ${promised.decodeString(item.title)}`)
+      .join('\n') + '\n';
 
     let bool = true;
     while (bool) {
