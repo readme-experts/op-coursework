@@ -81,7 +81,13 @@ class RawCrypto {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
     const amountOfArticles = 5;
-    const arrayOfArticleNumbers = [1, 2, 3, 4, 5];
+    const arrayOfArticleNumbers = [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ];
 
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
     for (let i = 0; i < amountOfArticles; i++) {

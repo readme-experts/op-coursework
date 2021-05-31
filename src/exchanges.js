@@ -155,26 +155,39 @@ const feesRate = async () => {
 };
 
 const transactionInfo = async () => {
-  const cryptoNames = {
-    1: 'Bitcoin',
-    2: 'Dash',
-    3: 'Dogecoin',
-    4: 'Litecoin',
-  };
-  const abbreviation = {
-    1: 'btc',
-    2: 'dash',
-    3: 'doge',
-    4: 'ltc',
-  };
+  const cryptoNames = [
+    'Bitcoin',
+    'Dash',
+    'Dogecoin',
+    'Litecoin',
+  ];
+  const abbreviation = [
+    'btc',
+    'dash',
+    'doge',
+    'ltc',
+  ];
+  const choiceNumbers = [
+    1,
+    2,
+    3,
+    4,
+  ];
 
   console.log('\nList of cryptos:');
-  for (const key in cryptoNames) {
-    console.log(`${key}. ${cryptoNames[key]}`);
+  for (let i = 0; i < cryptoNames.length; i++) {
+    console.log(`${i + 1}. ${cryptoNames[i]}`);
   }
 
   const chosenCrypto = await promised.question('\nEnter the number' +
     ' of crypto from the list above you\'d to like to input hash of: \n');
+
+  if (!choiceNumbers.includes(+chosenCrypto)) {
+    console.log(`${promised.colors.red}Wrong number
+    ${promised.colors.green}`);
+    return;
+  }
+
   const hash = await promised.question('\nEnter the hash of ' +
     'transaction you\'d like to get info about: \n');
 
@@ -184,7 +197,7 @@ const transactionInfo = async () => {
     return;
   }
 
-  const info = await safeGet(`https://api.blockcypher.com/v1/${abbreviation[chosenCrypto]}/main/txs/${hash}`);
+  const info = await safeGet(`https://api.blockcypher.com/v1/${abbreviation[chosenCrypto - 1]}/main/txs/${hash}`);
   const keys = [
     'total',
     'fees',
