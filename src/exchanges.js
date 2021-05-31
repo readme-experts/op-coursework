@@ -154,7 +154,7 @@ const feesRate = async () => {
   return res;
 };
 
-const transactionInfo = async() => {
+const transactionInfo = async () => {
   const cryptoNames = {
     1: 'Bitcoin',
     2: 'Dash',
@@ -213,7 +213,7 @@ const transactionInfo = async() => {
     console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
   }
   console.log();
-}
+};
 
 module.exports = {
   genWalletFeature,
