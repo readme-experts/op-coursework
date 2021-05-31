@@ -173,8 +173,10 @@ const transactionInfo = async() => {
     console.log(`${key}. ${cryptoNames[key]}`);
   }
 
-  const chosenCrypto = await promised.question(`\nEnter the number of crypto from the list above you\'d to like to input hash of: \n`);
-  const hash = await promised.question(`\nEnter the hash of transaction you\'d like to get info about: \n`);
+  const chosenCrypto = await promised.question('\nEnter the number' +
+    ' of crypto from the list above you\'d to like to input hash of: \n');
+  const hash = await promised.question('\nEnter the hash of ' +
+    'transaction you\'d like to get info about: \n');
 
   const hashDefaultLength = 64;
   if (hash.length !== hashDefaultLength) {
@@ -203,7 +205,9 @@ const transactionInfo = async() => {
   } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');
-  } else console.log('\nTransaction isn\'t confirmed yet :C');
+  } else {
+    console.log('\nTransaction isn\'t confirmed yet :C');
+  }
 
   for (let i = 0; i < keys.length; i++) {
     console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
