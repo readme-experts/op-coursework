@@ -80,8 +80,7 @@ class RawCrypto {
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
-    const amountOfArticles = 5;
-    const arrayOfArticleNumbers = [
+    const articleNumbers = [
       1,
       2,
       3,
@@ -90,7 +89,7 @@ class RawCrypto {
     ];
 
     let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
-    for (let i = 0; i < amountOfArticles; i++) {
+    for (let i = 0; i < articleNumbers.length; i++) {
       const fixedTitle = promised.decodeString(data[i].title);
       proposedTitles += `${i + 1}. ${fixedTitle}\n`;
     }
@@ -102,7 +101,7 @@ class RawCrypto {
         'Enter number of article\'s title you\'d like to read:\n'
       );
 
-      if (!arrayOfArticleNumbers.includes(+writtenTitleNumber)) {
+      if (!articleNumbers.includes(+writtenTitleNumber)) {
         console.log(
           `${promised.colors.red}Wrong number${promised.colors.green}`
         );
