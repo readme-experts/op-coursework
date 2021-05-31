@@ -167,12 +167,6 @@ const transactionInfo = async () => {
     'doge',
     'ltc',
   ];
-  const choiceNumbers = [
-    1,
-    2,
-    3,
-    4,
-  ];
 
   console.log('\nList of cryptos:');
   for (const value of cryptoNames) {
@@ -182,7 +176,7 @@ const transactionInfo = async () => {
   const chosenCrypto = await promised.question('\nEnter the number' +
     ' of crypto from the list above you\'d to like to input hash of: \n');
 
-  if (!choiceNumbers.includes(+chosenCrypto)) {
+  if (!cryptoNames[chosenCrypto - 1]) {
     console.log(
       `${promised.colors.red}Wrong number${promised.colors.green}`
     );
