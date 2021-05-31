@@ -103,8 +103,9 @@ class RawCrypto {
       );
 
       if (!arrayOfArticleNumbers.includes(+writtenTitleNumber)) {
-        console.log(`${promised.colors.red}Wrong number
-        ${promised.colors.green}`);
+        console.log(
+          `${promised.colors.red}Wrong number${promised.colors.green}`
+        );
         return;
       }
 

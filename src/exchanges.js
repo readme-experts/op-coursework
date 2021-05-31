@@ -175,16 +175,17 @@ const transactionInfo = async () => {
   ];
 
   console.log('\nList of cryptos:');
-  for (let i = 0; i < cryptoNames.length; i++) {
-    console.log(`${i + 1}. ${cryptoNames[i]}`);
+  for (const value of cryptoNames) {
+    console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
   }
 
   const chosenCrypto = await promised.question('\nEnter the number' +
     ' of crypto from the list above you\'d to like to input hash of: \n');
 
   if (!choiceNumbers.includes(+chosenCrypto)) {
-    console.log(`${promised.colors.red}Wrong number
-    ${promised.colors.green}`);
+    console.log(
+      `${promised.colors.red}Wrong number${promised.colors.green}`
+    );
     return;
   }
 
@@ -212,6 +213,7 @@ const transactionInfo = async () => {
     'Transaction preference',
     'Received at',
   ];
+
   if (Object.prototype.hasOwnProperty.call(info, 'error')) {
     console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
     return;
@@ -222,8 +224,10 @@ const transactionInfo = async () => {
     console.log('\nTransaction isn\'t confirmed yet :C');
   }
 
-  for (let i = 0; i < keys.length; i++) {
-    console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
+  for (const value of outputKeys) {
+    console.log(
+      `${value}: ${info[keys[outputKeys.indexOf(value)]]}`
+    );
   }
   console.log();
 };
