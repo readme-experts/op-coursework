@@ -173,12 +173,11 @@ const transactionInfo = async() => {
     console.log(`${key}. ${cryptoNames[key]}`);
   }
 
-  const chosenCrypto = await promised.question('\nEnter the number' +
-    ' of crypto from the list above you\'d to like to input hash of: \n');
-  const hash = await promised.question('\nEnter the hash of ' +
-    'transaction you\'d like to get info about: \n');
+  const chosenCrypto = await promised.question(`\nEnter the number of crypto from the list above you\'d to like to input hash of: \n`);
+  const hash = await promised.question(`\nEnter the hash of transaction you\'d like to get info about: \n`);
 
-  if (hash.length !== 64) {
+  const hashDefaultLength = 64;
+  if (hash.length !== hashDefaultLength) {
     console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
     return;
   }
