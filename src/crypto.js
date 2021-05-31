@@ -80,18 +80,34 @@ class RawCrypto {
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
+    const articleNumbers = [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ];
 
-    let proposedTitles = '\nFive most recent articles on cryptocurrency:\n';
-    for (let i = 0; i < 5; i++) {
-      const fixedTitle = promised.decodeString(data[i].title);
-      proposedTitles += `${i + 1}. ${fixedTitle}\n`;
-    }
+    const proposedTitles = '\nFive most recent articles on cryptocurrency:\n' +
+    data.filter((item, index) => index < articleNumbers.length)
+      .map((item, index) =>
+        `${index + 1}. ${promised.decodeString(item.title)}`)
+      .join('\n') + '\n';
+
     let bool = true;
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n'
       );
+
+      if (!articleNumbers.includes(+writtenTitleNumber)) {
+        console.log(
+          `${promised.colors.red}Wrong number${promised.colors.green}`
+        );
+        return;
+      }
+
       const fixedBody = promised.decodeString(
         data[writtenTitleNumber - 1].body
       );
@@ -99,66 +115,10 @@ class RawCrypto {
       const option = await promised.question(
         '\nWould you like to read any other article from previous list?\ny/n?\n'
       );
-      if (option !== 'y') bool = false;
+      if (option !== 'y') {
+        bool = false;
+      }
     }
-  }
-
-  async transactionInfo() {
-    const cryptoNames = {
-      1: 'Bitcoin',
-      2: 'Dash',
-      3: 'Dogecoin',
-      4: 'Litecoin',
-    };
-    const abbreviation = {
-      1: 'btc',
-      2: 'dash',
-      3: 'doge',
-      4: 'ltc',
-    };
-
-    console.log('\nList of cryptos:');
-    for (const key in cryptoNames) {
-      console.log(`${key}. ${cryptoNames[key]}`);
-    }
-
-    const chosenCrypto = await promised.question('\nEnter the number' +
-      ' of crypto from the list above you\'d to like to input hash of: \n');
-    const hash = await promised.question('\nEnter the hash of ' +
-      'transaction you\'d like to get info about: \n');
-
-    if (hash.length !== 64) {
-      console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-      return;
-    }
-
-    const info = await safeGet(`https://api.blockcypher.com/v1/${abbreviation[chosenCrypto]}/main/txs/${hash}`);
-    const keys = [
-      'total',
-      'fees',
-      'size',
-      'preference',
-      'received',
-    ];
-    const outputKeys = [
-      '\nSatoshis sent',
-      'Fee in satoshis',
-      'Transaction size in bytes',
-      'Transaction preference',
-      'Received at',
-    ];
-    if (Object.prototype.hasOwnProperty.call(info, 'error')) {
-      console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-      return;
-    } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
-      keys.push('confirmed');
-      outputKeys.push('Confirmed at');
-    } else console.log('\nTransaction isn\'t confirmed yet :C');
-
-    for (let i = 0; i < keys.length; i++) {
-      console.log(`${outputKeys[i]}: ${info[keys[i]]}`);
-    }
-    console.log();
   }
 
   static from(key) {

@@ -154,6 +154,78 @@ const feesRate = async () => {
   return res;
 };
 
+const transactionInfo = async () => {
+  const cryptoNames = [
+    'Bitcoin',
+    'Dash',
+    'Dogecoin',
+    'Litecoin',
+  ];
+  const abbreviation = [
+    'btc',
+    'dash',
+    'doge',
+    'ltc',
+  ];
+
+  console.log('\nList of cryptos:');
+  for (const value of cryptoNames) {
+    console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
+  }
+
+  const chosenCrypto = await promised.question('\nEnter the number' +
+    ' of crypto from the list above you\'d to like to input hash of: \n');
+
+  if (!cryptoNames[chosenCrypto - 1]) {
+    console.log(
+      `${promised.colors.red}Wrong number${promised.colors.green}`
+    );
+    return;
+  }
+
+  const hash = await promised.question('\nEnter the hash of ' +
+    'transaction you\'d like to get info about: \n');
+
+  const hashDefaultLength = 64;
+  if (hash.length !== hashDefaultLength) {
+    console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
+    return;
+  }
+
+  const info = await safeGet(`https://api.blockcypher.com/v1/${abbreviation[chosenCrypto - 1]}/main/txs/${hash}`);
+  const keys = [
+    'total',
+    'fees',
+    'size',
+    'preference',
+    'received',
+  ];
+  const outputKeys = [
+    '\nSatoshis sent',
+    'Fee in satoshis',
+    'Transaction size in bytes',
+    'Transaction preference',
+    'Received at',
+  ];
+
+  if (Object.prototype.hasOwnProperty.call(info, 'error')) {
+    console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
+    return;
+  } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
+    keys.push('confirmed');
+    outputKeys.push('Confirmed at');
+  } else {
+    console.log('\nTransaction isn\'t confirmed yet :C');
+  }
+
+  for (const value of outputKeys) {
+    console.log(
+      `${value}: ${info[keys[outputKeys.indexOf(value)]]}`
+    );
+  }
+  console.log();
+};
+
 module.exports = {
   genWalletFeature,
   btcAdrBalance,
@@ -163,4 +235,5 @@ module.exports = {
   monoExchange,
   privatExchange,
   feesRate,
+  transactionInfo,
 };

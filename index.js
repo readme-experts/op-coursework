@@ -37,7 +37,7 @@ async function menu() {
     exchanges.privatExchange,
     exchanges.feesRate,
     exchanges.currencyCodeNumber,
-    crypto.transactionInfo,
+    exchanges.transactionInfo,
     exchanges.nbuAlternative,
   ];
   features = features.map(item => item.bind(crypto));
