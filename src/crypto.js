@@ -72,7 +72,7 @@ class RawCrypto {
       resultText.push(lowestText, highestText, diffText);
 
       console.log(`${resultText.join('\n')}\n`);
-      await safeWrite(resultText);
+      //await safeWrite(resultText);
     }
     return resultText.join('\n');
   }

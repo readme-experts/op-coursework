@@ -157,33 +157,37 @@ const feesRate = async () => {
   return res;
 };
 
-const transactionInfo = async () => {
+const transactionInfo = async (chosenCrypto, hash) => {
   const cryptoNames = ['Bitcoin', 'Dash', 'Dogecoin', 'Litecoin'];
   const abbreviation = ['btc', 'dash', 'doge', 'ltc'];
 
-  console.log('\nList of cryptos:');
-  for (const value of cryptoNames) {
-    console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
-  }
+  if (chosenCrypto === null) {
+    console.log('\nList of cryptos:');
+    for (const value of cryptoNames) {
+      console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
+    }
 
-  const chosenCrypto = await promised.question(
-    '\nEnter the number' +
-      ' of crypto from the list above you\'d to like to input hash of: \n'
-  );
+    chosenCrypto = await promised.question(
+      '\nEnter the number' +
+      ' of crypto from the list above you\'d to like to input hash of:\n'
+    );
+  }
 
   if (!cryptoNames[chosenCrypto - 1]) {
     console.log(`${promised.colors.red}Wrong number${promised.colors.green}`);
-    return;
+    return 'Wrong number';
   }
 
-  const hash = await promised.question(
-    '\nEnter the hash of transaction you\'d like to get info about: \n'
-  );
+  if (hash === null) {
+    hash = await promised.question(
+      '\nEnter the hash of transaction you\'d like to get info about: \n'
+    );
+  }
 
   const hashDefaultLength = 64;
   if (hash.length !== hashDefaultLength) {
     console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-    return;
+    return 'Wrong hash';
   }
 
   const info = await safeGet(
@@ -200,20 +204,22 @@ const transactionInfo = async () => {
     'Received at',
   ];
 
+  const result = [];
   if (Object.prototype.hasOwnProperty.call(info, 'error')) {
     console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-    return;
+    return 'Wrong hash';
   } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');
   } else {
-    console.log('\nTransaction isn\'t confirmed yet :C');
+    result.push('\nTransaction isn\'t confirmed yet :C');
   }
 
   for (const value of outputKeys) {
-    console.log(`${value}: ${info[keys[outputKeys.indexOf(value)]]}`);
+    result.push(`${value}: ${info[keys[outputKeys.indexOf(value)]]}`);
   }
-  console.log();
+  console.log(result.join('\n') + '\n');
+  return result.join('\n');
 };
 
 module.exports = {
