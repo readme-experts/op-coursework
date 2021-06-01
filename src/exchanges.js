@@ -51,7 +51,9 @@ const nbuExchange = async () => {
 };
 
 const nbuAlternative = async () => {
-  const data = await safeGet('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
+  const data = await safeGet(
+    'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json'
+  );
   console.table(data);
 };
 
@@ -59,7 +61,8 @@ const currencyCodeNumber = async () => {
   const question = 'Enter currency code or its number:\n';
   while (true) {
     const request = await promised.question(question);
-    const error = `${promised.colors.red}` +
+    const error =
+      `${promised.colors.red}` +
       'Something went wrong!\nMake sure you entered correct data.' +
       `${promised.colors.green}`;
 
@@ -155,36 +158,27 @@ const feesRate = async () => {
 };
 
 const transactionInfo = async () => {
-  const cryptoNames = [
-    'Bitcoin',
-    'Dash',
-    'Dogecoin',
-    'Litecoin',
-  ];
-  const abbreviation = [
-    'btc',
-    'dash',
-    'doge',
-    'ltc',
-  ];
+  const cryptoNames = ['Bitcoin', 'Dash', 'Dogecoin', 'Litecoin'];
+  const abbreviation = ['btc', 'dash', 'doge', 'ltc'];
 
   console.log('\nList of cryptos:');
   for (const value of cryptoNames) {
     console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
   }
 
-  const chosenCrypto = await promised.question('\nEnter the number' +
-    ' of crypto from the list above you\'d to like to input hash of: \n');
+  const chosenCrypto = await promised.question(
+    '\nEnter the number' +
+      " of crypto from the list above you'd to like to input hash of: \n"
+  );
 
   if (!cryptoNames[chosenCrypto - 1]) {
-    console.log(
-      `${promised.colors.red}Wrong number${promised.colors.green}`
-    );
+    console.log(`${promised.colors.red}Wrong number${promised.colors.green}`);
     return;
   }
 
-  const hash = await promised.question('\nEnter the hash of ' +
-    'transaction you\'d like to get info about: \n');
+  const hash = await promised.question(
+    "\nEnter the hash of transaction you'd like to get info about: \n"
+  );
 
   const hashDefaultLength = 64;
   if (hash.length !== hashDefaultLength) {
@@ -192,14 +186,12 @@ const transactionInfo = async () => {
     return;
   }
 
-  const info = await safeGet(`https://api.blockcypher.com/v1/${abbreviation[chosenCrypto - 1]}/main/txs/${hash}`);
-  const keys = [
-    'total',
-    'fees',
-    'size',
-    'preference',
-    'received',
-  ];
+  const info = await safeGet(
+    `https://api.blockcypher.com/v1/${
+      abbreviation[chosenCrypto - 1]
+    }/main/txs/${hash}`
+  );
+  const keys = ['total', 'fees', 'size', 'preference', 'received'];
   const outputKeys = [
     '\nSatoshis sent',
     'Fee in satoshis',
@@ -215,13 +207,11 @@ const transactionInfo = async () => {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');
   } else {
-    console.log('\nTransaction isn\'t confirmed yet :C');
+    console.log("\nTransaction isn't confirmed yet :C");
   }
 
   for (const value of outputKeys) {
-    console.log(
-      `${value}: ${info[keys[outputKeys.indexOf(value)]]}`
-    );
+    console.log(`${value}: ${info[keys[outputKeys.indexOf(value)]]}`);
   }
   console.log();
 };

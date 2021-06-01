@@ -23,7 +23,8 @@ async function menu() {
   11 - Show currency code by its number and vice versa
   12 - Transaction info by its hash
   13 - Exchange rates of UAH from bank.gov.ua (Alternative)
-  Type anything to exit.`);
+  Type anything to exit.`
+  );
   const selection = parseInt(await question('Select action\n')) - 1;
   const features = [
     crypto.currencyToCrypto,
