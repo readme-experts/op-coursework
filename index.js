@@ -25,7 +25,7 @@ async function menu() {
   13 - Exchange rates of UAH from bank.gov.ua (Alternative)
   Type anything to exit.`);
   const selection = parseInt(await question('Select action\n')) - 1;
-  let features = [
+  const features = [
     crypto.currencyToCrypto,
     crypto.topFiveCurrencies,
     crypto.currencyPriceVolume,
@@ -40,8 +40,8 @@ async function menu() {
     exchanges.transactionInfo,
     exchanges.nbuAlternative,
   ];
-  features = features.map(item => item.bind(crypto));
-  if (features[selection]) await features[selection]();
+  const bindfeatures = features.map(item => item.bind(crypto));
+  if (bindfeatures[selection]) await bindfeatures[selection]();
   else process.exit();
 }
 

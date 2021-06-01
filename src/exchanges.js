@@ -65,10 +65,10 @@ const currencyCodeNumber = async () => {
 
     if (/^\d+$/.test(request)) {
       const code = codesList[parseInt(request)];
-      if (code === undefined) {
+      if (!code) {
         console.log(error);
       } else {
-        console.log(`${code}`);
+        console.log(code);
       }
     } else if (/[a-zA-Z]/.test(request)) {
       let currency;
