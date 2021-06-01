@@ -161,7 +161,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
   const cryptoNames = ['Bitcoin', 'Dash', 'Dogecoin', 'Litecoin'];
   const abbreviation = ['btc', 'dash', 'doge', 'ltc'];
 
-  if (chosenCrypto === null) {
+  if (chosenCrypto == null) {
     console.log('\nList of cryptos:');
     for (const value of cryptoNames) {
       console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
@@ -178,7 +178,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
     return 'Wrong number';
   }
 
-  if (hash === null) {
+  if (hash == null) {
     hash = await promised.question(
       '\nEnter the hash of transaction you\'d like to get info about: \n'
     );
