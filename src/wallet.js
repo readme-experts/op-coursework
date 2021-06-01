@@ -9,8 +9,8 @@ const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
 
 class Wallet {
-  _token;
-  _keys;
+  // _token;
+  // _keys;
 
   constructor(currency, token) {
     this.defaultUrl = 'api.blockcypher.com';

@@ -38,7 +38,7 @@ class RawCrypto {
     const currencies = (await safeGet(query)).Data;
     currencies.splice(4, 5);
     const resultText = [];
-    const result = currencies.map(item => item.CoinInfo.FullName);
+    const result = currencies.map((item) => item.CoinInfo.FullName);
     result.forEach((el, index) => {
       resultText.push(`${index + 1}. ${el}`);
     });
@@ -80,25 +80,23 @@ class RawCrypto {
   async cryptoNews() {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
-    const articleNumbers = [
-      1,
-      2,
-      3,
-      4,
-      5,
-    ];
+    const articleNumbers = [1, 2, 3, 4, 5];
 
-    const proposedTitles = '\nFive most recent articles on cryptocurrency:\n' +
-    data.filter((item, index) => index < articleNumbers.length)
-      .map((item, index) =>
-        `${index + 1}. ${promised.decodeString(item.title)}`)
-      .join('\n') + '\n';
+    const proposedTitles =
+      '\nFive most recent articles on cryptocurrency:\n' +
+      data
+        .filter((item, index) => index < articleNumbers.length)
+        .map(
+          (item, index) => `${index + 1}. ${promised.decodeString(item.title)}`
+        )
+        .join('\n') +
+      '\n';
 
     let bool = true;
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
-        'Enter number of article\'s title you\'d like to read:\n'
+        "Enter number of article's title you'd like to read:\n"
       );
 
       if (!articleNumbers.includes(+writtenTitleNumber)) {
