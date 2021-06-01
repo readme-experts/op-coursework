@@ -38,7 +38,7 @@ class RawCrypto {
     const currencies = (await safeGet(query)).Data;
     currencies.splice(4, 5);
     const resultText = [];
-    const result = currencies.map((item) => item.CoinInfo.FullName);
+    const result = currencies.map(item => item.CoinInfo.FullName);
     result.forEach((el, index) => {
       resultText.push(`${index + 1}. ${el}`);
     });
@@ -96,7 +96,7 @@ class RawCrypto {
     while (bool) {
       console.log(proposedTitles);
       const writtenTitleNumber = await promised.question(
-        "Enter number of article's title you'd like to read:\n"
+        'Enter number of article\'s title you\'d like to read:\n'
       );
 
       if (!articleNumbers.includes(+writtenTitleNumber)) {

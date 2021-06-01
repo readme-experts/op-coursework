@@ -168,7 +168,7 @@ const transactionInfo = async () => {
 
   const chosenCrypto = await promised.question(
     '\nEnter the number' +
-      " of crypto from the list above you'd to like to input hash of: \n"
+      ' of crypto from the list above you\'d to like to input hash of: \n'
   );
 
   if (!cryptoNames[chosenCrypto - 1]) {
@@ -177,7 +177,7 @@ const transactionInfo = async () => {
   }
 
   const hash = await promised.question(
-    "\nEnter the hash of transaction you'd like to get info about: \n"
+    '\nEnter the hash of transaction you\'d like to get info about: \n'
   );
 
   const hashDefaultLength = 64;
@@ -207,7 +207,7 @@ const transactionInfo = async () => {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');
   } else {
-    console.log("\nTransaction isn't confirmed yet :C");
+    console.log('\nTransaction isn\'t confirmed yet :C');
   }
 
   for (const value of outputKeys) {
