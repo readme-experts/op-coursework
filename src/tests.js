@@ -12,11 +12,22 @@ const crypto = new Crypto();
     assert.match(result, /lowest/);
     console.log('\'USD, BTC\' passed');
   }
-
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
-      '\n12. Tests for transactionInfo');
+      '\n8. Tests for cryptoNews'
+    );
+    const regExp = /[^1-5.\sa-z]/;
+    const result = await crypto.cryptoNews(2);
+    assert.match(result, regExp);
+    console.log('2 passed');
+  }
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n12. Tests for transactionInfo'
+    );
+
     const btcHash =
       '8a6f09e9746b7b6f478000835b699565fede84e1485e637e34c69769fcc5968c';
     const dashHash =

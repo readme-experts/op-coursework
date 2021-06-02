@@ -77,7 +77,7 @@ class RawCrypto {
     return resultText.join('\n');
   }
 
-  async cryptoNews() {
+  async cryptoNews(writtenTitleNumber) {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
     const articleNumbers = [1, 2, 3, 4, 5];
@@ -89,34 +89,29 @@ class RawCrypto {
         .map(
           (item, index) => `${index + 1}. ${promised.decodeString(item.title)}`
         )
-        .join('\n') +
-      '\n';
+        .join('\n') + '\n';
 
-    let bool = true;
-    while (bool) {
+    if (writtenTitleNumber === undefined) {
       console.log(proposedTitles);
-      const writtenTitleNumber = await promised.question(
+      writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n'
       );
-
-      if (!articleNumbers.includes(+writtenTitleNumber)) {
-        console.log(
-          `${promised.colors.red}Wrong number${promised.colors.green}`
-        );
-        return;
-      }
-
-      const fixedBody = promised.decodeString(
-        data[writtenTitleNumber - 1].body
-      );
-      console.log('\n' + fixedBody);
-      const option = await promised.question(
-        '\nWould you like to read any other article from previous list?\ny/n?\n'
-      );
-      if (option !== 'y') {
-        bool = false;
-      }
     }
+
+    if (!articleNumbers.includes(+writtenTitleNumber)) {
+      throw new Error('Error inside function: "Wrong number"');
+    } else if (data[writtenTitleNumber - 1].body === '') {
+      throw new Error('Error inside function: "API bug(body empty)"');
+    }
+
+    const fixedBody = promised.decodeString(
+      data[writtenTitleNumber - 1].body
+    );
+    const result = `${writtenTitleNumber}. ` +
+      `${promised.decodeString(data[writtenTitleNumber - 1].title)}` +
+      `\n${fixedBody}`;
+    console.log('\n' + result);
+    return result;
   }
 
   static from(key) {
