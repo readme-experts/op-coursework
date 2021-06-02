@@ -177,7 +177,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
     throw new Error('Error inside function: "Wrong number"');
   }
 
-  if (hash === undefined) {
+  if (hash.length <= 0) {
     hash = await promised.question(
       '\nEnter the hash of transaction you\'d like to get info about: \n'
     );
@@ -204,7 +204,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
 
   const result = [];
   if (Object.prototype.hasOwnProperty.call(info, 'error')) {
-    throw new Error('Wrong hash');
+    throw new Error('Error inside function: "Wrong hash"');
   } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');

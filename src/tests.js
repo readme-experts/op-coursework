@@ -54,6 +54,7 @@ const crypto = new Crypto();
       'Received at: 2021-06-02T12:04:51.983Z\n' +
       'Confirmed at: 2021-06-02T12:12:31Z';
 
+    //1-4 works, 5-9 predictible errors
     const tests = [
       [1, btcHash,        btcExpected,        'Bitcion hash'                 ],
       [2, dashHash,       dashExpected,       'Dash hash'                    ],
@@ -63,21 +64,22 @@ const crypto = new Crypto();
       [3, dogeHash + 'a', dogeExpected,       'Wrong DOGE hash length'       ],
       [6, btcHash,        btcExpected,        '6 number'                     ],
       [2, 0,              dashExpected,       '0 hash'                       ],
+      [1, dogeHash,       dogeExpected,       'DOGE hash for BTC transaction'],
       [4, ltcHash,        ltcExpected + '\n', 'Expected !== Actual'          ],
     ];
 
     const results = [];
     for (const test of tests) {
-      const [par1, par2, expected, name] = test;
+      const [number, hash, expected, name] = test;
       let result;
       try {
-        result = await exchanges.transactionInfo(par1, par2);
+        result = await exchanges.transactionInfo(number, hash);
         assert.strictEqual(result, expected, `Error in test "${name}"`);
       } catch (err) {
         const { message } = err;
         let { operator } = err;
         if (!operator) operator = 'insideFunction';
-        results.push({ message, par1, par2, operator });
+        results.push({ message, number, hash, operator });
       }
     }
     console.table(results);
