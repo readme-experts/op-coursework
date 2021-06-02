@@ -174,7 +174,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
   }
 
   if (!cryptoNames[chosenCrypto - 1]) {
-    throw new Error('Wrong number');
+    throw new Error('Error inside function: "Wrong number"');
   }
 
   if (hash === undefined) {
@@ -185,7 +185,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
 
   const hashDefaultLength = 64;
   if (hash.length !== hashDefaultLength) {
-    throw new Error('Wrong hash length');
+    throw new Error('Error inside function: "Wrong hash length"');
   }
 
   const info = await safeGet(

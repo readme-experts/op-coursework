@@ -69,7 +69,6 @@ const crypto = new Crypto();
     const results = [];
     for (const test of tests) {
       const [par1, par2, expected, name] = test;
-      console.log(par1, par2);
       let result;
       try {
         result = await exchanges.transactionInfo(par1, par2);
