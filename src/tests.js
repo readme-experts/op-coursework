@@ -65,7 +65,7 @@ const crypto = new Crypto();
       'Received at: 2021-06-02T12:04:51.983Z\n' +
       'Confirmed at: 2021-06-02T12:12:31Z';
 
-    //1-4 works, 5-9 predictible errors
+    //1-4 works, 5-11 predictible errors
     const tests = [
       [1, btcHash,        btcExpected,        'Bitcion hash'                 ],
       [2, dashHash,       dashExpected,       'Dash hash'                    ],
@@ -77,6 +77,7 @@ const crypto = new Crypto();
       [2, 0,              dashExpected,       '0 hash'                       ],
       [1, dogeHash,       dogeExpected,       'DOGE hash for BTC transaction'],
       [4, ltcHash,        ltcExpected + '\n', 'Expected !== Actual'          ],
+      [Number.NaN, -2,    0,                   'Number.NaN'                  ],
     ];
 
     const results = [];
