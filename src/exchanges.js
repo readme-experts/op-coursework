@@ -161,7 +161,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
   const cryptoNames = ['Bitcoin', 'Dash', 'Dogecoin', 'Litecoin'];
   const abbreviation = ['btc', 'dash', 'doge', 'ltc'];
 
-  if (chosenCrypto == null) {
+  if (chosenCrypto === undefined) {
     console.log('\nList of cryptos:');
     for (const value of cryptoNames) {
       console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
@@ -174,11 +174,10 @@ const transactionInfo = async (chosenCrypto, hash) => {
   }
 
   if (!cryptoNames[chosenCrypto - 1]) {
-    console.log(`${promised.colors.red}Wrong number${promised.colors.green}`);
-    return 'Wrong number';
+    throw new Error('Wrong number');
   }
 
-  if (hash == null) {
+  if (hash === undefined) {
     hash = await promised.question(
       '\nEnter the hash of transaction you\'d like to get info about: \n'
     );
@@ -186,8 +185,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
 
   const hashDefaultLength = 64;
   if (hash.length !== hashDefaultLength) {
-    console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-    return 'Wrong hash';
+    throw new Error('Wrong hash length');
   }
 
   const info = await safeGet(
@@ -206,8 +204,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
 
   const result = [];
   if (Object.prototype.hasOwnProperty.call(info, 'error')) {
-    console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-    return 'Wrong hash';
+    throw new Error('Wrong hash');
   } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');
