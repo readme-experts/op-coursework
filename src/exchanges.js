@@ -43,7 +43,7 @@ const genWalletFeature = async selection => {
   return wallet.keys.join('\n');
 };
 
-const btcAdrBalance = async (adrs) => {
+const btcAdrBalance = async adrs => {
   const wallet = new Wallet();
   if (adrs === undefined) {
     console.log('Write the address you want to get balance of\n');
@@ -116,7 +116,7 @@ const monoExchange = async () => {
   return data[0].currencyCodeA;
 };
 
-const privatExchange = async () => {
+const privatExchange = async userChoice => {
   const cash = await safeGet(
     'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'
   );
@@ -125,15 +125,16 @@ const privatExchange = async () => {
   );
   const rateTypes = [cash, nonCash];
 
-  while (true) {
+  if (userChoice === undefined) {
     const first = 'Do you want to get cash rate (1) or non-cash rate (2)?\n';
-    const userChoice = (await promised.question(first)) - 1;
-    if (userChoice <= 1) console.table(rateTypes[userChoice]);
-
-    const second = 'Would you like to get another rate? (y/n)\n';
-    const option = await promised.question(second);
-    if (option !== 'y') break;
+    userChoice = (await promised.question(first));
   }
+
+  if (+userChoice !== 1 && +userChoice !== 2) {
+    throw new Error('Error inside function: "Wrong number"');
+  }
+  console.table(rateTypes[userChoice - 1]);
+  return rateTypes[userChoice - 1][0]['buy'];
 };
 
 const feesRate = async () => {

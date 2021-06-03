@@ -129,7 +129,8 @@ const crypto = new Crypto();
       '----------------------------------------------------------------------' +
       '\n6. Tests for btcAdrBalance\n'
     );
-    const adr1 = 'bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97';
+    const adr1 = 'bc1qgdjqv0av3q56jvd82tkdjp' +
+      'y7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97';
     const adr2 = '34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo';
     const adr3 = '35hK24tcLEWcgNA4JxpvbkNkoAcDGqQPsP';
     const adr1Expected = 'Total received: 91503610546763 satoshis\n' +
@@ -217,6 +218,40 @@ const crypto = new Crypto();
         let { operator } = err;
         if (!operator) operator = 'insideFunction';
         results.push({ message, number, operator });
+      }
+    }
+    console.table(results);
+  }
+  // 9
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n9. Tests for privatExchange\n'
+    );
+    const expected = /^\d/;
+    // 1-4 work, 5-7 predictable errors
+    const tests = [
+      [1,    expected, '1 failed'           ],
+      [2,    expected, '2 failed'           ],
+      ['1',  expected, '\'1\' failed'       ],
+      ['2',  expected, '\'2\' failed'       ],
+      [3,    expected, 'number 3'           ],
+      [null, expected, 'null'               ],
+      [2,    /^\D/,    'Actual !== Expected'],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [userChoice, expected, name] = test;
+      let result;
+      try {
+        result = await exchanges.privatExchange(userChoice);
+        assert.match(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, userChoice, operator });
       }
     }
     console.table(results);
