@@ -202,7 +202,7 @@ Usually non-cash rate is more profitable :)
 _Credits to [PrivatBank](https://privatbank.ua/)_
 
 ## 10. Cryptocurrency fee rates
-Get cryptocurrency fee rates(Bitcoin,Bitcoin-cash,Dogecoin,Dash,Litecoin)
+Get cryptocurrency fee rates (Bitcoin, Bitcoin-Cash, Dogecoin, Dash, Litecoin).
 ```
 Select action
 >10
@@ -258,7 +258,7 @@ Would you like to get another currency? (y/n)
 >n
 ```
 ## 12. Transaction info by its hash
-Find out information about any btc/dash/doge/ltc transaction by its hash
+Find out information about any btc/dash/doge/ltc transaction by its hash.
 ````
 Select action
 11
