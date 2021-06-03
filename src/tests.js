@@ -41,11 +41,27 @@ const crypto = new Crypto();
     }
     console.table(results);
   }
+  // 2
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n2. Test for topFiveCurrencies\n'
+    );
+    // Nothing to test except of API correctness
+    const expected = /^\d.\s\D/;
+    try {
+      const result = await crypto.topFiveCurrencies();
+      assert.match(result, expected, 'Test failed');
+      console.log(colors.green, 'Test passed', colors.reset);
+    } catch (err) {
+      console.log(colors.red, err, colors.reset);
+    }
+  }
   // 3
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
-      '\n3. Tests for currencyPriceVolume'
+      '\n3. Tests for currencyPriceVolume\n'
     );
     const expected = /is:\s\d/;
     // 1-3 work, 4-6 predictable errors
@@ -78,7 +94,7 @@ const crypto = new Crypto();
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
-      '\n8. Tests for cryptoNews'
+      '\n8. Tests for cryptoNews\n'
     );
     const expected = /[^1-5.\sa-z]/;
     //1-5 & 9 work, others - predictable errors
@@ -117,8 +133,9 @@ const crypto = new Crypto();
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
-      '\n10. Test for feesRate'
+      '\n10. Test for feesRate\n'
     );
+    // Nothing to test except of API correctness
     const expected = /fast:\s\d/;
     try {
       const result = await exchanges.feesRate();
@@ -132,7 +149,7 @@ const crypto = new Crypto();
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
-      '\n12. Tests for transactionInfo'
+      '\n12. Tests for transactionInfo\n'
     );
 
     const btcHash =

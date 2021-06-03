@@ -43,8 +43,8 @@ class RawCrypto {
       resultText.push(`${index + 1}. ${el}`);
     });
     console.log(`${resultText.join('\n')}\n`);
-    await safeWrite(resultText);
-    return result;
+    //await safeWrite(resultText);
+    return resultText.join('\n');
   }
 
   async currencyPriceVolume(input) {
