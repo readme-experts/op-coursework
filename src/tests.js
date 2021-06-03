@@ -17,10 +17,39 @@ const crypto = new Crypto();
       '----------------------------------------------------------------------' +
       '\n8. Tests for cryptoNews'
     );
-    const regExp = /[^1-5.\sa-z]/;
-    const result = await crypto.cryptoNews(2);
-    assert.match(result, regExp);
-    console.log('2 passed');
+    const expected = /[^1-5.\sa-z]/;
+    const tests = [
+      [2,          expected, 'Choice 2 failed'       ],
+      [1,          expected, 'Choice 1 failed'       ],
+      [3,          expected, 'Choice 3 failed'       ],
+      [4,          expected, 'Choice 4 failed'       ],
+      [5,          expected, 'Choice 5 failed'       ],
+      [0,          expected, 'Wrong number: 0'       ],
+      [1.5,        expected, 'Wrong number: 1.5'     ],
+      [-6,         expected, 'Wrong number: -6'      ],
+      ['2',        expected, '2 in string'           ],
+      [null,       expected, 'null'                  ],
+      [Number.NaN, expected, 'Number.Nan'            ],
+      [2,          /Hello/,  'Actual(2) !== Expected'],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [number, expected, name] = test;
+      let result;
+      try {
+        result = await crypto.cryptoNews(number);
+        assert.match(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, number, operator });
+      }
+    }
+    console.table(results);
+    // assert.match(result, expected, 'Actual !== Expected');
+    // console.log('2 passed');
   }
   {
     console.log('\n' +
@@ -96,6 +125,5 @@ const crypto = new Crypto();
     }
     console.table(results);
   }
-
   process.exit();
 })();

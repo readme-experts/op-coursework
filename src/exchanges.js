@@ -177,7 +177,7 @@ const transactionInfo = async (chosenCrypto, hash) => {
     throw new Error('Error inside function: "Wrong number"');
   }
 
-  if (hash.length <= 0) {
+  if (hash === undefined) {
     hash = await promised.question(
       '\nEnter the hash of transaction you\'d like to get info about: \n'
     );

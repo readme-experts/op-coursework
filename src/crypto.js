@@ -110,7 +110,7 @@ class RawCrypto {
     const result = `${writtenTitleNumber}. ` +
       `${promised.decodeString(data[writtenTitleNumber - 1].title)}` +
       `\n${fixedBody}`;
-    console.log('\n' + result);
+    console.log(`\n${result}\n`);
     return result;
   }
 

@@ -17,8 +17,9 @@ const rl = readline.createInterface({
 });
 
 const handler = e => {
-  console.log(`Something gone wrong, error:\n${e}`);
-  process.exit();
+  //was: console.log instead throw Err
+  throw new Error(`Something gone wrong, error:\n${e}`);
+  //process.exit();
 };
 
 const classHandler =
