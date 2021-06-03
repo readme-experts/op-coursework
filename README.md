@@ -327,7 +327,7 @@ https://github.com/MrPaschenko/op-coursework/blob/master/src/themes.md
 ## Authors
 * Dmytro Pashchenko — https://github.com/MrPaschenko
 * Ivan Labiak — https://github.com/ILabiak
-* Andrii Vostrikov — https://github.com/NeptunePurpleHeart
+* Andrii Vostrikov — https://github.com/NekoSuimin
 * Vladyslav Yaroshchuk — https://github.com/thank1ess
 
 ## Contributing
