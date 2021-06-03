@@ -7,17 +7,20 @@ const assert = require('assert').strict;
 const crypto = new Crypto();
 
 (async () => {
+  //3
   {
     const result = await crypto.currencyPriceVolume('USD, BTC');
     assert.match(result, /lowest/);
     console.log('\'USD, BTC\' passed');
   }
+  // 8
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
       '\n8. Tests for cryptoNews'
     );
     const expected = /[^1-5.\sa-z]/;
+    //1-5 works, further - predictable errors
     const tests = [
       [2,          expected, 'Choice 2 failed'       ],
       [1,          expected, 'Choice 1 failed'       ],
@@ -48,9 +51,23 @@ const crypto = new Crypto();
       }
     }
     console.table(results);
-    // assert.match(result, expected, 'Actual !== Expected');
-    // console.log('2 passed');
   }
+  // 10
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n10. Test for feesRate'
+    );
+    const expected = /fast:\s\d/;
+    try {
+      const result = await exchanges.feesRate();
+      assert.match(result, expected, 'Test failed');
+      console.log('Test passed');
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  // 12
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
@@ -94,7 +111,7 @@ const crypto = new Crypto();
       'Received at: 2021-06-02T12:04:51.983Z\n' +
       'Confirmed at: 2021-06-02T12:12:31Z';
 
-    //1-4 works, 5-11 predictible errors
+    //1-4 works, 5-11 predictable errors
     const tests = [
       [1, btcHash,        btcExpected,        'Bitcion hash'                 ],
       [2, dashHash,       dashExpected,       'Dash hash'                    ],

@@ -154,7 +154,7 @@ const feesRate = async () => {
     res.push('\n');
   }
   console.log(res.join('\n'));
-  return res;
+  return res.join('\n');
 };
 
 const transactionInfo = async (chosenCrypto, hash) => {
