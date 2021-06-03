@@ -279,7 +279,7 @@ const crypto = new Crypto();
       '\n11. Test for currencyCodeNumber\n'
     );
     // All the magic numbers and string are taken from codeList.json *_*
-    // 1-4 work, 5-6 predictable errors
+    // 1-4 work, 5-8 predictable errors
     const tests = [
       [8,          'ALL', '8 failed'           ],
       ['DZD',      12,    '\'DZD\' failed'     ],
@@ -381,6 +381,22 @@ const crypto = new Crypto();
       }
     }
     console.table(results);
+  }
+  // 13
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n13. Test for nbuAlternative\n'
+    );
+    // Nothing to test except of API correctness
+    const expected = /^[A-Z]/;
+    try {
+      const result = await exchanges.nbuAlternative();
+      assert.match(result, expected, 'Test failed');
+      console.log(colors.green, 'Test passed', colors.reset);
+    } catch (err) {
+      console.log(colors.red, err, colors.reset);
+    }
   }
   process.exit();
 })();

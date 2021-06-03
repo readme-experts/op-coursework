@@ -64,6 +64,7 @@ const nbuAlternative = async () => {
     'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json'
   );
   console.table(data);
+  return data[0]['cc'];
 };
 
 const currencyCodeNumber = async request => {
