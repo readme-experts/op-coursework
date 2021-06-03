@@ -172,9 +172,8 @@ Enter number of article you'd like to read:
 
 Like the IRS in the mainland US, the Puerto Rican tax authority hasn’t issued definite guidance on crypto.The post Puerto Rico’s Crypto Tax Haven Dreams are on the Rocks appeared first on Blockworks.
 
-Would you like to read any other article from previous list?
-y/n
->(choice)
+Clear menu(y/n)?
+>choice
 ````
 Credits to [CryptoCompare](https://www.cryptocompare.com/)
 
@@ -249,13 +248,13 @@ Select action
 Enter currency code or its number:
 >usd
 840
-Would you like to get another currency? (y/n)
->y
+```
+```
+Select action
+>11
 Enter currency code or its number:
->uah
-980
-Would you like to get another currency? (y/n)
->n
+>980
+uah
 ```
 ## 12. Transaction info by its hash
 Find out information about any btc/dash/doge/ltc transaction by its hash.
