@@ -104,7 +104,7 @@ Select action
 │   33    │  'CNY'   │       1        │ '4,2887 UAH'  │
 └─────────┴──────────┴────────────────┴───────────────┘
 ```
-_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/)_
 
 ## 5. Create wallet on BlockCypher
 #### WARNING! Experimental feature.
@@ -300,7 +300,7 @@ Select action
 │    5    │ 208  │           'Данська крона'            │   4.4899   │ 'DKK' │ '31.05.2021' │
 ...
 ```
-_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/)_
 
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
