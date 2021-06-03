@@ -127,7 +127,7 @@ const crypto = new Crypto();
   {
     console.log('\n' +
       '----------------------------------------------------------------------' +
-      '\n6. Test for btcAdrBalance\n'
+      '\n6. Tests for btcAdrBalance\n'
     );
     const adr1 = 'bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97';
     const adr2 = '34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo';
@@ -166,9 +166,21 @@ const crypto = new Crypto();
       }
     }
     console.table(results);
-    // const result = await exchanges.btcAdrBalance(adr1);
-    // assert.strictEqual(result, adr1Expected, 'Test Failed');
-    // console.log('Test passed');
+  }
+  // 7
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n7. Test for monoExchange\n'
+    );
+    const expected = 'USD';
+    try {
+      const result = await exchanges.monoExchange();
+      assert.strictEqual(result, expected, 'Test failed');
+      console.log(colors.green, '\nTest passed', colors.reset);
+    } catch (err) {
+      console.log(colors.red, err, colors.reset);
+    }
   }
   // 8
   {

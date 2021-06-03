@@ -101,8 +101,7 @@ const currencyCodeNumber = async () => {
 const monoExchange = async () => {
   const data = await safeGet('https://api.monobank.ua/bank/currency');
   if (data.errorDescription) {
-    console.log(data.errorDescription);
-    return;
+    throw new Error(data.errorDescription);
   }
   for (const curr of data) {
     curr.currencyCodeA = codesList[curr.currencyCodeA];
@@ -114,6 +113,7 @@ const monoExchange = async () => {
       `.${rawDate.getFullYear()}`;
   }
   console.table(data);
+  return data[0].currencyCodeA;
 };
 
 const privatExchange = async () => {
