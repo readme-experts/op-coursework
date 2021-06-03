@@ -10,9 +10,32 @@ const crypto = new Crypto();
 (async () => {
   // 3
   {
-    const result = await crypto.currencyPriceVolume('USD, BTC');
-    assert.match(result, /lowest/);
-    console.log('\'USD, BTC\' passed');
+    const expected = /is:\s\d/;
+    // 1-3 work, 4-6 predictable errors
+    const tests = [
+      ['BTC, USD',  expected, '\'BTC, USD\' failed' ],
+      ['ETH, UAH',  expected, '\'ETH, UAH\' failed' ],
+      ['LTC, EUR',  expected, '\'DOGE, EUR\' failed'],
+      [0,           expected, '0'                   ],
+      ['DOGE, RUB', /Hola/,   'Actual !== Expected' ],
+      [null,        expected, 'null'                ],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [text, expected, name] = test;
+      let result;
+      try {
+        result = await crypto.currencyPriceVolume(text);
+        assert.match(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, text, operator });
+      }
+    }
+    console.table(results);
   }
   // 8
   {

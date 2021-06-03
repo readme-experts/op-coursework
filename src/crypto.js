@@ -48,7 +48,7 @@ class RawCrypto {
   }
 
   async currencyPriceVolume(input) {
-    if (!input) {
+    if (input === undefined) {
       const text = 'Type curr you want to get 24h volume of/res curr\n';
       input = await promised.question(text);
     }
