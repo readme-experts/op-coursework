@@ -7,7 +7,7 @@ const assert = require('assert').strict;
 const crypto = new Crypto();
 
 (async () => {
-  //3
+  // 3
   {
     const result = await crypto.currencyPriceVolume('USD, BTC');
     assert.match(result, /lowest/);
@@ -20,7 +20,7 @@ const crypto = new Crypto();
       '\n8. Tests for cryptoNews'
     );
     const expected = /[^1-5.\sa-z]/;
-    //1-5 works, further - predictable errors
+    //1-5 & 9 work, others - predictable errors
     const tests = [
       [2,          expected, 'Choice 2 failed'       ],
       [1,          expected, 'Choice 1 failed'       ],
@@ -111,7 +111,7 @@ const crypto = new Crypto();
       'Received at: 2021-06-02T12:04:51.983Z\n' +
       'Confirmed at: 2021-06-02T12:12:31Z';
 
-    //1-4 works, 5-11 predictable errors
+    //1-4 work, 5-11 predictable errors
     const tests = [
       [1, btcHash,        btcExpected,        'Bitcion hash'                 ],
       [2, dashHash,       dashExpected,       'Dash hash'                    ],
