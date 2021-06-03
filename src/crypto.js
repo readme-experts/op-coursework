@@ -16,7 +16,7 @@ class RawCrypto {
   }
 
   async currencyToCrypto(currency) {
-    if (!currency) {
+    if (currency === undefined) {
       currency = await promised.question('Type currency you want to convert\n');
     }
     const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
@@ -28,7 +28,7 @@ class RawCrypto {
         resultText.push(`${key}: ${result[key]}`);
       }
       console.log(`${resultText.join('\n')}\n`);
-      await safeWrite(resultText);
+      //await safeWrite(resultText);
     }
     return resultText.join('\n');
   }

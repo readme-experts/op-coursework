@@ -8,8 +8,21 @@ const assert = require('assert').strict;
 const crypto = new Crypto();
 
 (async () => {
+  // 1
+  {
+    console.log('\n' +
+      '1. Tests for currencyToCrypto'
+    );
+    const result = await crypto.currencyToCrypto('eur');
+    assert.match(result, /^EUR:\s\d/, 'Test failed');
+    console.log('Test passed');
+  }
   // 3
   {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n3. Tests for currencyPriceVolume'
+    );
     const expected = /is:\s\d/;
     // 1-3 work, 4-6 predictable errors
     const tests = [
