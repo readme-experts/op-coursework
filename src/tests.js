@@ -14,6 +14,7 @@ const crypto = new Crypto();
       '1. Tests for currencyToCrypto'
     );
     const expected = /:\s\d/;
+    // 1-3 work, 4-7 predictable errors
     const tests = [
       ['eur', expected,  '\'eur\' failed'              ],
       ['usd', expected,  '\'usd\' failed'              ],
