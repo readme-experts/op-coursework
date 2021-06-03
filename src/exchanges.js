@@ -11,18 +11,25 @@ const safePost = errorHandlerWrapped(promised.postRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
 const safeWrite = errorHandlerWrapped(promised.writeFile);
 
-const genWalletFeature = async () => {
-  console.log(
-    '\x1b[32m',
-    `Choose which wallet do you want to make:
-    1 - Bitcoin;
-    2 - Ethereum;
-    3 - Dogecoin;
-    Type anything to exit.`
-  );
-  const selection = parseInt(await promised.question('Select action\n')) - 1;
+const genWalletFeature = async selection => {
+  if (selection === undefined) {
+    console.log(
+      '\x1b[32m',
+      `Choose which wallet do you want to make:
+      1 - Bitcoin;
+      2 - Ethereum;
+      3 - Dogecoin;
+      Type anything to exit.`
+    );
+    selection = parseInt(await promised.question('Select action\n'));
+  }
   const currencies = ['btc', 'eth', 'doge'];
-  const resWall = currencies[selection];
+
+  if (!currencies[selection - 1]) {
+    throw new Error('Error inside function: "Wrong number"');
+  }
+
+  const resWall = currencies[selection - 1];
   const wallet = new Wallet(resWall, 'd190d4bbbc9e47a1962739eeb93f1819');
   await wallet.createWallet();
   console.log(`Wallet was successfully created! Your wallet data:
@@ -32,7 +39,8 @@ const genWalletFeature = async () => {
      We don't save any information about created wallets
      Make sure you saved all the information.
      `);
-  return wallet;
+  console.log(wallet.keys.join('\n'));
+  return wallet.keys.join('\n');
 };
 
 const btcAdrBalance = async () => {

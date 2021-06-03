@@ -5,7 +5,7 @@ const promised = require('./promised.js');
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
-const safeWrite = errorHandlerWrapped(promised.writeFile);
+//const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 class RawCrypto {
   //#apiKey;

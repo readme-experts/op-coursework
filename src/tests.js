@@ -11,7 +11,7 @@ const crypto = new Crypto();
   // 1
   {
     console.log('\n' +
-      '1. Tests for currencyToCrypto'
+      '1. Tests for currencyToCrypto\n'
     );
     const expected = /:\s\d/;
     // 1-3 work, 4-7 predictable errors
@@ -86,6 +86,38 @@ const crypto = new Crypto();
         let { operator } = err;
         if (!operator) operator = 'insideFunction';
         results.push({ message, text, operator });
+      }
+    }
+    console.table(results);
+  }
+  // 5
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n5. Test for genWalletFeature\n'
+    );
+    const expected = /private:\w/;
+    const tests = [
+      [1,    expected, '\'1\' failed'       ],
+      [2,    expected, '\'2\' failed'       ],
+      [3,    expected, '\'3\' failed'       ],
+      [2,    /moooo/,  'Actual !== Expected'],
+      [5,   expected, '\'5\' failed'      ],
+      [null, expected, '\'null\' failed'    ],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [selection, expected, name] = test;
+      let result;
+      try {
+        result = await exchanges.genWalletFeature(selection);
+        assert.match(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, selection, operator });
       }
     }
     console.table(results);
