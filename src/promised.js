@@ -8,6 +8,7 @@ const { spawn } = require('child_process');
 const colors = {
   green: '\x1b[32m',
   red: '\x1b[31m',
+  reset: '\x1b[0m',
 };
 
 const hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
