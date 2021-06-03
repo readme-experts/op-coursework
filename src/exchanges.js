@@ -9,7 +9,7 @@ const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
-const safeWrite = errorHandlerWrapped(promised.writeFile);
+//const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 const genWalletFeature = async selection => {
   if (selection === undefined) {
@@ -43,14 +43,15 @@ const genWalletFeature = async selection => {
   return wallet.keys.join('\n');
 };
 
-const btcAdrBalance = async () => {
+const btcAdrBalance = async (adrs) => {
   const wallet = new Wallet();
-  console.log('Write the address you want to get balance of\n');
-  const adrs = await promised.question('');
-
+  if (adrs === undefined) {
+    console.log('Write the address you want to get balance of\n');
+    adrs = await promised.question('');
+  }
   const res = await wallet.getAdrsBalance(adrs);
-  await safeWrite(res);
-  return;
+  //await safeWrite(res);
+  return res.join('\n');
 };
 
 const nbuExchange = async () => {

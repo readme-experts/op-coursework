@@ -97,6 +97,7 @@ const crypto = new Crypto();
       '\n5. Test for genWalletFeature\n'
     );
     const expected = /private:\w/;
+    // 1-3 work, 4-6 predictable errors
     const tests = [
       [1,    expected, '\'1\' failed'       ],
       [2,    expected, '\'2\' failed'       ],
@@ -121,6 +122,53 @@ const crypto = new Crypto();
       }
     }
     console.table(results);
+  }
+  // 6
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n6. Test for btcAdrBalance\n'
+    );
+    const adr1 = 'bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97';
+    const adr2 = '34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo';
+    const adr3 = '35hK24tcLEWcgNA4JxpvbkNkoAcDGqQPsP';
+    const adr1Expected = 'Total received: 91503610546763 satoshis\n' +
+      'Total send: 74852511963191 satoshis\n' +
+      'Balance: 16651098583572 satoshis';
+    const adr2Expected = 'Total received: 108789803024180 satoshis\n' +
+      'Total send: 79447097357947 satoshis\n' +
+      'Balance: 29342705666233 satoshis';
+    const adr3Expected = 'Total received: 24789994776388 satoshis\n' +
+      'Total send: 12844829067961 satoshis\n' +
+      'Balance: 11945165708427 satoshis';
+    // 1-3 work, 4-6 predictable errors
+    const tests = [
+      [adr1, adr1Expected, 'adr1 failed'  ],
+      [adr2, adr2Expected, 'adr2 failed'  ],
+      [adr3, adr3Expected, 'adr3 failed'  ],
+      ['ss', adr1Expected, 'ss'           ],
+      [123,  adr2Expected, '123'          ],
+      [null, 0,            'null, 0'      ],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [adr, expected, name] = test;
+      let result;
+      try {
+        result = await exchanges.btcAdrBalance(adr);
+        assert.strictEqual(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, adr, operator });
+      }
+    }
+    console.table(results);
+    // const result = await exchanges.btcAdrBalance(adr1);
+    // assert.strictEqual(result, adr1Expected, 'Test Failed');
+    // console.log('Test passed');
   }
   // 8
   {
