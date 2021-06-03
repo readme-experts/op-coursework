@@ -2,6 +2,7 @@
 
 const { Crypto } = require('./crypto.js');
 const exchanges = require('./exchanges.js');
+const { colors } = require('./promised.js');
 const assert = require('assert').strict;
 
 const crypto = new Crypto();
@@ -62,9 +63,9 @@ const crypto = new Crypto();
     try {
       const result = await exchanges.feesRate();
       assert.match(result, expected, 'Test failed');
-      console.log('Test passed');
+      console.log(colors.green, 'Test passed', colors.reset);
     } catch (err) {
-      console.log(err);
+      console.log(colors.red, err, colors.reset);
     }
   }
   // 12
