@@ -66,35 +66,36 @@ const nbuAlternative = async () => {
   console.table(data);
 };
 
-const currencyCodeNumber = async () => {
-  const question = 'Enter currency code or its number:\n';
-  while (true) {
-    const request = await promised.question(question);
-    const error =
+const currencyCodeNumber = async request => {
+  if (request === undefined) {
+    const question = 'Enter currency code or its number:\n';
+    request = await promised.question(question);
+  }
+  const error =
       `${promised.colors.red}` +
-      'Something went wrong!\nMake sure you entered correct data.' +
-      `${promised.colors.green}`;
+      'Error inside function: "Wrong data"' +
+      `${promised.colors.reset}`;
 
-    if (/^\d+$/.test(request)) {
-      const code = codesList[parseInt(request)];
-      if (!code) {
-        console.log(error);
-      } else {
-        console.log(code);
-      }
-    } else if (/[a-zA-Z]/.test(request)) {
-      let currency;
-      for (const curr in codesList) {
-        if (request.toUpperCase() === codesList[curr]) currency = curr;
-      }
-      currency ? console.log(currency) : console.log(error);
+  if (/^\d+$/.test(request)) {
+    const code = codesList[parseInt(request)];
+    if (!code) {
+      throw new Error('Error inside function: "Not found"');
     } else {
-      console.log(error);
+      console.log(code);
+      return code;
     }
-
-    const loop = 'Would you like to get another currency? (y/n)\n';
-    const option = await promised.question(loop);
-    if (option !== 'y') break;
+  } else if (/[a-zA-Z]/.test(request)) {
+    let currency;
+    for (const curr in codesList) {
+      if (request.toUpperCase() === codesList[curr]) currency = curr;
+    }
+    if (currency) {
+      console.log(currency);
+      return +currency;
+    }
+    throw new Error('Error inside function: "Not found"');
+  } else {
+    throw new Error(error);
   }
 };
 

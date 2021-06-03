@@ -272,6 +272,41 @@ const crypto = new Crypto();
       console.log(colors.red, err, colors.reset);
     }
   }
+  // 11
+  {
+    console.log('\n' +
+      '----------------------------------------------------------------------' +
+      '\n11. Test for currencyCodeNumber\n'
+    );
+    // All the magic numbers and string are taken from codeList.json *_*
+    // 1-4 work, 5-6 predictable errors
+    const tests = [
+      [8,          'ALL', '8 failed'           ],
+      ['DZD',      12,    '\'DZD\' failed'     ],
+      ['AUD',      36,    '\'AUD\' failed'     ],
+      ['108',      'BIF', '\'108\' failed'     ],
+      [144,        'UZK', 'Actual !== Expected'],
+      ['ZPO',      8,     '\'ZPO\' failed'     ],
+      [null,       null,  'null failed'        ],
+      [Number.NaN, 15,    'NaN failed'         ],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [request, expected, name] = test;
+      let result;
+      try {
+        result = await exchanges.currencyCodeNumber(request);
+        assert.strictEqual(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, request, operator });
+      }
+    }
+    console.table(results);
+  }
   // 12
   {
     console.log('\n' +
