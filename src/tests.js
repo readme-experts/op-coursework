@@ -13,9 +13,32 @@ const crypto = new Crypto();
     console.log('\n' +
       '1. Tests for currencyToCrypto'
     );
-    const result = await crypto.currencyToCrypto('eur');
-    assert.match(result, /^EUR:\s\d/, 'Test failed');
-    console.log('Test passed');
+    const expected = /:\s\d/;
+    const tests = [
+      ['eur', expected,  '\'eur\' failed'              ],
+      ['usd', expected,  '\'usd\' failed'              ],
+      ['uah', expected,  '\'uah\' failed'              ],
+      [5,     expected,  '5'                           ],
+      [null,  expected,  'null'                        ],
+      ['buu', expected,  '\'buu\' failed'              ],
+      ['irl', /Oleksyi/, '\'irl\': Actual !== Expected'],
+    ];
+
+    const results = [];
+    for (const test of tests) {
+      const [currency, expected, name] = test;
+      let result;
+      try {
+        result = await crypto.currencyToCrypto(currency);
+        assert.match(result, expected, `Error in test "${name}"`);
+      } catch (err) {
+        const { message } = err;
+        let { operator } = err;
+        if (!operator) operator = 'insideFunction';
+        results.push({ message, currency, operator });
+      }
+    }
+    console.table(results);
   }
   // 3
   {
