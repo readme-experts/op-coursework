@@ -260,7 +260,7 @@ uah
 Find out information about any btc/dash/doge/ltc transaction by its hash.
 ````
 Select action
->11
+>12
 
 List of cryptos:
 1. Bitcoin
