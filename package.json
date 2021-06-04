@@ -18,7 +18,7 @@
     "url": "https://github.com/MrPaschenko/op-coursework/issues"
   },
   "homepage": "https://github.com/MrPaschenko/op-coursework#readme",
-  "dependencies": {
+  "devDependencies": {
     "prettier": "^2.3.0"
   }
 }
