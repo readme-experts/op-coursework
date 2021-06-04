@@ -9,20 +9,27 @@ const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 const safeGet = errorHandlerWrapped(promised.getRequest);
 const safePost = errorHandlerWrapped(promised.postRequest);
 const safeSpawn = errorHandlerWrapped(promised.promiseSpawn);
-const safeWrite = errorHandlerWrapped(promised.writeFile);
+//const safeWrite = errorHandlerWrapped(promised.writeFile);
 
-const genWalletFeature = async () => {
-  console.log(
-    '\x1b[32m',
-    `Choose which wallet do you want to make:
-    1 - Bitcoin;
-    2 - Ethereum;
-    3 - Dogecoin;
-    Type anything to exit.`
-  );
-  const selection = parseInt(await promised.question('Select action\n')) - 1;
+const genWalletFeature = async selection => {
+  if (selection === undefined) {
+    console.log(
+      '\x1b[32m',
+      `Choose which wallet do you want to make:
+      1 - Bitcoin;
+      2 - Ethereum;
+      3 - Dogecoin;
+      Type anything to exit.`
+    );
+    selection = parseInt(await promised.question('Select action\n'));
+  }
   const currencies = ['btc', 'eth', 'doge'];
-  const resWall = currencies[selection];
+
+  if (!currencies[selection - 1]) {
+    throw new Error('Error inside function: "Wrong number"');
+  }
+
+  const resWall = currencies[selection - 1];
   const wallet = new Wallet(resWall, 'd190d4bbbc9e47a1962739eeb93f1819');
   await wallet.createWallet();
   console.log(`Wallet was successfully created! Your wallet data:
@@ -32,17 +39,19 @@ const genWalletFeature = async () => {
      We don't save any information about created wallets
      Make sure you saved all the information.
      `);
-  return wallet;
+  console.log(wallet.keys.join('\n'));
+  return wallet.keys.join('\n');
 };
 
-const btcAdrBalance = async () => {
+const btcAdrBalance = async adrs => {
   const wallet = new Wallet();
-  console.log('Write the address you want to get balance of\n');
-  const adrs = await promised.question('');
-
+  if (adrs === undefined) {
+    console.log('Write the address you want to get balance of\n');
+    adrs = await promised.question('');
+  }
   const res = await wallet.getAdrsBalance(adrs);
-  await safeWrite(res);
-  return;
+  //await safeWrite(res);
+  return res.join('\n');
 };
 
 const nbuExchange = async () => {
@@ -55,45 +64,46 @@ const nbuAlternative = async () => {
     'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json'
   );
   console.table(data);
+  return data[0]['cc'];
 };
 
-const currencyCodeNumber = async () => {
-  const question = 'Enter currency code or its number:\n';
-  while (true) {
-    const request = await promised.question(question);
-    const error =
+const currencyCodeNumber = async request => {
+  if (request === undefined) {
+    const question = 'Enter currency code or its number:\n';
+    request = await promised.question(question);
+  }
+  const error =
       `${promised.colors.red}` +
-      'Something went wrong!\nMake sure you entered correct data.' +
-      `${promised.colors.green}`;
+      'Error inside function: "Wrong data"' +
+      `${promised.colors.reset}`;
 
-    if (/^\d+$/.test(request)) {
-      const code = codesList[parseInt(request)];
-      if (!code) {
-        console.log(error);
-      } else {
-        console.log(code);
-      }
-    } else if (/[a-zA-Z]/.test(request)) {
-      let currency;
-      for (const curr in codesList) {
-        if (request.toUpperCase() === codesList[curr]) currency = curr;
-      }
-      currency ? console.log(currency) : console.log(error);
+  if (/^\d+$/.test(request)) {
+    const code = codesList[parseInt(request)];
+    if (!code) {
+      throw new Error('Error inside function: "Not found"');
     } else {
-      console.log(error);
+      console.log(code);
+      return code;
     }
-
-    const loop = 'Would you like to get another currency? (y/n)\n';
-    const option = await promised.question(loop);
-    if (option !== 'y') break;
+  } else if (/[a-zA-Z]/.test(request)) {
+    let currency;
+    for (const curr in codesList) {
+      if (request.toUpperCase() === codesList[curr]) currency = curr;
+    }
+    if (currency) {
+      console.log(currency);
+      return +currency;
+    }
+    throw new Error('Error inside function: "Not found"');
+  } else {
+    throw new Error(error);
   }
 };
 
 const monoExchange = async () => {
   const data = await safeGet('https://api.monobank.ua/bank/currency');
   if (data.errorDescription) {
-    console.log(data.errorDescription);
-    return;
+    throw new Error(data.errorDescription);
   }
   for (const curr of data) {
     curr.currencyCodeA = codesList[curr.currencyCodeA];
@@ -105,9 +115,10 @@ const monoExchange = async () => {
       `.${rawDate.getFullYear()}`;
   }
   console.table(data);
+  return data[0].currencyCodeA;
 };
 
-const privatExchange = async () => {
+const privatExchange = async userChoice => {
   const cash = await safeGet(
     'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'
   );
@@ -116,15 +127,16 @@ const privatExchange = async () => {
   );
   const rateTypes = [cash, nonCash];
 
-  while (true) {
+  if (userChoice === undefined) {
     const first = 'Do you want to get cash rate (1) or non-cash rate (2)?\n';
-    const userChoice = (await promised.question(first)) - 1;
-    if (userChoice <= 1) console.table(rateTypes[userChoice]);
-
-    const second = 'Would you like to get another rate? (y/n)\n';
-    const option = await promised.question(second);
-    if (option !== 'y') break;
+    userChoice = (await promised.question(first));
   }
+
+  if (+userChoice !== 1 && +userChoice !== 2) {
+    throw new Error('Error inside function: "Wrong number"');
+  }
+  console.table(rateTypes[userChoice - 1]);
+  return rateTypes[userChoice - 1][0]['buy'];
 };
 
 const feesRate = async () => {
@@ -154,36 +166,38 @@ const feesRate = async () => {
     res.push('\n');
   }
   console.log(res.join('\n'));
-  return res;
+  return res.join('\n');
 };
 
-const transactionInfo = async () => {
+const transactionInfo = async (chosenCrypto, hash) => {
   const cryptoNames = ['Bitcoin', 'Dash', 'Dogecoin', 'Litecoin'];
   const abbreviation = ['btc', 'dash', 'doge', 'ltc'];
 
-  console.log('\nList of cryptos:');
-  for (const value of cryptoNames) {
-    console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
-  }
+  if (chosenCrypto === undefined) {
+    console.log('\nList of cryptos:');
+    for (const value of cryptoNames) {
+      console.log(`${cryptoNames.indexOf(value) + 1}. ${value}`);
+    }
 
-  const chosenCrypto = await promised.question(
-    '\nEnter the number' +
-      ' of crypto from the list above you\'d to like to input hash of: \n'
-  );
+    chosenCrypto = await promised.question(
+      '\nEnter the number' +
+      ' of crypto from the list above you\'d to like to input hash of:\n'
+    );
+  }
 
   if (!cryptoNames[chosenCrypto - 1]) {
-    console.log(`${promised.colors.red}Wrong number${promised.colors.green}`);
-    return;
+    throw new Error('Error inside function: "Wrong number"');
   }
 
-  const hash = await promised.question(
-    '\nEnter the hash of transaction you\'d like to get info about: \n'
-  );
+  if (hash === undefined) {
+    hash = await promised.question(
+      '\nEnter the hash of transaction you\'d like to get info about: \n'
+    );
+  }
 
   const hashDefaultLength = 64;
   if (hash.length !== hashDefaultLength) {
-    console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-    return;
+    throw new Error('Error inside function: "Wrong hash length"');
   }
 
   const info = await safeGet(
@@ -200,20 +214,21 @@ const transactionInfo = async () => {
     'Received at',
   ];
 
+  const result = [];
   if (Object.prototype.hasOwnProperty.call(info, 'error')) {
-    console.log(`${promised.colors.red}Wrong hash${promised.colors.green}`);
-    return;
+    throw new Error('Error inside function: "Wrong hash"');
   } else if (Object.prototype.hasOwnProperty.call(info, 'confirmed')) {
     keys.push('confirmed');
     outputKeys.push('Confirmed at');
   } else {
-    console.log('\nTransaction isn\'t confirmed yet :C');
+    result.push('\nTransaction isn\'t confirmed yet :C');
   }
 
   for (const value of outputKeys) {
-    console.log(`${value}: ${info[keys[outputKeys.indexOf(value)]]}`);
+    result.push(`${value}: ${info[keys[outputKeys.indexOf(value)]]}`);
   }
-  console.log();
+  console.log(result.join('\n') + '\n');
+  return result.join('\n');
 };
 
 module.exports = {

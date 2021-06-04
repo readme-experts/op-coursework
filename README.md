@@ -104,7 +104,7 @@ Select action
 │   33    │  'CNY'   │       1        │ '4,2887 UAH'  │
 └─────────┴──────────┴────────────────┴───────────────┘
 ```
-_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/)_
 
 ## 5. Create wallet on BlockCypher
 #### WARNING! Experimental feature.
@@ -172,9 +172,8 @@ Enter number of article you'd like to read:
 
 Like the IRS in the mainland US, the Puerto Rican tax authority hasn’t issued definite guidance on crypto.The post Puerto Rico’s Crypto Tax Haven Dreams are on the Rocks appeared first on Blockworks.
 
-Would you like to read any other article from previous list?
-y/n
->(choice)
+Clear menu(y/n)?
+>choice
 ````
 Credits to [CryptoCompare](https://www.cryptocompare.com/)
 
@@ -202,7 +201,7 @@ Usually non-cash rate is more profitable :)
 _Credits to [PrivatBank](https://privatbank.ua/)_
 
 ## 10. Cryptocurrency fee rates
-Get cryptocurrency fee rates(Bitcoin,Bitcoin-cash,Dogecoin,Dash,Litecoin)
+Get cryptocurrency fee rates (Bitcoin, Bitcoin-Cash, Dogecoin, Dash, Litecoin).
 ```
 Select action
 >10
@@ -249,19 +248,19 @@ Select action
 Enter currency code or its number:
 >usd
 840
-Would you like to get another currency? (y/n)
->y
+```
+```
+Select action
+>11
 Enter currency code or its number:
->uah
-980
-Would you like to get another currency? (y/n)
->n
+>980
+uah
 ```
 ## 12. Transaction info by its hash
-Find out information about any btc/dash/doge/ltc transaction by its hash
+Find out information about any btc/dash/doge/ltc transaction by its hash.
 ````
 Select action
-11
+>12
 
 List of cryptos:
 1. Bitcoin
@@ -270,10 +269,10 @@ List of cryptos:
 4. Litecoin
 
 Enter the number of crypto from the list above you'd to like to input hash of: 
-3
+>3
 
 Enter the hash of transaction you'd like to get info about: 
-645127c390c019f61b255ea79b15d8ebb5203e9febbe76b0a7531225e20275ff
+>645127c390c019f61b255ea79b15d8ebb5203e9febbe76b0a7531225e20275ff
 
 Satoshis sent: 14794235305186972
 Fee in satoshis: 100000000
@@ -300,7 +299,7 @@ Select action
 │    5    │ 208  │           'Данська крона'            │   4.4899   │ 'DKK' │ '31.05.2021' │
 ...
 ```
-_Credits to [National Bank of Ukraine](https://bank.gov.ua/en/)_
+_Credits to [National Bank of Ukraine](https://bank.gov.ua/)_
 
 ## Save results to .txt file
 To the No. 1-3 there is also additional feature available: you can save results to text file by typing `1` after creating a request.
@@ -327,7 +326,7 @@ https://github.com/MrPaschenko/op-coursework/blob/master/src/themes.md
 ## Authors
 * Dmytro Pashchenko — https://github.com/MrPaschenko
 * Ivan Labiak — https://github.com/ILabiak
-* Andrii Vostrikov — https://github.com/NeptunePurpleHeart
+* Andrii Vostrikov — https://github.com/NekoSuimin
 * Vladyslav Yaroshchuk — https://github.com/thank1ess
 
 ## Contributing

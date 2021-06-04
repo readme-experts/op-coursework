@@ -5,7 +5,7 @@ const promised = require('./promised.js');
 const errorHandlerWrapped = promised.errorWrapper(promised.handler);
 
 const safeGet = errorHandlerWrapped(promised.getRequest);
-const safeWrite = errorHandlerWrapped(promised.writeFile);
+//const safeWrite = errorHandlerWrapped(promised.writeFile);
 
 class RawCrypto {
   //#apiKey;
@@ -16,7 +16,7 @@ class RawCrypto {
   }
 
   async currencyToCrypto(currency) {
-    if (!currency) {
+    if (currency === undefined) {
       currency = await promised.question('Type currency you want to convert\n');
     }
     const query = this.defaultUrl + `/price?fsym=BTC&tsyms=${currency}`;
@@ -28,7 +28,7 @@ class RawCrypto {
         resultText.push(`${key}: ${result[key]}`);
       }
       console.log(`${resultText.join('\n')}\n`);
-      await safeWrite(resultText);
+      //await safeWrite(resultText);
     }
     return resultText.join('\n');
   }
@@ -43,12 +43,12 @@ class RawCrypto {
       resultText.push(`${index + 1}. ${el}`);
     });
     console.log(`${resultText.join('\n')}\n`);
-    await safeWrite(resultText);
-    return result;
+    //await safeWrite(resultText);
+    return resultText.join('\n');
   }
 
   async currencyPriceVolume(input) {
-    if (!input) {
+    if (input === undefined) {
       const text = 'Type curr you want to get 24h volume of/res curr\n';
       input = await promised.question(text);
     }
@@ -72,12 +72,12 @@ class RawCrypto {
       resultText.push(lowestText, highestText, diffText);
 
       console.log(`${resultText.join('\n')}\n`);
-      await safeWrite(resultText);
+      //await safeWrite(resultText);
     }
     return resultText.join('\n');
   }
 
-  async cryptoNews() {
+  async cryptoNews(writtenTitleNumber) {
     const info = await safeGet(`${this.defaultUrl}/v2/news/?lang=EN`);
     const data = info.Data;
     const articleNumbers = [1, 2, 3, 4, 5];
@@ -89,34 +89,29 @@ class RawCrypto {
         .map(
           (item, index) => `${index + 1}. ${promised.decodeString(item.title)}`
         )
-        .join('\n') +
-      '\n';
+        .join('\n') + '\n';
 
-    let bool = true;
-    while (bool) {
+    if (writtenTitleNumber === undefined) {
       console.log(proposedTitles);
-      const writtenTitleNumber = await promised.question(
+      writtenTitleNumber = await promised.question(
         'Enter number of article\'s title you\'d like to read:\n'
       );
-
-      if (!articleNumbers.includes(+writtenTitleNumber)) {
-        console.log(
-          `${promised.colors.red}Wrong number${promised.colors.green}`
-        );
-        return;
-      }
-
-      const fixedBody = promised.decodeString(
-        data[writtenTitleNumber - 1].body
-      );
-      console.log('\n' + fixedBody);
-      const option = await promised.question(
-        '\nWould you like to read any other article from previous list?\ny/n?\n'
-      );
-      if (option !== 'y') {
-        bool = false;
-      }
     }
+
+    if (!articleNumbers.includes(+writtenTitleNumber)) {
+      throw new Error('Error inside function: "Wrong number"');
+    } else if (data[writtenTitleNumber - 1].body === '') {
+      throw new Error('Error inside function: "API bug(body empty)"');
+    }
+
+    const fixedBody = promised.decodeString(
+      data[writtenTitleNumber - 1].body
+    );
+    const result = `${writtenTitleNumber}. ` +
+      `${promised.decodeString(data[writtenTitleNumber - 1].title)}` +
+      `\n${fixedBody}`;
+    console.log(`\n${result}\n`);
+    return result;
   }
 
   static from(key) {
