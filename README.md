@@ -260,7 +260,7 @@ uah
 Find out information about any btc/dash/doge/ltc transaction by its hash.
 ````
 Select action
-11
+>11
 
 List of cryptos:
 1. Bitcoin
@@ -269,10 +269,10 @@ List of cryptos:
 4. Litecoin
 
 Enter the number of crypto from the list above you'd to like to input hash of: 
-3
+>3
 
 Enter the hash of transaction you'd like to get info about: 
-645127c390c019f61b255ea79b15d8ebb5203e9febbe76b0a7531225e20275ff
+>645127c390c019f61b255ea79b15d8ebb5203e9febbe76b0a7531225e20275ff
 
 Satoshis sent: 14794235305186972
 Fee in satoshis: 100000000
