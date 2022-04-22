@@ -4,7 +4,7 @@ This little program is dedicated to work with any kinds of currency: cryptocurre
 ## Installation
 1. Clone the repository:
 ```bash
-$ git clone https://github.com/MrPaschenko/op-coursework
+$ git clone https://github.com/readme-experts/op-coursework
 ```
 2. Open folder:
 ```bash
