@@ -1,0 +1,24 @@
+{
+  "name": "op-coursework",
+  "version": "1.0.0",
+  "description": "Simple console application for getting data about currencies",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node ./src/tests.js",
+    "lint": "eslint . --fix && prettier --write \"**/*.js\" \"**/*.json\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrPaschenko/op-coursework.git"
+  },
+  "author": "MrPaschenko, NekoSuimin, ILabiak, thank1ess",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrPaschenko/op-coursework/issues"
+  },
+  "homepage": "https://github.com/MrPaschenko/op-coursework#readme",
+  "devDependencies": {
+    "prettier": "^2.3.0"
+  }
+}
